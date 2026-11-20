@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="fr" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FasoRencontre — Rencontres, Vidéos & Messagerie au Burkina Faso</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Police Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            faso: {
+              red: '#D93829',       // Terracotta / Rouge chaleureux
+              redDark: '#B3281B',
+              green: '#0F7A4A',     // Vert émeraude profond
+              greenDark: '#0A5936',
+              gold: '#F59E0B',      // Or solaire
+              orange: '#FF6600',    // Orange Money
+              sand: '#FAF7F2',      // Crème / Sable doux
+              darkBg: '#121212',
+              darkCard: '#1C1C1E'
+            }
+          },
+          animation: {
+            'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            pop: {
+              '0%': { transform: 'scale(0.92)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Motif subtil inspiré du Faso Dan Fani */
+    .faso-pattern {
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(217, 56, 41, 0.06) 0px,
+        rgba(217, 56, 41, 0.06) 4px,
+        transparent 4px,
+        transparent 14px,
+        rgba(15, 122, 74, 0.06) 14px,
+        rgba(15, 122, 74, 0.06) 18px,
+        transparent 18px,
+        transparent 28px,
+        rgba(245, 158, 11, 0.09) 28px,
+        rgba(245, 158, 11, 0.09) 30px,
+        transparent 30px,
+        transparent 42px
+      );
+    }
+  </style>
+</head>
+<body class="bg-stone-200 dark:bg-black text-stone-800 dark:text-stone-100 min-h-screen flex items-center justify-center transition-colors duration-300">
+
+  <!-- Conteneur Principal Responsif (Mobile plein écran / Desktop App Shell) -->
+  <div id="app-shell" class="w-full max-w-5xl h-[100dvh] md:h-[92vh] bg-faso-sand dark:bg-faso-darkBg md:rounded-[2rem] md:shadow-2xl md:border md:border-stone-300/70 dark:md:border-stone-800 overflow-hidden flex flex-col relative">
+
+    <!-- Notifications Toast -->
+    <div id="toast-container" class="fixed md:absolute top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2 w-11/12 max-w-md"></div>
+
+    <!-- ============================================================ -->
+    <!-- 1. ÉCRAN D'ACCUEIL & INSCRIPTION PAYANTE (ORANGE MONEY 250 F)-->
+    <!-- ============================================================ -->
+    <div id="view-landing" class="flex-1 flex flex-col overflow-y-auto no-scrollbar faso-pattern">
+      <!-- Barre supérieure Accueil -->
+      <header class="px-5 py-4 flex items-center justify-between bg-white/80 dark:bg-faso-darkCard/85 backdrop-blur-md border-b border-stone-200/70 dark:border-stone-800 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-faso-red via-amber-500 to-faso-green flex items-center justify-center text-white shadow-md">
+            <i data-lucide="heart" class="w-5 h-5 fill-white"></i>
+          </div>
+          <div>
+            <h1 class="app-brand-name font-black text-lg leading-none tracking-tight">FasoRencontre</h1>
+            <span class="text-[10px] font-bold text-faso-green dark:text-emerald-400 uppercase tracking-wider">Plateforme 100% Souveraine 🇧🇫</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-200" title="Thème">
+            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+            <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Contenu Principal Accueil -->
+      <div class="flex-1 max-w-4xl w-full mx-auto p-5 md:p-8 flex flex-col justify-center gap-6">
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <!-- Colonne Gauche : Présentation & Aperçu Gratuit des Villes -->
+          <div class="space-y-4 animate-pop">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 border border-amber-300/70 dark:border-amber-800/50 text-amber-900 dark:text-amber-300 text-xs font-bold">
+              <span class="w-2 h-2 rounded-full bg-faso-green animate-ping"></span>
+              <span>+12 450 membres actifs au Burkina Faso</span>
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+              Rencontrez, partagez vos <span class="text-faso-red">vidéos</span> et échangez près de chez vous.
+            </h2>
+
+            <p class="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Une communauté authentique et vérifiée de <strong>Ouagadougou</strong> à <strong>Bobo-Dioulasso</strong>. Découverte par géolocalisation GPS, vidéos de profil et messagerie privée illimitée.
+            </p>
+
+            <!-- Aperçu des membres par ville (Gratuit avant inscription) -->
+            <div class="bg-white/90 dark:bg-faso-darkCard/90 rounded-2xl p-4 border border-stone-200/80 dark:border-stone-800 shadow-xs">
+              <p class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 mb-2.5 flex items-center gap-1.5">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-red"></i> Membres connectés en ce moment
+              </p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
+                  <span class="block font-black text-sm text-faso-red">5 420</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Ouagadougou</span>
+                </div>
+                <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
+                  <span class="block font-black text-sm text-faso-green">3 890</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Bobo-Dioulasso</span>
+                </div>
+                <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
+                  <span class="block font-black text-sm text-amber-600">1 210</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Koudougou</span>
+                </div>
+                <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
+                  <span class="block font-black text-sm text-stone-700 dark:text-stone-200">1 930</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Banfora & Autres</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bouton d'action unique pour tout visiteur -->
+            <div class="pt-1">
+              <button onclick="startRegistrationFlow()" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-faso-red to-amber-600 hover:from-faso-redDark hover:to-amber-700 text-white font-extrabold text-sm shadow-lg shadow-faso-red/25 flex items-center justify-center gap-2 transition transform active:scale-[0.98]">
+                <span>S'inscrire et payer (250 F CFA)</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Colonne Droite : Parcours d'inscription en 2 étapes (Paiement 250 F -> Profil & GPS) -->
+          <div id="registration-wizard-card" class="bg-white dark:bg-faso-darkCard rounded-3xl p-6 shadow-xl border border-stone-200/80 dark:border-stone-800">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[11px] font-bold text-stone-500">Frais d'inscription obligatoires : 250 F CFA</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-faso-orange">Orange Money</span>
+            </div>
+            <!-- Indicateur d'étapes -->
+            <div class="flex items-center justify-between mb-5 pb-3 border-b border-stone-100 dark:border-stone-800">
+              <div class="flex items-center gap-2">
+                <span id="step-badge-1" class="w-7 h-7 rounded-full bg-faso-orange text-white text-xs font-black flex items-center justify-center">1</span>
+                <span id="step-label-1" class="text-xs font-extrabold text-stone-900 dark:text-white">Paiement 250 F</span>
+              </div>
+              <div class="h-0.5 flex-1 mx-3 bg-stone-200 dark:bg-stone-700"></div>
+              <div class="flex items-center gap-2">
+                <span id="step-badge-2" class="w-7 h-7 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-500 text-xs font-black flex items-center justify-center">2</span>
+                <span id="step-label-2" class="text-xs font-bold text-stone-400">Profil & GPS</span>
+              </div>
+            </div>
+
+            <!-- ÉTAPE 1 : Paiement Obligatoire de 250 F CFA sur Orange Money -->
+            <form id="step-1-payment-form" onsubmit="submitPaymentProof(event)" class="space-y-4">
+              <div class="p-4 rounded-2xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200/80 dark:border-orange-800/50 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-black text-faso-orange uppercase">Paiement Orange Money</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-faso-orange text-white text-xs font-black">250 F CFA</span>
+                </div>
+                <p class="text-xs text-stone-700 dark:text-stone-200">
+                  Envoyez <strong>250 F CFA</strong> au numéro :
+                </p>
+                <div class="flex items-center justify-between bg-white dark:bg-stone-900 px-3.5 py-2.5 rounded-xl border border-orange-200/60 dark:border-stone-700">
+                  <span id="display-om-number" class="font-black text-lg tracking-wider text-stone-900 dark:text-white">66 93 11 74</span>
+                  <button type="button" onclick="copyOMNumber()" class="px-2.5 py-1 rounded-lg bg-orange-100 dark:bg-orange-900/50 text-faso-orange text-xs font-bold flex items-center gap-1 hover:bg-orange-200 transition">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copier
+                  </button>
+                </div>
+                <p class="text-[11px] text-stone-500 dark:text-stone-400">
+                  Syntaxe rapide : <code id="ussd-code-display" class="font-mono font-bold text-stone-800 dark:text-stone-200">*144*2*1*66931174*250#</code>
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Votre numéro Orange Money (expéditeur) *</label>
+                <input type="tel" id="pay-sender-phone" required placeholder="Ex: 70 12 34 56" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-orange" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">ID / Référence de transaction SMS *</label>
+                <input type="text" id="pay-tx-id" required placeholder="Ex: PP261120.1200.A9876" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-orange" />
+              </div>
+
+              <button type="submit" class="w-full py-3.5 rounded-2xl bg-faso-orange hover:bg-orange-600 text-white font-extrabold text-sm shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition">
+                <span>Valider le paiement de 250 F CFA</span>
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              </button>
+            </form>
+
+            <!-- ÉTAPE 2 : Informations Personnelles & Géolocalisation GPS -->
+            <form id="step-2-profile-form" onsubmit="completeUserRegistration(event)" class="space-y-3.5 hidden">
+              <div class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 text-faso-green dark:text-emerald-300 text-xs font-bold flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i>
+                <span>Paiement 250 F CFA enregistré. Complétez votre profil.</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Prénom *</label>
+                  <input type="text" id="reg-firstname" required placeholder="Ex: Aminata" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Nom *</label>
+                  <input type="text" id="reg-lastname" required placeholder="Ex: Kaboré" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Âge *</label>
+                  <input type="number" id="reg-age" min="18" max="85" required placeholder="24" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Ville *</label>
+                  <select id="reg-city" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none">
+                    <option value="Bobo-Dioulasso">Bobo-Dioulasso</option>
+                    <option value="Ouagadougou">Ouagadougou</option>
+                    <option value="Koudougou">Koudougou</option>
+                    <option value="Banfora">Banfora</option>
+                    <option value="Ouahigouya">Ouahigouya</option>
+                    <option value="Dédougou">Dédougou</option>
+                    <option value="Kaya">Kaya</option>
+                    <option value="Tenkodogo">Tenkodogo</option>
+                    <option value="Fada N'Gourma">Fada N'Gourma</option>
+                    <option value="Gaoua">Gaoua</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Localisation géographique GPS -->
+              <div class="p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/70 border border-stone-200/80 dark:border-stone-700 flex items-center justify-between gap-2">
+                <div class="min-w-0">
+                  <span class="block text-xs font-bold text-stone-700 dark:text-stone-200">Localisation géographique</span>
+                  <span id="reg-gps-status" class="text-[11px] text-stone-500 block truncate">Autorisez le GPS pour voir les membres proches</span>
+                </div>
+                <button type="button" onclick="detectUserGPS()" class="px-3 py-2 rounded-xl bg-faso-green text-white text-xs font-bold shrink-0 flex items-center gap-1 hover:bg-faso-greenDark transition">
+                  <i data-lucide="locate" class="w-3.5 h-3.5"></i> GPS
+                </button>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Présentation rapide (optionnel)</label>
+                <input type="text" id="reg-bio" placeholder="Ce que vous aimez, vos centres d'intérêt..." class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+              </div>
+
+              <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-faso-red to-amber-600 text-white font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 transition">
+                <span>Finaliser mon inscription</span>
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pied de page discret avec verrou non-intrusif pour le propriétaire -->
+      <footer class="px-5 py-3 border-t border-stone-200/60 dark:border-stone-800/80 bg-white/60 dark:bg-faso-darkCard/60 flex items-center justify-between text-[11px] text-stone-400 shrink-0">
+        <span><strong class="app-brand-name">FasoRencontre</strong> • Burkina Faso 🇧🇫</span>
+        <button type="button" onclick="openCreatorAuthModal()" aria-label="Accès" class="p-1.5 rounded-lg text-stone-400/60 hover:text-stone-600 dark:hover:text-stone-300 transition">
+          <i data-lucide="lock" class="w-3 h-3"></i>
+        </button>
+      </footer>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. APPLICATION PRINCIPALE (MEMBRE CONNECTÉ)                  -->
+    <!-- ============================================================ -->
+    <div id="view-member-app" class="flex-1 flex flex-col md:flex-row h-full hidden overflow-hidden">
+
+      <!-- Barre latérale Desktop / En-tête Mobile -->
+      <aside class="bg-white dark:bg-faso-darkCard border-b md:border-b-0 md:border-r border-stone-200/80 dark:border-stone-800 px-4 py-3 md:py-6 md:w-64 flex md:flex-col items-center md:items-stretch justify-between shrink-0 z-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 md:mb-6">
+          <div id="member-brand-emblem" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-faso-red to-amber-500 flex items-center justify-center text-white shadow cursor-pointer select-none">
+            <i data-lucide="heart" class="w-5 h-5 fill-white"></i>
+          </div>
+          <div>
+            <h1 class="app-brand-name font-black text-base leading-none">FasoRencontre</h1>
+            <span id="member-header-location" class="text-[10px] font-bold text-faso-green dark:text-emerald-400 flex items-center gap-1 mt-0.5">
+              <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Bobo-Dioulasso
+            </span>
+          </div>
+        </div>
+
+        <!-- Menu Desktop -->
+        <nav class="hidden md:flex flex-col gap-1.5 flex-1">
+          <button onclick="switchMemberTab('discover')" id="desk-nav-discover" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+            <span>Découverte & Proximité</span>
+          </button>
+          <button onclick="switchMemberTab('videos')" id="desk-nav-videos" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <i data-lucide="video" class="w-5 h-5"></i>
+            <span>Vidéos Profils</span>
+          </button>
+          <button onclick="switchMemberTab('messages')" id="desk-nav-messages" class="desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <div class="flex items-center gap-3">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+              <span>Messagerie Privée</span>
+            </div>
+            <span id="desk-unread-badge" class="hidden px-2 py-0.5 rounded-full bg-faso-red text-white text-[10px] font-black">1</span>
+          </button>
+          <button onclick="switchMemberTab('profile')" id="desk-nav-profile" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <i data-lucide="user-circle" class="w-5 h-5"></i>
+            <span>Mon Profil</span>
+          </button>
+        </nav>
+
+        <!-- Actions rapides en bas de barre latérale / droite mobile -->
+        <div class="flex md:flex-col items-center md:items-stretch gap-2">
+          <button id="owner-dashboard-btn" onclick="openCreatorDashboardFromApp()" class="hidden px-3 py-2 rounded-xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 text-xs font-extrabold flex items-center justify-center gap-1.5 hover:bg-stone-800 transition">
+            <i data-lucide="crown" class="w-3.5 h-3.5 text-faso-gold dark:text-stone-950"></i>
+            <span>Tableau Créateur</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleDarkMode()" class="flex-1 p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-200 flex items-center justify-center" title="Thème">
+              <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+              <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+            </button>
+            <button onclick="logoutMember()" class="flex-1 p-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-rose-500 flex items-center justify-center" title="Déconnexion">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Zone de Contenu Principal -->
+      <div class="flex-1 flex flex-col overflow-hidden relative">
+
+        <!-- ======================================================== -->
+        <!-- ONGLET 1 : DÉCOUVERTE & PROXIMITÉ GÉOGRAPHIQUE           -->
+        <!-- ======================================================== -->
+        <main id="tab-discover" class="flex-1 flex flex-col overflow-y-auto no-scrollbar p-4 md:p-6 space-y-4">
+          <!-- Barre de filtres Ville & Distance GPS -->
+          <div class="bg-white dark:bg-faso-darkCard p-3.5 rounded-2xl shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2 flex-wrap">
+              <select id="discover-city-filter" onchange="renderMembersGrid()" class="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
+                <option value="Toutes">🇧🇫 Toutes les villes</option>
+                <option value="Bobo-Dioulasso">Bobo-Dioulasso</option>
+                <option value="Ouagadougou">Ouagadougou</option>
+                <option value="Koudougou">Koudougou</option>
+                <option value="Banfora">Banfora</option>
+                <option value="Ouahigouya">Ouahigouya</option>
+                <option value="Tenkodogo">Tenkodogo</option>
+                <option value="Fada N'Gourma">Fada N'Gourma</option>
+              </select>
+
+              <select id="discover-distance-filter" onchange="renderMembersGrid()" class="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
+                <option value="1000">Distance : Tout le pays</option>
+                <option value="15">À proximité (&lt; 15 km)</option>
+                <option value="50">Dans un rayon de 50 km</option>
+                <option value="400">Moins de 400 km</option>
+              </select>
+            </div>
+
+            <button onclick="refreshUserLocationInApp()" class="px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-faso-green dark:text-emerald-400 text-xs font-bold flex items-center gap-1.5 hover:bg-emerald-100 transition">
+              <i data-lucide="locate-fixed" class="w-3.5 h-3.5"></i>
+              <span id="gps-pill-label">Actualiser ma position GPS</span>
+            </button>
+          </div>
+
+          <!-- Grille des Membres -->
+          <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
+            <!-- Cartes injectées dynamiquement -->
+          </div>
+        </main>
+
+        <!-- ======================================================== -->
+        <!-- ONGLET 2 : VIDÉOS DES MEMBRES & PUBLICATION              -->
+        <!-- ======================================================== -->
+        <section id="tab-videos" class="flex-1 flex flex-col overflow-y-auto no-scrollbar p-4 md:p-6 space-y-5 hidden">
+          <!-- En-tête + Bouton Publier une vidéo -->
+          <div class="bg-gradient-to-r from-faso-red via-amber-600 to-faso-green rounded-3xl p-5 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-black flex items-center gap-2">
+                <i data-lucide="video" class="w-6 h-6"></i> Vidéos de la Communauté
+              </h2>
+              <p class="text-xs text-white/90 mt-1">
+                Présentez-vous en vidéo sur votre profil pour attirer plus de rencontres authentiques.
+              </p>
+            </div>
+            <button onclick="toggleVideoUploadModal(true)" class="px-4 py-3 rounded-2xl bg-white text-faso-red font-extrabold text-xs shadow-md hover:bg-amber-50 flex items-center justify-center gap-2 shrink-0 transition">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Publier une vidéo</span>
+            </button>
+          </div>
+
+          <!-- Fil des vidéos -->
+          <div id="videos-feed-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
+            <!-- Vidéos injectées dynamiquement -->
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- ONGLET 3 : MESSAGERIE PRIVÉE                             -->
+        <!-- ======================================================== -->
+        <section id="tab-messages" class="flex-1 flex overflow-hidden hidden">
+          <!-- Liste des conversations -->
+          <div id="chat-sidebar" class="w-full md:w-80 border-r border-stone-200/80 dark:border-stone-800 bg-white dark:bg-faso-darkCard flex flex-col">
+            <div class="p-4 border-b border-stone-100 dark:border-stone-800">
+              <h2 class="font-extrabold text-base flex items-center justify-between">
+                <span>Messages Privés</span>
+                <span id="total-conversations-count" class="text-xs px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500">0</span>
+              </h2>
+            </div>
+            <div id="conversations-container" class="flex-1 overflow-y-auto no-scrollbar p-2.5 space-y-1.5">
+              <!-- Liste injectée dynamiquement -->
+            </div>
+          </div>
+
+          <!-- Fenêtre de discussion active -->
+          <div id="chat-window" class="hidden md:flex flex-1 flex-col bg-faso-sand/60 dark:bg-stone-950">
+            <!-- État vide desktop -->
+            <div id="chat-empty-placeholder" class="flex-1 flex flex-col items-center justify-center text-center p-6">
+              <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-faso-gold mb-3">
+                <i data-lucide="messages-square" class="w-8 h-8"></i>
+              </div>
+              <h3 class="font-bold text-base">Vos échanges privés</h3>
+              <p class="text-xs text-stone-500 max-w-xs mt-1">
+                Sélectionnez un membre dans la liste ou cliquez sur « Message » depuis n'importe quel profil pour démarrer la discussion.
+              </p>
+            </div>
+
+            <!-- Conversation ouverte -->
+            <div id="chat-active-panel" class="hidden flex-1 flex flex-col h-full">
+              <div class="px-4 py-3 bg-white dark:bg-faso-darkCard border-b border-stone-200 dark:border-stone-800 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                  <button onclick="closeMobileChat()" class="md:hidden p-1.5 -ml-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                  </button>
+                  <div id="active-chat-avatar" class="w-10 h-10 rounded-full overflow-hidden shrink-0"></div>
+                  <div>
+                    <h4 id="active-chat-name" class="font-bold text-sm">Membre</h4>
+                    <p id="active-chat-meta" class="text-[11px] text-faso-green dark:text-emerald-400 font-medium">En ligne</p>
+                  </div>
+                </div>
+                <button onclick="viewActiveChatProfile()" class="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold hover:text-faso-red transition">
+                  Voir profil
+                </button>
+              </div>
+
+              <div id="chat-bubbles-area" class="flex-1 overflow-y-auto p-4 space-y-3">
+                <!-- Bulles injectées ici -->
+              </div>
+
+              <!-- Brise-glaces rapides -->
+              <div class="px-3 py-2 bg-white dark:bg-faso-darkCard border-t border-stone-100 dark:border-stone-800 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
+                <button onclick="sendQuickPhrase('Salut ! Ravi(e) de faire ta connaissance sur FasoRencontre 😊')" class="shrink-0 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-[11px] font-semibold text-amber-900 dark:text-amber-200 border border-amber-200/70">
+                  👋 Saluer chaleureusement
+                </button>
+                <button onclick="sendQuickPhrase('Tu es dans quel quartier en ce moment ? On se capte autour d\'un verre ou des brochettes ? 🍢')" class="shrink-0 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-[11px] font-semibold text-emerald-900 dark:text-emerald-200 border border-emerald-200/70">
+                  🍢 Proposer une sortie
+                </button>
+              </div>
+
+              <form onsubmit="sendPrivateMessage(event)" class="p-3 bg-white dark:bg-faso-darkCard border-t border-stone-200 dark:border-stone-800 flex items-center gap-2 shrink-0">
+                <input type="text" id="private-msg-input" placeholder="Écrivez votre message privé..." autocomplete="off" class="flex-1 px-4 py-2.5 rounded-2xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-red/40" />
+                <button type="submit" class="p-2.5 rounded-2xl bg-faso-red hover:bg-faso-redDark text-white shadow transition">
+                  <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- ONGLET 4 : MON PROFIL & MES VIDÉOS                       -->
+        <!-- ======================================================== -->
+        <section id="tab-profile" class="flex-1 overflow-y-auto no-scrollbar p-4 md:p-6 space-y-5 hidden">
+          <div class="max-w-2xl mx-auto space-y-5 pb-6">
+            <!-- Carte Statut Compte & Paiement 250 F -->
+            <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div id="my-profile-avatar-box" class="w-20 h-20 rounded-3xl overflow-hidden shadow-md shrink-0 border-2 border-faso-gold"></div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h2 id="my-profile-fullname" class="text-xl font-black">Prénom Nom</h2>
+                    <span id="my-payment-status-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-faso-green text-[10px] font-black uppercase">Membre Vérifié (250 F)</span>
+                  </div>
+                  <p id="my-profile-city-age" class="text-xs text-stone-500 mt-0.5">25 ans • Bobo-Dioulasso</p>
+                  <p id="my-profile-gps-coords" class="text-[11px] text-faso-green dark:text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                    <i data-lucide="navigation" class="w-3 h-3"></i> GPS Actif
+                  </p>
+                </div>
+              </div>
+              <button onclick="toggleVideoUploadModal(true)" class="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-faso-red text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow">
+                <i data-lucide="video" class="w-4 h-4"></i> Ajouter une vidéo
+              </button>
+            </div>
+
+            <!-- Formulaire mise à jour informations personnelles -->
+            <form onsubmit="updateMyProfile(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 space-y-4">
+              <h3 class="font-extrabold text-sm flex items-center gap-2">
+                <i data-lucide="user-pen" class="w-4 h-4 text-faso-red"></i> Mes Informations Personnelles
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Prénom</label>
+                  <input type="text" id="prof-edit-firstname" required class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Nom</label>
+                  <input type="text" id="prof-edit-lastname" required class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Âge</label>
+                  <input type="number" id="prof-edit-age" min="18" max="85" required class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Ville</label>
+                  <select id="prof-edit-city" class="w-full px-3 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none">
+                    <option value="Bobo-Dioulasso">Bobo-Dioulasso</option>
+                    <option value="Ouagadougou">Ouagadougou</option>
+                    <option value="Koudougou">Koudougou</option>
+                    <option value="Banfora">Banfora</option>
+                    <option value="Ouahigouya">Ouahigouya</option>
+                    <option value="Dédougou">Dédougou</option>
+                    <option value="Kaya">Kaya</option>
+                    <option value="Tenkodogo">Tenkodogo</option>
+                    <option value="Fada N'Gourma">Fada N'Gourma</option>
+                    <option value="Gaoua">Gaoua</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Bio / Description</label>
+                <textarea id="prof-edit-bio" rows="2" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none resize-none"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-3 rounded-2xl bg-faso-green hover:bg-faso-greenDark text-white font-bold text-xs shadow transition">
+                Enregistrer mes informations
+              </button>
+            </form>
+
+            <!-- Mes Vidéos Publiées -->
+            <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 space-y-3">
+              <h3 class="font-extrabold text-sm">Mes Vidéos Publiées</h3>
+              <div id="my-published-videos-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Injecté dynamiquement -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Barre de Navigation Mobile (Bas) -->
+        <nav class="md:hidden bg-white dark:bg-faso-darkCard border-t border-stone-200/80 dark:border-stone-800 px-4 py-2 flex items-center justify-around shrink-0 z-20">
+          <button onclick="switchMemberTab('discover')" id="mob-nav-discover" class="mob-nav-btn flex flex-col items-center gap-0.5 text-faso-red">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Découvrir</span>
+          </button>
+          <button onclick="switchMemberTab('videos')" id="mob-nav-videos" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400">
+            <i data-lucide="video" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Vidéos</span>
+          </button>
+          <button onclick="switchMemberTab('messages')" id="mob-nav-messages" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400 relative">
+            <i data-lucide="message-square" class="w-5 h-5"></i>
+            <span id="mob-unread-badge" class="hidden absolute -top-1 right-1 w-4 h-4 rounded-full bg-faso-red text-white text-[9px] font-black flex items-center justify-center">1</span>
+            <span class="text-[10px] font-bold">Messages</span>
+          </button>
+          <button onclick="switchMemberTab('profile')" id="mob-nav-profile" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Profil</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. ESPACE CRÉATEUR & GESTION DES RECETTES (ADMIN DASHBOARD)  -->
+    <!-- ============================================================ -->
+    <div id="view-admin-dashboard" class="flex-1 flex flex-col h-full hidden overflow-hidden bg-stone-100 dark:bg-faso-darkBg">
+      <!-- Header Admin -->
+      <header class="px-5 py-4 bg-stone-900 text-white flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-faso-gold to-faso-red flex items-center justify-center text-white shadow">
+            <i data-lucide="crown" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="font-black text-base">Espace Créateur & Propriétaire</h1>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">100% Contrôle</span>
+            </div>
+            <p class="text-[11px] text-stone-400">Gestion des inscriptions, vérifications Orange Money & recettes</p>
+          </div>
+        </div>
+
+        <button onclick="exitAdminDashboard()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold flex items-center gap-1.5 transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Retour à l'app</span>
+        </button>
+      </header>
+
+      <!-- Corps du Tableau de Bord -->
+      <div class="flex-1 overflow-y-auto no-scrollbar p-4 md:p-6 space-y-6 max-w-5xl w-full mx-auto">
+
+        <!-- Indicateurs Clés (KPIs Financiers & Croissance) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Recettes Validées</span>
+            <p id="admin-kpi-revenue" class="text-2xl font-black text-faso-green mt-1">0 F CFA</p>
+            <span class="text-[10px] text-stone-500">Tarif : 250 F / inscrit</span>
+          </div>
+
+          <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Paiements en Attente</span>
+            <p id="admin-kpi-pending" class="text-2xl font-black text-faso-orange mt-1">0</p>
+            <span class="text-[10px] text-stone-500">À vérifier sur le 66 93 11 74</span>
+          </div>
+
+          <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Membres Inscrits</span>
+            <p id="admin-kpi-users" class="text-2xl font-black text-faso-red mt-1">0</p>
+            <span class="text-[10px] text-stone-500">Capacité évolutive illimitée</span>
+          </div>
+
+          <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Vidéos Publiées</span>
+            <p id="admin-kpi-videos" class="text-2xl font-black text-amber-500 mt-1">0</p>
+            <span class="text-[10px] text-stone-500">Modération active</span>
+          </div>
+        </div>
+
+        <!-- Section 1 : Vérification des Paiements Orange Money (250 F CFA) -->
+        <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 dark:border-stone-800 pb-3">
+            <div>
+              <h2 class="font-extrabold text-base flex items-center gap-2">
+                <i data-lucide="wallet" class="w-5 h-5 text-faso-orange"></i>
+                <span>Transactions Orange Money (250 F CFA)</span>
+              </h2>
+              <p class="text-xs text-stone-500">Vérifiez les ID de transaction reçus sur votre numéro <strong class="admin-om-display">66 93 11 74</strong> et validez les comptes.</p>
+            </div>
+          </div>
+
+          <div id="admin-transactions-list" class="space-y-2.5">
+            <!-- Liste des paiements injectée ici -->
+          </div>
+        </div>
+
+        <!-- Section 2 : Gestion des Utilisateurs & Personnalisation Propriétaire -->
+        <div class="grid md:grid-cols-2 gap-5 pb-8">
+          <!-- Liste des membres inscrits -->
+          <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
+            <h3 class="font-extrabold text-sm flex items-center gap-2">
+              <i data-lucide="users" class="w-4 h-4 text-faso-red"></i> Gestion des Membres
+            </h3>
+            <div id="admin-users-list" class="space-y-2 max-h-72 overflow-y-auto no-scrollbar">
+              <!-- Injecté dynamiquement -->
+            </div>
+          </div>
+
+          <!-- Paramètres de Propriété & Configuration -->
+          <form onsubmit="saveCreatorSettings(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3.5">
+            <h3 class="font-extrabold text-sm flex items-center gap-2">
+              <i data-lucide="settings" class="w-4 h-4 text-faso-green"></i> Paramètres de votre Plateforme
+            </h3>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-500 mb-1">Nom de votre Application</label>
+              <input type="text" id="admin-cfg-appname" required class="w-full px-3.5 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Numéro Paiement (250 F)</label>
+                <input type="text" id="admin-cfg-om" required class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Numéro Créateur Privé</label>
+                <input type="text" id="admin-cfg-creator-phone" required class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Code Secret Créateur</label>
+                <input type="password" id="admin-cfg-pin" required maxlength="12" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-mono outline-none" />
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-2xl bg-stone-900 dark:bg-faso-green text-white font-bold text-xs shadow transition">
+              Sauvegarder mes paramètres propriétaires
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL A : CONNEXION CRÉATEUR PRIVÉE (NUMÉRO + CODE SECRET)   -->
+    <!-- ============================================================ -->
+    <div id="modal-admin-pin" class="hidden absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-faso-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-stone-900 text-faso-gold flex items-center justify-center mx-auto shadow">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <div class="text-center">
+          <h3 class="font-black text-lg">Connexion</h3>
+          <p class="text-xs text-stone-500 mt-1">
+            Saisissez votre numéro et votre code d'accès.
+          </p>
+        </div>
+        <form onsubmit="verifyAdminPin(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Numéro</label>
+            <input type="tel" id="creator-auth-phone" required placeholder="Numéro" autocomplete="off" class="w-full px-3.5 py-2.5 rounded-2xl bg-stone-100 dark:bg-stone-800 text-sm font-bold outline-none focus:ring-2 focus:ring-faso-gold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Code</label>
+            <input type="password" id="admin-pin-input" maxlength="16" placeholder="••••••••" required autocomplete="off" class="w-full px-3.5 py-2.5 rounded-2xl bg-stone-100 dark:bg-stone-800 text-sm font-black tracking-widest outline-none focus:ring-2 focus:ring-faso-gold" />
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button type="button" onclick="closeAdminGate()" class="flex-1 py-3 rounded-2xl bg-stone-100 dark:bg-stone-800 font-bold text-xs">Annuler</button>
+            <button type="submit" class="flex-1 py-3 rounded-2xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 font-extrabold text-xs">Valider</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL B : PUBLIER UNE VIDÉO SUR SON PROFIL                   -->
+    <!-- ============================================================ -->
+    <div id="modal-upload-video" class="hidden absolute inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-faso-darkCard w-full max-w-md rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
+          <h3 class="font-extrabold text-base flex items-center gap-2">
+            <i data-lucide="video" class="w-5 h-5 text-faso-red"></i> Publier une vidéo sur mon profil
+          </h3>
+          <button onclick="toggleVideoUploadModal(false)" class="p-1.5 rounded-full bg-stone-100 dark:bg-stone-800">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form onsubmit="handlePublishVideo(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-stone-500 mb-1.5">Choisir une vidéo depuis votre téléphone / PC</label>
+            <input type="file" id="video-file-input" accept="video/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-red/10 file:text-faso-red hover:file:bg-faso-red/20" />
+            <p class="text-[10px] text-stone-400 mt-1">Optionnel en démo : si aucun fichier n'est choisi, une vidéo de présentation animée sera générée.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-stone-500 mb-1">Légende de votre vidéo *</label>
+            <input type="text" id="video-caption-input" required placeholder="Ex: Petite balade du dimanche à Bobo-Dioulasso 🇧🇫✨" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-faso-red to-amber-600 text-white font-extrabold text-xs shadow-lg">
+            Publier maintenant sur mon profil
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL C : CONSULTER LE PROFIL COMPLET D'UN MEMBRE            -->
+    <!-- ============================================================ -->
+    <div id="modal-member-profile" class="hidden absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-faso-darkCard w-full max-w-md max-h-[88vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-pop">
+        <div class="relative h-56 shrink-0">
+          <div id="view-prof-avatar" class="w-full h-full"></div>
+          <button onclick="closeMemberProfileModal()" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 text-white flex items-center justify-center">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 text-white">
+            <h3 id="view-prof-name" class="text-xl font-black">Nom, 26</h3>
+            <p id="view-prof-loc" class="text-xs text-stone-200 flex items-center gap-1 mt-0.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-gold"></i> Ville • Distance
+            </p>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-5 space-y-4">
+          <p id="view-prof-bio" class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed"></p>
+
+          <div>
+            <h4 class="text-xs font-extrabold uppercase text-stone-400 mb-2">Vidéos du profil</h4>
+            <div id="view-prof-videos" class="space-y-2.5"></div>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-stone-100 dark:border-stone-800 flex gap-2.5 shrink-0">
+          <button id="view-prof-msg-btn" class="flex-1 py-3 rounded-2xl bg-faso-red text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Envoyer un message privé</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- LOGIQUE JAVASCRIPT COMPLÈTE (PAIEMENT, GPS, VIDÉOS, ADMIN)   -->
+  <!-- ============================================================ -->
+  <script>
+    const STORAGE_KEY = 'fasorencontre_full_v2';
+
+    // Coordonnées GPS réelles des principales villes du Burkina Faso
+    const BURKINA_CITIES_GPS = {
+      'Bobo-Dioulasso': { lat: 11.1771, lng: -4.2979 },
+      'Ouagadougou': { lat: 12.3714, lng: -1.5197 },
+      'Koudougou': { lat: 12.2526, lng: -2.3627 },
+      'Banfora': { lat: 10.6333, lng: -4.7667 },
+      'Ouahigouya': { lat: 13.5828, lng: -2.4216 },
+      'Dédougou': { lat: 12.4634, lng: -3.4608 },
+      'Kaya': { lat: 13.0917, lng: -1.0844 },
+      'Tenkodogo': { lat: 11.7800, lng: -0.3697 },
+      "Fada N'Gourma": { lat: 12.0616, lng: 0.3584 },
+      'Gaoua': { lat: 10.3241, lng: -3.1763 }
+    };
+
+    // Générateur d'avatars SVG chaleureux (0 lien externe brisé)
+    function renderAvatarSVG({ bgStart = '#F59E0B', bgEnd = '#D93829', skin = '#5C3317', outfit = '#0F7A4A', gender = 'F', accessory = 'none' }) {
+      const uid = Math.random().toString(36).substring(2, 8);
+      const hair = gender === 'F'
+        ? `<path d="M55,88 C55,42 145,42 145,88 C148,118 142,145 134,152 C132,115 128,85 100,85 C72,85 68,115 66,152 C58,145 52,118 55,88 Z" fill="#1C1917"/><circle cx="100" cy="46" r="18" fill="#1C1917"/>`
+        : `<path d="M64,84 C64,52 136,52 136,84 C136,72 122,64 100,64 C78,64 64,72 64,84 Z" fill="#1C1917"/>`;
+
+      const extra = accessory === 'headwrap'
+        ? `<path d="M60,78 Q100,32 140,78 Q125,62 100,62 Q75,62 60,78 Z" fill="#F59E0B"/>`
+        : accessory === 'glasses'
+        ? `<rect x="76" y="92" width="18" height="12" rx="4" fill="none" stroke="#1C1917" stroke-width="2.5"/><rect x="106" y="92" width="18" height="12" rx="4" fill="none" stroke="#1C1917" stroke-width="2.5"/><line x1="94" y1="97" x2="106" y2="97" stroke="#1C1917" stroke-width="2.5"/>`
+        : '';
+
+      return `
+        <svg viewBox="0 0 200 210" class="w-full h-full object-cover select-none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g_${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="${bgStart}" />
+              <stop offset="100%" stop-color="${bgEnd}" />
+            </linearGradient>
+          </defs>
+          <rect width="200" height="210" fill="url(#g_${uid})" />
+          <circle cx="165" cy="35" r="40" fill="white" fill-opacity="0.08" />
+          <path d="M40,210 C42,162 68,148 100,148 C132,148 158,162 160,210 Z" fill="${outfit}" />
+          <path d="M84,150 L100,174 L116,150" fill="none" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="round" />
+          <rect x="88" y="124" width="24" height="28" rx="10" fill="${skin}" />
+          ${hair}
+          <rect x="68" y="64" width="64" height="74" rx="32" fill="${skin}" />
+          <circle cx="85" cy="96" r="3.5" fill="#1C1917" />
+          <circle cx="115" cy="96" r="3.5" fill="#1C1917" />
+          <path d="M88,114 Q100,125 112,114" stroke="#1C1917" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          ${extra}
+        </svg>
+      `;
+    }
+
+    // Membres initiaux de la communauté
+    const INITIAL_MEMBERS = [
+      {
+        id: 'm1',
+        firstName: 'Aïcha',
+        lastName: 'Ouédraogo',
+        age: 25,
+        city: 'Bobo-Dioulasso',
+        lat: 11.1820,
+        lng: -4.2910,
+        bio: "Architecte junior à Bobo-Dioulasso. J'aime le cinéma africain, les sorties entre amis et les belles discussions.",
+        verified: true,
+        avatar: { bgStart: '#F59E0B', bgEnd: '#B91C1C', skin: '#5C3317', outfit: '#0F7A4A', gender: 'F', accessory: 'headwrap' }
+      },
+      {
+        id: 'm2',
+        firstName: 'Moussa',
+        lastName: 'Traoré',
+        age: 29,
+        city: 'Bobo-Dioulasso',
+        lat: 11.1695,
+        lng: -4.3050,
+        bio: "Entrepreneur à Sarfalao. Passionné par la musique mandingue, le sport et les rencontres sincères.",
+        verified: true,
+        avatar: { bgStart: '#0F7A4A', bgEnd: '#064E3B', skin: '#4A2810', outfit: '#D97706', gender: 'M', accessory: 'glasses' }
+      },
+      {
+        id: 'm3',
+        firstName: 'Fatimata',
+        lastName: 'Sawadogo',
+        age: 24,
+        city: 'Ouagadougou',
+        lat: 12.3650,
+        lng: -1.5250,
+        bio: "Pharmacienne à Ouaga 2000. Toujours souriante et prête à supporter les Étalons du Burkina !",
+        verified: true,
+        avatar: { bgStart: '#DC2626', bgEnd: '#7F1D1D', skin: '#6B3E26', outfit: '#F59E0B', gender: 'F', accessory: 'none' }
+      },
+      {
+        id: 'm4',
+        firstName: 'Bintou',
+        lastName: 'Coulibaly',
+        age: 27,
+        city: 'Banfora',
+        lat: 10.6350,
+        lng: -4.7600,
+        bio: "Entre les cascades de Karfiguéla et la belle ville de Banfora. Venez découvrir la région des Cascades !",
+        verified: true,
+        avatar: { bgStart: '#16A34A', bgEnd: '#14532D', skin: '#5C3317', outfit: '#F59E0B', gender: 'F', accessory: 'headwrap' }
+      },
+      {
+        id: 'm5',
+        firstName: 'Ibrahim',
+        lastName: 'Sanou',
+        age: 31,
+        city: 'Ouagadougou',
+        lat: 12.3810,
+        lng: -1.5100,
+        bio: "Ingénieur génie civil à Ouagadougou. Respect, humour et ambition.",
+        verified: true,
+        avatar: { bgStart: '#D97706', bgEnd: '#92400E', skin: '#3E200C', outfit: '#0F7A4A', gender: 'M', accessory: 'none' }
+      },
+      {
+        id: 'm6',
+        firstName: 'Mariam',
+        lastName: 'Compaoré',
+        age: 26,
+        city: 'Koudougou',
+        lat: 12.2540,
+        lng: -2.3600,
+        bio: "Chargée de communication dans la cité du Cavalier Rouge. Fan du FESPACO et de danse.",
+        verified: true,
+        avatar: { bgStart: '#059669', bgEnd: '#047857', skin: '#784421', outfit: '#D93829', gender: 'F', accessory: 'glasses' }
+      }
+    ];
+
+    // Vidéos de démonstration initiales
+    const INITIAL_VIDEOS = [
+      {
+        id: 'v1',
+        authorId: 'm1',
+        authorName: 'Aïcha Ouédraogo',
+        city: 'Bobo-Dioulasso',
+        caption: 'Ambiance du soir à Bobo-Dioulasso ✨ Qui est dans le coin ?',
+        duration: '0:18',
+        likes: 42,
+        gradient: 'from-amber-500 via-faso-red to-rose-900',
+        videoUrl: null,
+        avatar: INITIAL_MEMBERS[0].avatar
+      },
+      {
+        id: 'v2',
+        authorId: 'm3',
+        authorName: 'Fatimata Sawadogo',
+        city: 'Ouagadougou',
+        caption: 'Prête pour le week-end à Ouaga ! Envoyez un message 😊🇧🇫',
+        duration: '0:24',
+        likes: 67,
+        gradient: 'from-faso-green via-emerald-700 to-stone-900',
+        videoUrl: null,
+        avatar: INITIAL_MEMBERS[2].avatar
+      },
+      {
+        id: 'v3',
+        authorId: 'm4',
+        authorName: 'Bintou Coulibaly',
+        city: 'Banfora',
+        caption: 'Petit coucou depuis les cascades de Karfiguéla 💦🌴',
+        duration: '0:15',
+        likes: 53,
+        gradient: 'from-orange-500 via-amber-600 to-emerald-900',
+        videoUrl: null,
+        avatar: INITIAL_MEMBERS[3].avatar
+      }
+    ];
+
+    // Transactions initiales dans le tableau de bord Créateur
+    const INITIAL_TRANSACTIONS = [
+      { id: 'tx1', userId: 'm1', userName: 'Aïcha Ouédraogo', phone: '76 45 12 89', txRef: 'PP261118.0915.A1042', amount: 250, status: 'validated', date: 'Hier, 09:15' },
+      { id: 'tx2', userId: 'm2', userName: 'Moussa Traoré', phone: '74 88 20 11', txRef: 'PP261118.1430.B5519', amount: 250, status: 'validated', date: 'Hier, 14:30' },
+      { id: 'tx3', userId: 'm3', userName: 'Fatimata Sawadogo', phone: '65 19 84 02', txRef: 'PP261119.1005.C3390', amount: 250, status: 'validated', date: "Aujourd'hui, 10:05" },
+      { id: 'tx4', userId: 'm4', userName: 'Bintou Coulibaly', phone: '77 31 09 44', txRef: 'PP261119.1640.D7812', amount: 250, status: 'pending', date: "Aujourd'hui, 16:40" }
+    ];
+
+    // État Global
+    let state = {
+      settings: {
+        appName: 'FasoRencontre',
+        omNumber: '66 93 11 74',
+        creatorPhone: '66 93 11 74',
+        adminPin: '2260',
+        registrationFee: 250
+      },
+      currentUser: null, // null = non connecté
+      pendingPayment: null, // stocke temporairement la preuve de paiement avant étape 2
+      members: [...INITIAL_MEMBERS],
+      videos: [...INITIAL_VIDEOS],
+      transactions: [...INITIAL_TRANSACTIONS],
+      isOwnerAuthenticated: false,
+      conversations: {
+        'm1': [
+          { sender: 'them', text: "Bonjour ! Bienvenue sur FasoRencontre 😊 Tu es de quelle ville au Burkina ?", time: '18:20' }
+        ]
+      },
+      unreadMembers: ['m1']
+    };
+
+    let tempGPS = { lat: 11.1771, lng: -4.2979, label: 'Bobo-Dioulasso (Position par défaut)' };
+    let activeChatMemberId = null;
+
+    function normalizePhoneNumber(phone) {
+      return (phone || '').replace(/\D+/g, '');
+    }
+
+    function bindDiscreetCreatorTriggers() {
+      const emblems = [
+        document.querySelector('#view-landing header .w-10'),
+        document.getElementById('member-brand-emblem')
+      ].filter(Boolean);
+
+      emblems.forEach(el => {
+        let tapCount = 0;
+        let tapTimer = null;
+        let pressTimer = null;
+
+        el.addEventListener('click', () => {
+          tapCount += 1;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => { tapCount = 0; }, 650);
+          if (tapCount >= 3) {
+            tapCount = 0;
+            openCreatorAuthModal();
+          }
+        });
+
+        const startPress = () => {
+          clearTimeout(pressTimer);
+          pressTimer = setTimeout(() => {
+            openCreatorAuthModal();
+          }, 800);
+        };
+        const cancelPress = () => clearTimeout(pressTimer);
+
+        el.addEventListener('mousedown', startPress);
+        el.addEventListener('touchstart', startPress, { passive: true });
+        el.addEventListener('mouseup', cancelPress);
+        el.addEventListener('mouseleave', cancelPress);
+        el.addEventListener('touchend', cancelPress);
+        el.addEventListener('touchcancel', cancelPress);
+      });
+    }
+
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw);
+          state = {
+            ...state,
+            ...saved,
+            settings: { ...state.settings, ...(saved.settings || {}) }
+          };
+          if (!state.settings.creatorPhone) {
+            state.settings.creatorPhone = state.settings.omNumber || '66 93 11 74';
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    window.onload = function () {
+      loadAppState();
+      applyBrandSettings();
+      bindDiscreetCreatorTriggers();
+
+      // Seul un utilisateur ayant complété le paiement de 250 F CFA ou le créateur authentifié (numéro + code secret) peut entrer
+      const hasPaidAccess = Boolean(state.currentUser && (
+        state.currentUser.paymentStatus === 'validated' ||
+        state.currentUser.paymentStatus === 'pending'
+      ));
+      const hasOwnerAccess = Boolean(
+        state.isOwnerAuthenticated &&
+        state.currentUser &&
+        state.currentUser.paymentStatus === 'owner_free'
+      );
+
+      if (hasOwnerAccess || hasPaidAccess) {
+        enterMemberApp();
+      } else {
+        state.currentUser = null;
+        state.isOwnerAuthenticated = false;
+        document.getElementById('view-landing').classList.remove('hidden');
+      }
+      lucide.createIcons();
+    };
+
+    function applyBrandSettings() {
+      document.querySelectorAll('.app-brand-name').forEach(el => {
+        el.textContent = state.settings.appName;
+      });
+      const omEl = document.getElementById('display-om-number');
+      if (omEl) omEl.textContent = state.settings.omNumber;
+      const cleanOm = state.settings.omNumber.replace(/\s+/g, '');
+      const ussdEl = document.getElementById('ussd-code-display');
+      if (ussdEl) ussdEl.textContent = `*144*2*1*${cleanOm}*250#`;
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const div = document.createElement('div');
+      const bg = type === 'success' ? 'bg-faso-green text-white'
+        : type === 'orange' ? 'bg-faso-orange text-white'
+        : 'bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900';
+      div.className = `${bg} px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold animate-pop`;
+      div.textContent = msg;
+      container.appendChild(div);
+      setTimeout(() => {
+        div.style.opacity = '0';
+        setTimeout(() => div.remove(), 300);
+      }, 2800);
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    // ---------------------------------------------------------
+    // PARCOURS INSCRIPTION & PAIEMENT ORANGE MONEY (250 F CFA)
+    // ---------------------------------------------------------
+    function startRegistrationFlow() {
+      document.getElementById('registration-wizard-card').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('pay-sender-phone').focus();
+    }
+
+    function copyOMNumber() {
+      const text = state.settings.omNumber;
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(`Numéro ${text} copié !`, 'orange');
+    }
+
+    function submitPaymentProof(e) {
+      e.preventDefault();
+      const phone = document.getElementById('pay-sender-phone').value.trim();
+      const txRef = document.getElementById('pay-tx-id').value.trim();
+      if (!phone || !txRef) return;
+
+      state.pendingPayment = {
+        phone,
+        txRef,
+        amount: 250,
+        date: "Aujourd'hui, " + getTimeNow()
+      };
+
+      // Passer à l'étape 2
+      document.getElementById('step-1-payment-form').classList.add('hidden');
+      document.getElementById('step-2-profile-form').classList.remove('hidden');
+
+      document.getElementById('step-badge-1').className = 'w-7 h-7 rounded-full bg-faso-green text-white text-xs font-black flex items-center justify-center';
+      document.getElementById('step-badge-1').textContent = '✓';
+      document.getElementById('step-badge-2').className = 'w-7 h-7 rounded-full bg-faso-red text-white text-xs font-black flex items-center justify-center';
+      document.getElementById('step-label-2').className = 'text-xs font-extrabold text-stone-900 dark:text-white';
+
+      showToast('Preuve de paiement enregistrée ! Complétez votre profil.', 'success');
+      lucide.createIcons();
+    }
+
+    function detectUserGPS() {
+      const statusEl = document.getElementById('reg-gps-status');
+      statusEl.textContent = 'Recherche de votre position GPS en cours...';
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            tempGPS = {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              label: `GPS Vérifié (${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)})`
+            };
+            statusEl.innerHTML = `<span class="text-faso-green font-bold">✅ Position exacte détectée !</span>`;
+            showToast('Localisation GPS activée !', 'success');
+          },
+          () => {
+            const selectedCity = document.getElementById('reg-city').value;
+            const fallback = BURKINA_CITIES_GPS[selectedCity] || BURKINA_CITIES_GPS['Bobo-Dioulasso'];
+            tempGPS = { lat: fallback.lat, lng: fallback.lng, label: `${selectedCity} (Zone urbaine)` };
+            statusEl.innerHTML = `<span class="text-amber-600 font-semibold">Position calibrée sur ${selectedCity}.</span>`;
+          },
+          { timeout: 6000 }
+        );
+      }
+    }
+
+    function completeUserRegistration(e) {
+      e.preventDefault();
+      const firstName = document.getElementById('reg-firstname').value.trim();
+      const lastName = document.getElementById('reg-lastname').value.trim();
+      const age = parseInt(document.getElementById('reg-age').value, 10) || 25;
+      const city = document.getElementById('reg-city').value;
+      const bio = document.getElementById('reg-bio').value.trim() || `Bonjour ! Je suis ${firstName} de ${city}.`;
+
+      const cityCoords = BURKINA_CITIES_GPS[city] || BURKINA_CITIES_GPS['Bobo-Dioulasso'];
+      const finalLat = tempGPS.lat || cityCoords.lat;
+      const finalLng = tempGPS.lng || cityCoords.lng;
+
+      const newUserId = 'u_' + Date.now();
+      const newUser = {
+        id: newUserId,
+        firstName,
+        lastName,
+        age,
+        city,
+        lat: finalLat,
+        lng: finalLng,
+        bio,
+        verified: true,
+        paymentStatus: 'pending',
+        avatar: { bgStart: '#D93829', bgEnd: '#F59E0B', skin: '#5C3317', outfit: '#0F7A4A', gender: 'M', accessory: 'none' }
+      };
+
+      // Enregistrer la transaction dans le tableau de bord du créateur
+      if (state.pendingPayment) {
+        state.transactions.unshift({
+          id: 'tx_' + Date.now(),
+          userId: newUserId,
+          userName: `${firstName} ${lastName}`,
+          phone: state.pendingPayment.phone,
+          txRef: state.pendingPayment.txRef,
+          amount: 250,
+          status: 'pending',
+          date: state.pendingPayment.date
+        });
+      }
+
+      state.members.unshift(newUser);
+      state.currentUser = newUser;
+      state.pendingPayment = null;
+      saveAppState();
+
+      enterMemberApp();
+      showToast(`Bienvenue ${firstName} ! Paiement de 250 F CFA enregistré, votre profil est actif.`, 'success');
+    }
+
+    function loginCreatorDirectAfterAuth() {
+      const creatorUser = {
+        id: 'u_creator_owner',
+        firstName: 'Propriétaire',
+        lastName: state.settings.appName,
+        age: 30,
+        city: 'Bobo-Dioulasso',
+        lat: 11.1771,
+        lng: -4.2979,
+        bio: "Propriétaire unique de la plateforme.",
+        verified: true,
+        paymentStatus: 'owner_free',
+        avatar: { bgStart: '#0F7A4A', bgEnd: '#1C1917', skin: '#5C3317', outfit: '#F59E0B', gender: 'M', accessory: 'glasses' }
+      };
+      state.isOwnerAuthenticated = true;
+      state.currentUser = creatorUser;
+      saveAppState();
+      enterMemberApp();
+      showToast('Connexion validée.', 'success');
+    }
+
+    function logoutMember() {
+      state.currentUser = null;
+      state.isOwnerAuthenticated = false;
+      saveAppState();
+      document.getElementById('view-member-app').classList.add('hidden');
+      document.getElementById('view-landing').classList.remove('hidden');
+    }
+
+    function enterMemberApp() {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-admin-dashboard').classList.add('hidden');
+      document.getElementById('view-member-app').classList.remove('hidden');
+
+      const ownerBtn = document.getElementById('owner-dashboard-btn');
+      if (ownerBtn) {
+        if (state.isOwnerAuthenticated) ownerBtn.classList.remove('hidden');
+        else ownerBtn.classList.add('hidden');
+      }
+
+      updateMemberHeader();
+      renderMembersGrid();
+      renderVideosFeed();
+      renderConversationsList();
+      populateMyProfile();
+      updateUnreadBadges();
+      lucide.createIcons();
+    }
+
+    function openCreatorDashboardFromApp() {
+      if (!state.isOwnerAuthenticated) {
+        openCreatorAuthModal();
+        return;
+      }
+      openAdminDashboard();
+    }
+
+    function updateMemberHeader() {
+      if (!state.currentUser) return;
+      document.getElementById('member-header-location').innerHTML =
+        `<i data-lucide="map-pin" class="w-2.5 h-2.5"></i> ${state.currentUser.city}`;
+    }
+
+    // ---------------------------------------------------------
+    // NAVIGATION ONGLETS MEMBRE
+    // ---------------------------------------------------------
+    function switchMemberTab(tab) {
+      const tabs = ['discover', 'videos', 'messages', 'profile'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const deskBtn = document.getElementById(`desk-nav-${t}`);
+        const mobBtn = document.getElementById(`mob-nav-${t}`);
+        if (deskBtn) deskBtn.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition';
+        if (mobBtn) mobBtn.className = 'mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400 relative';
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      const activeDesk = document.getElementById(`desk-nav-${tab}`);
+      const activeMob = document.getElementById(`mob-nav-${tab}`);
+      if (activeDesk) activeDesk.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition';
+      if (activeMob) activeMob.className = 'mob-nav-btn flex flex-col items-center gap-0.5 text-faso-red relative';
+
+      if (tab === 'discover') renderMembersGrid();
+      if (tab === 'videos') renderVideosFeed();
+      if (tab === 'messages') renderConversationsList();
+      if (tab === 'profile') populateMyProfile();
+      lucide.createIcons();
+    }
+
+    // ---------------------------------------------------------
+    // CALCUL DE DISTANCE GPS RÉELLE (FORMULE DE HAVERSINE)
+    // ---------------------------------------------------------
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      if (!lat1 || !lon1 || !lat2 || !lon2) return 5;
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      return d < 1 ? 1 : Math.round(d);
+    }
+
+    function refreshUserLocationInApp() {
+      if (!('geolocation' in navigator)) {
+        showToast('Géolocalisation non supportée sur ce navigateur.', 'info');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          state.currentUser.lat = pos.coords.latitude;
+          state.currentUser.lng = pos.coords.longitude;
+          saveAppState();
+          renderMembersGrid();
+          populateMyProfile();
+          showToast('Distances mises à jour selon votre position GPS ! 📍', 'success');
+        },
+        () => {
+          showToast('Autorisation GPS refusée. Distance calculée depuis votre ville.', 'info');
+        }
+      );
+    }
+
+    // ---------------------------------------------------------
+    // DÉCOUVERTE & PROXIMITÉ
+    // ---------------------------------------------------------
+    function renderMembersGrid() {
+      const grid = document.getElementById('members-grid');
+      const cityFilter = document.getElementById('discover-city-filter').value;
+      const maxDist = parseInt(document.getElementById('discover-distance-filter').value, 10);
+      const me = state.currentUser;
+
+      const list = state.members
+        .filter(m => m.id !== me.id)
+        .map(m => ({
+          ...m,
+          distanceKm: calculateDistanceKm(me.lat, me.lng, m.lat, m.lng)
+        }))
+        .filter(m => {
+          if (cityFilter !== 'Toutes' && m.city !== cityFilter) return false;
+          if (m.distanceKm > maxDist) return false;
+          return true;
+        })
+        .sort((a, b) => a.distanceKm - b.distanceKm);
+
+      grid.innerHTML = '';
+
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 bg-white dark:bg-faso-darkCard rounded-3xl border border-stone-200/70 dark:border-stone-800">
+            <p class="text-sm font-bold text-stone-600 dark:text-stone-300">Aucun membre trouvé dans ce rayon.</p>
+            <p class="text-xs text-stone-400 mt-1">Élargissez la distance ou choisissez « Toutes les villes ».</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(member => {
+        const card = document.createElement('div');
+        card.className = 'bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-sm border border-stone-200/80 dark:border-stone-800 flex flex-col hover:shadow-md transition';
+        card.innerHTML = `
+          <div class="relative h-52 cursor-pointer" onclick="openMemberProfileModal('${member.id}')">
+            ${renderAvatarSVG(member.avatar)}
+            <div class="absolute top-3 inset-x-3 flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1">
+                <i data-lucide="navigation" class="w-3 h-3 text-faso-gold"></i> à ${member.distanceKm} km
+              </span>
+              <span class="px-2 py-0.5 rounded-full bg-faso-green text-white text-[10px] font-bold">Vérifié</span>
+            </div>
+            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 text-white">
+              <h3 class="font-extrabold text-base leading-tight">${member.firstName} ${member.lastName}, ${member.age}</h3>
+              <p class="text-[11px] text-stone-200 flex items-center gap-1 mt-0.5">
+                <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i> ${member.city}
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <p class="text-xs text-stone-600 dark:text-stone-300 line-clamp-2 leading-relaxed">${member.bio}</p>
+
+            <div class="flex items-center gap-2 pt-1">
+              <button onclick="openMemberProfileModal('${member.id}')" class="flex-1 py-2.5 px-3 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-xs font-bold transition">
+                Profil & Vidéos
+              </button>
+              <button onclick="startDirectChat('${member.id}')" class="flex-1 py-2.5 px-3 rounded-xl bg-faso-red hover:bg-faso-redDark text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
+                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                <span>Message</span>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // ---------------------------------------------------------
+    // VIDÉOS DE PROFIL (LECTURE & PUBLICATION)
+    // ---------------------------------------------------------
+    function renderVideosFeed() {
+      const grid = document.getElementById('videos-feed-grid');
+      grid.innerHTML = '';
+
+      state.videos.forEach(video => {
+        const card = document.createElement('div');
+        card.className = 'bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-sm border border-stone-200/80 dark:border-stone-800 flex flex-col';
+
+        const mediaBlock = video.videoUrl
+          ? `<video src="${video.videoUrl}" controls class="w-full h-64 object-cover bg-black"></video>`
+          : `
+            <div onclick="playSimulatedVideo('${video.id}')" class="relative h-64 bg-gradient-to-br ${video.gradient} flex flex-col items-center justify-center text-white p-5 text-center cursor-pointer group">
+              <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-lg mb-3 group-hover:scale-105 transition">
+                ${renderAvatarSVG(video.avatar)}
+              </div>
+              <div class="w-12 h-12 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center mb-2 group-hover:bg-faso-red transition">
+                <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
+              </div>
+              <span class="text-[11px] font-bold bg-black/40 px-2.5 py-0.5 rounded-full">Vidéo Profil • ${video.duration}</span>
+            </div>
+          `;
+
+        card.innerHTML = `
+          ${mediaBlock}
+          <div class="p-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-extrabold text-sm">${video.authorName}</h4>
+                <span class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${video.city}</span>
+              </div>
+              <button onclick="likeVideo('${video.id}')" class="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-faso-red text-xs font-bold flex items-center gap-1 hover:bg-rose-100 transition">
+                <i data-lucide="heart" class="w-3.5 h-3.5 fill-faso-red"></i>
+                <span>${video.likes}</span>
+              </button>
+            </div>
+            <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">${video.caption}</p>
+            <button onclick="startDirectChat('${video.authorId}')" class="w-full py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-faso-green hover:text-white text-xs font-bold transition">
+              Répondre en message privé
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function playSimulatedVideo(videoId) {
+      const v = state.videos.find(x => x.id === videoId);
+      if (v) {
+        showToast(`Lecture de la vidéo de ${v.authorName} 🎬`, 'info');
+      }
+    }
+
+    function likeVideo(videoId) {
+      const v = state.videos.find(x => x.id === videoId);
+      if (v) {
+        v.likes += 1;
+        saveAppState();
+        renderVideosFeed();
+      }
+    }
+
+    function toggleVideoUploadModal(show) {
+      const modal = document.getElementById('modal-upload-video');
+      if (show) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    }
+
+    function handlePublishVideo(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('video-file-input');
+      const caption = document.getElementById('video-caption-input').value.trim();
+      if (!caption) return;
+
+      let localVideoUrl = null;
+      if (fileInput.files && fileInput.files[0]) {
+        localVideoUrl = URL.createObjectURL(fileInput.files[0]);
+      }
+
+      const newVideo = {
+        id: 'v_' + Date.now(),
+        authorId: state.currentUser.id,
+        authorName: `${state.currentUser.firstName} ${state.currentUser.lastName}`,
+        city: state.currentUser.city,
+        caption,
+        duration: '0:15',
+        likes: 1,
+        gradient: 'from-faso-red via-amber-600 to-faso-green',
+        videoUrl: localVideoUrl,
+        avatar: state.currentUser.avatar
+      };
+
+      state.videos.unshift(newVideo);
+      saveAppState();
+
+      document.getElementById('video-caption-input').value = '';
+      fileInput.value = '';
+      toggleVideoUploadModal(false);
+      renderVideosFeed();
+      populateMyProfile();
+      showToast('Votre vidéo a été publiée sur votre profil ! 🎥', 'success');
+    }
+
+    // ---------------------------------------------------------
+    // MESSAGERIE PRIVÉE
+    // ---------------------------------------------------------
+    function getTimeNow() {
+      const d = new Date();
+      return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+    }
+
+    function updateUnreadBadges() {
+      const count = state.unreadMembers.length;
+      ['desk-unread-badge', 'mob-unread-badge'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (count > 0) {
+          el.textContent = count;
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    }
+
+    function startDirectChat(memberId) {
+      if (memberId === state.currentUser.id) {
+        showToast('Ceci est votre propre profil !', 'info');
+        return;
+      }
+      closeMemberProfileModal();
+      switchMemberTab('messages');
+      openConversation(memberId);
+    }
+
+    function renderConversationsList() {
+      const container = document.getElementById('conversations-container');
+      const memberIds = Object.keys(state.conversations);
+      document.getElementById('total-conversations-count').textContent = memberIds.length;
+      container.innerHTML = '';
+
+      if (memberIds.length === 0) {
+        container.innerHTML = `<p class="text-xs text-stone-400 text-center py-8">Aucune conversation pour l'instant.</p>`;
+        return;
+      }
+
+      memberIds.forEach(mId => {
+        const member = state.members.find(m => m.id === mId);
+        if (!member) return;
+        const msgs = state.conversations[mId] || [];
+        const last = msgs[msgs.length - 1] || { text: 'Démarrer la discussion', time: '' };
+        const isUnread = state.unreadMembers.includes(mId);
+
+        const row = document.createElement('div');
+        row.onclick = () => openConversation(mId);
+        row.className = `p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition ${
+          activeChatMemberId === mId
+            ? 'bg-faso-red/10 border border-faso-red/30'
+            : 'hover:bg-stone-100 dark:hover:bg-stone-800'
+        }`;
+
+        row.innerHTML = `
+          <div class="w-11 h-11 rounded-full overflow-hidden shrink-0">${renderAvatarSVG(member.avatar)}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-xs truncate">${member.firstName} ${member.lastName}</h4>
+              <span class="text-[10px] text-stone-400">${last.time}</span>
+            </div>
+            <p class="text-xs truncate mt-0.5 ${isUnread ? 'font-extrabold text-stone-900 dark:text-white' : 'text-stone-500'}">
+              ${last.sender === 'me' ? 'Vous : ' : ''}${last.text}
+            </p>
+          </div>
+          ${isUnread ? '<span class="w-2.5 h-2.5 rounded-full bg-faso-red shrink-0"></span>' : ''}
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function openConversation(memberId) {
+      activeChatMemberId = memberId;
+      const member = state.members.find(m => m.id === memberId);
+      if (!member) return;
+
+      if (!state.conversations[memberId]) {
+        state.conversations[memberId] = [];
+      }
+
+      state.unreadMembers = state.unreadMembers.filter(id => id !== memberId);
+      saveAppState();
+      updateUnreadBadges();
+      renderConversationsList();
+
+      // Sur mobile, basculer entre la liste et la fenêtre de chat
+      document.getElementById('chat-sidebar').classList.add('hidden', 'md:flex');
+      document.getElementById('chat-window').classList.remove('hidden');
+      document.getElementById('chat-window').classList.add('flex');
+
+      document.getElementById('chat-empty-placeholder').classList.add('hidden');
+      document.getElementById('chat-active-panel').classList.remove('hidden');
+
+      document.getElementById('active-chat-avatar').innerHTML = renderAvatarSVG(member.avatar);
+      document.getElementById('active-chat-name').textContent = `${member.firstName} ${member.lastName}`;
+      document.getElementById('active-chat-meta').textContent = `En ligne • ${member.city}`;
+
+      renderChatBubbles();
+    }
+
+    function closeMobileChat() {
+      activeChatMemberId = null;
+      document.getElementById('chat-window').classList.add('hidden');
+      document.getElementById('chat-sidebar').classList.remove('hidden');
+    }
+
+    function renderChatBubbles() {
+      if (!activeChatMemberId) return;
+      const area = document.getElementById('chat-bubbles-area');
+      const msgs = state.conversations[activeChatMemberId] || [];
+      area.innerHTML = '';
+
+      if (msgs.length === 0) {
+        area.innerHTML = `<p class="text-center text-xs text-stone-400 my-6">Envoyez le premier message privé à ce membre !</p>`;
+        return;
+      }
+
+      msgs.forEach(m => {
+        const isMe = m.sender === 'me';
+        const div = document.createElement('div');
+        div.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
+        div.innerHTML = `
+          <div class="max-w-[78%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-xs ${
+            isMe
+              ? 'bg-gradient-to-r from-faso-red to-amber-600 text-white rounded-br-xs'
+              : 'bg-white dark:bg-faso-darkCard text-stone-800 dark:text-stone-100 border border-stone-200/70 dark:border-stone-800 rounded-bl-xs'
+          }">
+            ${m.text}
+          </div>
+          <span class="text-[9px] text-stone-400 mt-1 px-1">${m.time}</span>
+        `;
+        area.appendChild(div);
+      });
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function sendQuickPhrase(txt) {
+      document.getElementById('private-msg-input').value = txt;
+      sendPrivateMessage(new Event('submit'));
+    }
+
+    function sendPrivateMessage(e) {
+      e.preventDefault();
+      if (!activeChatMemberId) return;
+      const input = document.getElementById('private-msg-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      state.conversations[activeChatMemberId].push({
+        sender: 'me',
+        text,
+        time: getTimeNow()
+      });
+      input.value = '';
+      saveAppState();
+      renderChatBubbles();
+      renderConversationsList();
+
+      // Réponse réaliste simulée
+      const targetId = activeChatMemberId;
+      setTimeout(() => {
+        const partner = state.members.find(m => m.id === targetId);
+        if (!partner) return;
+        const replies = [
+          `Salut ! Merci pour ton message 😊 Comment ça va à ${state.currentUser.city} ?`,
+          `C'est avec plaisir ! J'aime beaucoup échanger ici sur FasoRencontre.`,
+          `On pourrait s'organiser une rencontre sympa bientôt dans le coin !`
+        ];
+        const idx = state.conversations[targetId].filter(x => x.sender === 'them').length % replies.length;
+        state.conversations[targetId].push({
+          sender: 'them',
+          text: replies[idx],
+          time: getTimeNow()
+        });
+        saveAppState();
+        if (activeChatMemberId === targetId) {
+          renderChatBubbles();
+        }
+        renderConversationsList();
+      }, 1200);
+    }
+
+    function viewActiveChatProfile() {
+      if (activeChatMemberId) openMemberProfileModal(activeChatMemberId);
+    }
+
+    // ---------------------------------------------------------
+    // PROFIL MEMBRE & MON PROFIL
+    // ---------------------------------------------------------
+    function openMemberProfileModal(memberId) {
+      const m = state.members.find(x => x.id === memberId);
+      if (!m) return;
+      const dist = calculateDistanceKm(state.currentUser.lat, state.currentUser.lng, m.lat, m.lng);
+
+      document.getElementById('view-prof-avatar').innerHTML = renderAvatarSVG(m.avatar);
+      document.getElementById('view-prof-name').textContent = `${m.firstName} ${m.lastName}, ${m.age}`;
+      document.getElementById('view-prof-loc').innerHTML = `<i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-gold"></i> ${m.city} • à ${dist} km de vous`;
+      document.getElementById('view-prof-bio').textContent = m.bio;
+
+      const memberVideos = state.videos.filter(v => v.authorId === m.id);
+      const vidContainer = document.getElementById('view-prof-videos');
+      vidContainer.innerHTML = memberVideos.length === 0
+        ? `<p class="text-xs text-stone-400 italic">Aucune vidéo publiée pour le moment.</p>`
+        : memberVideos.map(v => `
+          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="video" class="w-4 h-4 text-faso-red"></i>
+              <span class="text-xs font-semibold">${v.caption}</span>
+            </div>
+            <span class="text-[10px] font-bold text-stone-400">${v.duration}</span>
+          </div>
+        `).join('');
+
+      document.getElementById('view-prof-msg-btn').onclick = () => startDirectChat(m.id);
+      document.getElementById('modal-member-profile').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeMemberProfileModal() {
+      document.getElementById('modal-member-profile').classList.add('hidden');
+    }
+
+    function populateMyProfile() {
+      const u = state.currentUser;
+      if (!u) return;
+
+      document.getElementById('my-profile-avatar-box').innerHTML = renderAvatarSVG(u.avatar);
+      document.getElementById('my-profile-fullname').textContent = `${u.firstName} ${u.lastName}`;
+      document.getElementById('my-profile-city-age').textContent = `${u.age} ans • ${u.city}`;
+      document.getElementById('my-profile-gps-coords').innerHTML =
+        `<i data-lucide="navigation" class="w-3 h-3"></i> GPS : ${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}`;
+
+      const badge = document.getElementById('my-payment-status-badge');
+      if (state.isOwnerAuthenticated && u.paymentStatus === 'owner_free') {
+        badge.className = 'px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-black uppercase';
+        badge.textContent = 'Propriétaire • Exonéré 250 F';
+      } else if (u.paymentStatus === 'pending') {
+        badge.className = 'px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-black uppercase';
+        badge.textContent = 'Paiement 250 F en cours de vérification';
+      } else {
+        badge.className = 'px-2.5 py-0.5 rounded-full bg-emerald-100 text-faso-green text-[10px] font-black uppercase';
+        badge.textContent = 'Inscription 250 F Validée';
+      }
+
+      document.getElementById('prof-edit-firstname').value = u.firstName;
+      document.getElementById('prof-edit-lastname').value = u.lastName;
+      document.getElementById('prof-edit-age').value = u.age;
+      document.getElementById('prof-edit-city').value = u.city;
+      document.getElementById('prof-edit-bio').value = u.bio;
+
+      const myVids = state.videos.filter(v => v.authorId === u.id);
+      const vidList = document.getElementById('my-published-videos-list');
+      vidList.innerHTML = myVids.length === 0
+        ? `<p class="text-xs text-stone-400 italic col-span-full">Vous n'avez pas encore publié de vidéo.</p>`
+        : myVids.map(v => `
+          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between gap-2">
+            <span class="text-xs font-semibold truncate">${v.caption}</span>
+            <button onclick="deleteMyVideo('${v.id}')" class="text-rose-500 p-1 hover:bg-rose-100 rounded-lg" title="Supprimer">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `).join('');
+      lucide.createIcons();
+    }
+
+    function updateMyProfile(e) {
+      e.preventDefault();
+      state.currentUser.firstName = document.getElementById('prof-edit-firstname').value.trim();
+      state.currentUser.lastName = document.getElementById('prof-edit-lastname').value.trim();
+      state.currentUser.age = parseInt(document.getElementById('prof-edit-age').value, 10) || 25;
+      state.currentUser.city = document.getElementById('prof-edit-city').value;
+      state.currentUser.bio = document.getElementById('prof-edit-bio').value.trim();
+
+      const idx = state.members.findIndex(m => m.id === state.currentUser.id);
+      if (idx !== -1) state.members[idx] = { ...state.currentUser };
+
+      saveAppState();
+      updateMemberHeader();
+      populateMyProfile();
+      showToast('Informations enregistrées ! ✅', 'success');
+    }
+
+    function deleteMyVideo(vidId) {
+      state.videos = state.videos.filter(v => v.id !== vidId);
+      saveAppState();
+      populateMyProfile();
+      renderVideosFeed();
+      showToast('Vidéo supprimée.', 'info');
+    }
+
+    // ---------------------------------------------------------
+    // ESPACE CRÉATEUR / PROPRIÉTAIRE (GESTION DES RECETTES)
+    // ---------------------------------------------------------
+    function openCreatorAuthModal() {
+      document.getElementById('creator-auth-phone').value = '';
+      document.getElementById('admin-pin-input').value = '';
+      document.getElementById('modal-admin-pin').classList.remove('hidden');
+      document.getElementById('creator-auth-phone').focus();
+    }
+
+    function closeAdminGate() {
+      document.getElementById('modal-admin-pin').classList.add('hidden');
+    }
+
+    function verifyAdminPin(e) {
+      e.preventDefault();
+      const enteredPhone = normalizePhoneNumber(document.getElementById('creator-auth-phone').value);
+      const expectedPhone = normalizePhoneNumber(state.settings.creatorPhone || state.settings.omNumber || '66931174');
+      const enteredPin = document.getElementById('admin-pin-input').value.trim();
+
+      if (enteredPhone === expectedPhone && enteredPin === state.settings.adminPin) {
+        closeAdminGate();
+        loginCreatorDirectAfterAuth();
+      } else {
+        showToast('Identifiants invalides.', 'orange');
+      }
+    }
+
+    function openAdminDashboard() {
+      if (!state.isOwnerAuthenticated) {
+        openCreatorAuthModal();
+        return;
+      }
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-member-app').classList.add('hidden');
+      document.getElementById('view-admin-dashboard').classList.remove('hidden');
+      renderAdminDashboard();
+      lucide.createIcons();
+    }
+
+    function exitAdminDashboard() {
+      document.getElementById('view-admin-dashboard').classList.add('hidden');
+      if (state.currentUser) {
+        enterMemberApp();
+      } else {
+        document.getElementById('view-landing').classList.remove('hidden');
+      }
+    }
+
+    function renderAdminDashboard() {
+      const validatedTx = state.transactions.filter(t => t.status === 'validated');
+      const pendingTx = state.transactions.filter(t => t.status === 'pending');
+      const totalRevenue = validatedTx.length * state.settings.registrationFee;
+
+      document.getElementById('admin-kpi-revenue').textContent = `${totalRevenue.toLocaleString('fr-FR')} F CFA`;
+      document.getElementById('admin-kpi-pending').textContent = pendingTx.length;
+      document.getElementById('admin-kpi-users').textContent = state.members.length;
+      document.getElementById('admin-kpi-videos').textContent = state.videos.length;
+
+      document.querySelectorAll('.admin-om-display').forEach(el => el.textContent = state.settings.omNumber);
+
+      // Liste des transactions Orange Money
+      const txContainer = document.getElementById('admin-transactions-list');
+      txContainer.innerHTML = '';
+
+      state.transactions.forEach(tx => {
+        const isPending = tx.status === 'pending';
+        const isRejected = tx.status === 'rejected';
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+          isPending
+            ? 'bg-orange-50/70 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800/50'
+            : 'bg-stone-50 dark:bg-stone-800/50 border-stone-200/70 dark:border-stone-800'
+        }`;
+
+        card.innerHTML = `
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-sm">${tx.userName}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${
+                isPending ? 'bg-faso-orange text-white' : isRejected ? 'bg-rose-500 text-white' : 'bg-faso-green text-white'
+              }">
+                ${isPending ? 'EN ATTENTE' : isRejected ? 'REJETÉ' : 'VALIDÉ (+250 F)'}
+              </span>
+            </div>
+            <p class="text-xs text-stone-600 dark:text-stone-300">
+              Tél : <strong>${tx.phone}</strong> • ID SMS : <code class="font-mono font-bold text-faso-orange">${tx.txRef}</code>
+            </p>
+            <span class="block text-[10px] text-stone-400">${tx.date}</span>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            ${isPending ? `
+              <button onclick="validateTransaction('${tx.id}')" class="px-3.5 py-2 rounded-xl bg-faso-green hover:bg-faso-greenDark text-white text-xs font-bold shadow-xs transition">
+                Valider (+250 F)
+              </button>
+              <button onclick="rejectTransaction('${tx.id}')" class="px-3 py-2 rounded-xl bg-rose-100 text-rose-600 text-xs font-bold hover:bg-rose-200 transition">
+                Rejeter
+              </button>
+            ` : `
+              <span class="text-xs font-black text-stone-500">${tx.amount} F CFA</span>
+            `}
+          </div>
+        `;
+        txContainer.appendChild(card);
+      });
+
+      // Liste des membres
+      const usersContainer = document.getElementById('admin-users-list');
+      usersContainer.innerHTML = state.members.map(m => `
+        <div class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between">
+          <div>
+            <span class="font-bold text-xs block">${m.firstName} ${m.lastName} (${m.age} ans)</span>
+            <span class="text-[10px] text-stone-500">${m.city}</span>
+          </div>
+          <button onclick="removeMemberByAdmin('${m.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-600 text-[10px] font-bold hover:bg-rose-500 hover:text-white transition">
+            Retirer
+          </button>
+        </div>
+      `).join('');
+
+      // Remplir paramètres
+      document.getElementById('admin-cfg-appname').value = state.settings.appName;
+      document.getElementById('admin-cfg-om').value = state.settings.omNumber;
+      document.getElementById('admin-cfg-creator-phone').value = state.settings.creatorPhone || state.settings.omNumber;
+      document.getElementById('admin-cfg-pin').value = state.settings.adminPin;
+    }
+
+    function validateTransaction(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (!tx) return;
+      tx.status = 'validated';
+
+      const member = state.members.find(m => m.id === tx.userId);
+      if (member) {
+        member.verified = true;
+        member.paymentStatus = 'validated';
+      }
+      if (state.currentUser && state.currentUser.id === tx.userId) {
+        state.currentUser.paymentStatus = 'validated';
+      }
+
+      saveAppState();
+      renderAdminDashboard();
+      showToast('Paiement de 250 F CFA validé ! Recette ajoutée. 💰', 'success');
+    }
+
+    function rejectTransaction(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (!tx) return;
+      tx.status = 'rejected';
+      saveAppState();
+      renderAdminDashboard();
+      showToast('Transaction marquée comme rejetée.', 'info');
+    }
+
+    function removeMemberByAdmin(memberId) {
+      state.members = state.members.filter(m => m.id !== memberId);
+      state.videos = state.videos.filter(v => v.authorId !== memberId);
+      saveAppState();
+      renderAdminDashboard();
+      showToast('Membre retiré de la plateforme.', 'info');
+    }
+
+    function saveCreatorSettings(e) {
+      e.preventDefault();
+      state.settings.appName = document.getElementById('admin-cfg-appname').value.trim() || 'FasoRencontre';
+      state.settings.omNumber = document.getElementById('admin-cfg-om').value.trim() || '66 93 11 74';
+      state.settings.creatorPhone = document.getElementById('admin-cfg-creator-phone').value.trim() || state.settings.omNumber;
+      state.settings.adminPin = document.getElementById('admin-cfg-pin').value.trim() || '2260';
+
+      saveAppState();
+      applyBrandSettings();
+      renderAdminDashboard();
+      showToast('Paramètres propriétaires enregistrés ! ✅', 'success');
+    }
+  </script>
+</body>
+</html>
