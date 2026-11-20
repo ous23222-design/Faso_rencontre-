@@ -2050,26 +2050,54 @@
       showToast('Paramètres propriétaires enregistrés ! ✅', 'success');
     }
   </script>
-  // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    onSnapshot,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCexdElr5DdD7TIHzdVyeGQqbPtoJ5yWJE",
-  authDomain: "fasorencontre-9b5a9.firebaseapp.com",
-  projectId: "fasorencontre-9b5a9",
-  storageBucket: "fasorencontre-9b5a9.firebasestorage.app",
-  messagingSenderId: "213099669353",
-  appId: "1:213099669353:web:f63143c9f8efcc978b3ff8",
-  measurementId: "G-8SPQ732YY7"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyCexdElr5DdD7TIHzdVyeGQqbPtoJ5yWJE",
+    authDomain: "fasorencontre-9b5a9.firebaseapp.com",
+    projectId: "fasorencontre-9b5a9",
+    storageBucket: "fasorencontre-9b5a9.firebasestorage.app",
+    messagingSenderId: "213099669353",
+    appId: "1:213099669353:web:f63143c9f8efcc978b3ff8",
+    measurementId: "G-8SPQ732YY7"
+  };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.FasoDB = {
+    async ajouterDocument(nomCollection, donnees) {
+      return await addDoc(collection(db, nomCollection), {
+        ...donnees,
+        createdAt: serverTimestamp()
+      });
+    },
+    async lireCollection(nomCollection) {
+      const snap = await getDocs(collection(db, nomCollection));
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    },
+    async mettreAJourDocument(nomCollection, idDoc, misesAJour) {
+      const ref = doc(db, nomCollection, idDoc);
+      await updateDoc(ref, misesAJour);
+    },
+    ecouterCollection(nomCollection, callback) {
+      return onSnapshot(collection(db, nomCollection), (snap) => {
+        const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        callback(items);
+      });
+    }
+  };
+  </script>
 </body>
 </html>
