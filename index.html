@@ -2077,27 +2077,115 @@
   const db = getFirestore(app);
 
   window.FasoDB = {
-    async ajouterDocument(nomCollection, donnees) {
-      return await addDoc(collection(db, nomCollection), {
-        ...donnees,
-        createdAt: serverTimestamp()
-      });
+ async function sauvegarderEtatDansCloud() {
+    if (typeof state === "undefined" || !state) return;
+    try {
+      await setDoc(
+        doc(db, "plateforme", "etatGlobal"),
+        {
+          members: Array.isArray(state.members) ? state.members : [],
+          videos: Array.isArray(state.videos) ? state.videos : [],
+          transactions: Array.isArray(state.transactions) ? state.transactions : [],
+          settings: state.settings || {
+            appName: "FasoRencontre",
+            omNumber: "66 93 11 74",
+            creatorPhone: "66 93 11 74",
+            adminPin: "2260",
+            registrationFee: 250
+          },
+          updatedAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.warn("Sauvegarde Firestore en attente :", err);
+    }
+  }
+
+  window.FasoDB = {
+    async sauvegarderEtat() {
+      return await sauvegarderEtatDansCloud();
     },
-    async lireCollection(nomCollection) {
-      const snap = await getDocs(collection(db, nomCollection));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    async chargerEtatInitial() {
+      if (typeof state === "undefined" || !state) return;
+      try {
+        const snap = await getDoc(doc(db, "plateforme", "etatGlobal"));
+        if (!snap.exists()) return;
+        const data = snap.data();
+
+        if (Array.isArray(data.members) && data.members.length > 0) {
+          state.members = data.members;
+        }
+        if (Array.isArray(data.videos) && data.videos.length > 0) {
+          state.videos = data.videos;
+        }
+        if (Array.isArray(data.transactions) && data.transactions.length > 0) {
+          state.transactions = data.transactions;
+        }
+        if (data.settings && typeof data.settings === "object") {
+          state.settings = { ...state.settings, ...data.settings };
+        }
+
+        if (typeof saveAppState === "function") {
+          saveAppState(true);
+        }
+        if (typeof applyBrandSettings === "function") {
+          applyBrandSettings();
+        }
+        if (
+          document.getElementById("view-admin-dashboard") &&
+          !document.getElementById("view-admin-dashboard").classList.contains("hidden") &&
+          typeof renderAdminDashboard === "function"
+        ) {
+          renderAdminDashboard();
+        }
+      } catch (err) {
+        console.warn("Lecture initiale Firestore :", err);
+      }
     },
-    async mettreAJourDocument(nomCollection, idDoc, misesAJour) {
-      const ref = doc(db, nomCollection, idDoc);
-      await updateDoc(ref, misesAJour);
-    },
-    ecouterCollection(nomCollection, callback) {
-      return onSnapshot(collection(db, nomCollection), (snap) => {
-        const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        callback(items);
+    ecouterEtatGlobal() {
+      return onSnapshot(doc(db, "plateforme", "etatGlobal"), (snap) => {
+        if (!snap.exists() || typeof state === "undefined" || !state) return;
+        const data = snap.data();
+
+        if (Array.isArray(data.members)) state.members = data.members;
+        if (Array.isArray(data.videos)) state.videos = data.videos;
+        if (Array.isArray(data.transactions)) state.transactions = data.transactions;
+        if (data.settings && typeof data.settings === "object") {
+          state.settings = { ...state.settings, ...data.settings };
+        }
+
+        if (typeof saveAppState === "function") {
+          saveAppState(true);
+        }
+        if (typeof applyBrandSettings === "function") {
+          applyBrandSettings();
+        }
+        if (
+          document.getElementById("view-admin-dashboard") &&
+          !document.getElementById("view-admin-dashboard").classList.contains("hidden") &&
+          typeof renderAdminDashboard === "function"
+        ) {
+          renderAdminDashboard();
+        }
       });
     }
   };
+
+  if (typeof window.saveAppState === "function") {
+    const originalSaveAppState = window.saveAppState;
+    window.saveAppState = function (skipCloudSync) {
+      const result = originalSaveAppState.apply(this, arguments);
+      if (!skipCloudSync) {
+        sauvegarderEtatDansCloud();
+      }
+      return result;
+    };
+  }
+
+  window.FasoDB.chargerEtatInitial().then(() => {
+    window.FasoDB.ecouterEtatGlobal();
+  }); };
   </script>
 </body>
 </html>
