@@ -1,17 +1,13 @@
-v
 <!DOCTYPE html>
 <html lang="fr" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FasoRencontre — Rencontres, Vidéos & Messagerie au Burkina Faso</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Police Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config = {
@@ -49,16 +45,21 @@ v
     }
   </script>
   <style>
-    body {
+    html, body {
       font-family: 'Inter', sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    .scroll-smooth-area {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .no-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .no-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(120, 113, 108, 0.35);
+      border-radius: 9999px;
     }
     .faso-pattern {
       background-image: repeating-linear-gradient(
@@ -81,17 +82,13 @@ v
 </head>
 <body class="bg-stone-200 dark:bg-black text-stone-800 dark:text-stone-100 min-h-screen flex items-center justify-center transition-colors duration-300">
 
-  <!-- Conteneur Principal Responsif -->
-  <div id="app-shell" class="w-full max-w-5xl h-[100dvh] md:h-[92vh] bg-faso-sand dark:bg-faso-darkBg md:rounded-[2rem] md:shadow-2xl md:border md:border-stone-300/70 dark:md:border-stone-800 overflow-hidden flex flex-col relative">
+  <div id="app-shell" class="w-full max-w-5xl min-h-[100dvh] md:h-[92vh] bg-faso-sand dark:bg-faso-darkBg md:rounded-[2rem] md:shadow-2xl md:border md:border-stone-300/70 dark:md:border-stone-800 overflow-hidden flex flex-col relative">
 
-    <!-- Notifications Toast -->
     <div id="toast-container" class="fixed md:absolute top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2 w-11/12 max-w-md"></div>
 
-    <!-- ============================================================ -->
-    <!-- 1. ÉCRAN D'ACCUEIL, CONNEXION & INSCRIPTION (250 F CFA)      -->
-    <!-- ============================================================ -->
-    <div id="view-landing" class="flex-1 flex flex-col overflow-y-auto no-scrollbar faso-pattern">
-      <header class="px-5 py-4 flex items-center justify-between bg-white/80 dark:bg-faso-darkCard/85 backdrop-blur-md border-b border-stone-200/70 dark:border-stone-800 shrink-0">
+    <!-- 1. ÉCRAN D'ACCUEIL, CONNEXION & INSCRIPTION (250 F CFA) -->
+    <div id="view-landing" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar faso-pattern">
+      <header class="px-5 py-4 flex items-center justify-between bg-white/85 dark:bg-faso-darkCard/90 backdrop-blur-md border-b border-stone-200/70 dark:border-stone-800 shrink-0 sticky top-0 z-20">
         <div class="flex items-center gap-2.5">
           <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-faso-red via-amber-500 to-faso-green flex items-center justify-center text-white shadow-md">
             <i data-lucide="heart" class="w-5 h-5 fill-white"></i>
@@ -116,11 +113,10 @@ v
 
       <div class="flex-1 max-w-4xl w-full mx-auto p-5 md:p-8 flex flex-col justify-center gap-6">
         <div class="grid md:grid-cols-2 gap-6 items-center">
-          <!-- Colonne Gauche -->
           <div class="space-y-4 animate-pop">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 border border-amber-300/70 dark:border-amber-800/50 text-amber-900 dark:text-amber-300 text-xs font-bold">
               <span class="w-2 h-2 rounded-full bg-faso-green animate-ping"></span>
-              <span>+12 450 membres actifs au Burkina Faso</span>
+              <span>Communauté ouverte au Burkina Faso</span>
             </div>
 
             <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">
@@ -133,24 +129,24 @@ v
 
             <div class="bg-white/90 dark:bg-faso-darkCard/90 rounded-2xl p-4 border border-stone-200/80 dark:border-stone-800 shadow-xs">
               <p class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 mb-2.5 flex items-center gap-1.5">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-red"></i> Membres connectés en ce moment
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-red"></i> Villes couvertes
               </p>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                 <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
-                  <span class="block font-black text-sm text-faso-red">5 420</span>
+                  <span class="block font-black text-xs text-faso-red">Ouaga</span>
                   <span class="text-[10px] font-semibold text-stone-500">Ouagadougou</span>
                 </div>
                 <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
-                  <span class="block font-black text-sm text-faso-green">3 890</span>
+                  <span class="block font-black text-xs text-faso-green">Bobo</span>
                   <span class="text-[10px] font-semibold text-stone-500">Bobo-Dioulasso</span>
                 </div>
                 <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
-                  <span class="block font-black text-sm text-amber-600">1 210</span>
-                  <span class="text-[10px] font-semibold text-stone-500">Koudougou</span>
+                  <span class="block font-black text-xs text-amber-600">Koudougou</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Centre-Ouest</span>
                 </div>
                 <div class="p-2 rounded-xl bg-faso-sand dark:bg-stone-800/80">
-                  <span class="block font-black text-sm text-stone-700 dark:text-stone-200">1 930</span>
-                  <span class="text-[10px] font-semibold text-stone-500">Banfora & Autres</span>
+                  <span class="block font-black text-xs text-stone-700 dark:text-stone-200">Banfora</span>
+                  <span class="text-[10px] font-semibold text-stone-500">Cascades & +</span>
                 </div>
               </div>
             </div>
@@ -167,7 +163,6 @@ v
             </div>
           </div>
 
-          <!-- Colonne Droite : Parcours d'inscription en 2 étapes -->
           <div id="registration-wizard-card" class="bg-white dark:bg-faso-darkCard rounded-3xl p-6 shadow-xl border border-stone-200/80 dark:border-stone-800">
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="text-[11px] font-bold text-stone-500">Frais d'inscription obligatoires : 250 F CFA</span>
@@ -186,7 +181,6 @@ v
               </div>
             </div>
 
-            <!-- ÉTAPE 1 -->
             <form id="step-1-payment-form" onsubmit="submitPaymentProof(event)" class="space-y-4">
               <div class="p-4 rounded-2xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200/80 dark:border-orange-800/50 space-y-2">
                 <div class="flex items-center justify-between">
@@ -228,7 +222,6 @@ v
               </button>
             </form>
 
-            <!-- ÉTAPE 2 -->
             <form id="step-2-profile-form" onsubmit="completeUserRegistration(event)" class="space-y-3.5 hidden">
               <div class="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 text-xs font-bold flex items-center gap-2">
                 <i data-lucide="clock" class="w-4 h-4 shrink-0"></i>
@@ -266,9 +259,7 @@ v
                     <option value="Gaoua">Gaoua</option>
                   </select>
                 </div>
-              </div>
-
-              <div class="p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/70 border border-stone-200/80 dark:border-stone-700 flex items-center justify-between gap-2">
+              </div><div class="p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/70 border border-stone-200/80 dark:border-stone-700 flex items-center justify-between gap-2">
                 <div class="min-w-0">
                   <span class="block text-xs font-bold text-stone-700 dark:text-stone-200">Localisation géographique</span>
                   <span id="reg-gps-status" class="text-[11px] text-stone-500 block truncate">Autorisez le GPS pour voir les membres proches</span>
@@ -300,10 +291,8 @@ v
       </footer>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 1B. ÉCRAN DE VERROUILLAGE / ATTENTE DE VALIDATION (250 F)   -->
-    <!-- ============================================================ -->
-    <div id="view-pending-lock" class="flex-1 flex flex-col items-center justify-center p-6 text-center hidden faso-pattern">
+    <!-- 1B. ÉCRAN DE VERROUILLAGE / ATTENTE DE VALIDATION (250 F) -->
+    <div id="view-pending-lock" class="flex-1 min-h-0 flex flex-col items-center justify-center p-6 text-center hidden faso-pattern scroll-smooth-area">
       <div class="bg-white dark:bg-faso-darkCard max-w-md w-full rounded-3xl p-6 shadow-2xl border border-orange-200/80 dark:border-stone-800 space-y-4 animate-pop">
         <div class="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-950/50 text-faso-orange flex items-center justify-center mx-auto">
           <i data-lucide="clock-alert" class="w-7 h-7"></i>
@@ -314,7 +303,7 @@ v
         </p>
         <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 text-xs space-y-1 text-left">
           <div><span class="text-stone-400">Numéro :</span> <strong id="lock-user-phone"></strong></div>
-          <div><span class="text-stone-400">Référence SMS :</span> <code id="lock-tx-ref" class="font-mono font-bold text-faso-orange"></strong></div>
+          <div><span class="text-stone-400">Référence SMS :</span> <code id="lock-tx-ref" class="font-mono font-bold text-faso-orange"></code></div>
           <div><span class="text-stone-400">Statut :</span> <strong id="lock-status-label" class="text-faso-orange">En attente de validation</strong></div>
         </div>
         <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
@@ -329,11 +318,8 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 2. APPLICATION PRINCIPALE (MEMBRE VALIDÉ OU CRÉATEUR)        -->
-    <!-- ============================================================ -->
-    <div id="view-member-app" class="flex-1 flex flex-col md:flex-row h-full hidden overflow-hidden">
-
+    <!-- 2. APPLICATION PRINCIPALE (MEMBRE VALIDÉ OU CRÉATEUR) -->
+    <div id="view-member-app" class="flex-1 min-h-0 flex flex-col md:flex-row h-full hidden overflow-hidden">
       <aside class="bg-white dark:bg-faso-darkCard border-b md:border-b-0 md:border-r border-stone-200/80 dark:border-stone-800 px-4 py-3 md:py-6 md:w-64 flex md:flex-col items-center md:items-stretch justify-between shrink-0 z-20">
         <div class="flex items-center gap-2.5 md:mb-6">
           <div id="member-brand-emblem" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-faso-red to-amber-500 flex items-center justify-center text-white shadow cursor-pointer select-none">
@@ -386,11 +372,9 @@ v
         </div>
       </aside>
 
-      <div class="flex-1 flex flex-col overflow-hidden relative">
-
-        <!-- ONGLET 1 : DÉCOUVERTE -->
-        <main id="tab-discover" class="flex-1 flex flex-col overflow-y-auto no-scrollbar p-4 md:p-6 space-y-4">
-          <div class="bg-white dark:bg-faso-darkCard p-3.5 rounded-2xl shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex-1 min-h-0 flex flex-col overflow-hidden relative">
+        <main id="tab-discover" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-4 pb-20 md:pb-6">
+          <div class="bg-white dark:bg-faso-darkCard p-3.5 rounded-2xl shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
             <div class="flex items-center gap-2 flex-wrap">
               <select id="discover-city-filter" onchange="renderMembersGrid()" class="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
                 <option value="Toutes">🇧🇫 Toutes les villes</option>
@@ -417,12 +401,11 @@ v
             </button>
           </div>
 
-          <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6"></div>
+          <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8"></div>
         </main>
 
-        <!-- ONGLET 2 : VIDÉOS -->
-        <section id="tab-videos" class="flex-1 flex flex-col overflow-y-auto no-scrollbar p-4 md:p-6 space-y-5 hidden">
-          <div class="bg-gradient-to-r from-faso-red via-amber-600 to-faso-green rounded-3xl p-5 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <section id="tab-videos" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
+          <div class="bg-gradient-to-r from-faso-red via-amber-600 to-faso-green rounded-3xl p-5 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
             <div>
               <h2 class="text-xl font-black flex items-center gap-2">
                 <i data-lucide="video" class="w-6 h-6"></i> Vidéos de la Communauté
@@ -437,22 +420,21 @@ v
             </button>
           </div>
 
-          <div id="videos-feed-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6"></div>
+          <div id="videos-feed-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8"></div>
         </section>
 
-        <!-- ONGLET 3 : MESSAGERIE PRIVÉE -->
-        <section id="tab-messages" class="flex-1 flex overflow-hidden hidden">
-          <div id="chat-sidebar" class="w-full md:w-80 border-r border-stone-200/80 dark:border-stone-800 bg-white dark:bg-faso-darkCard flex flex-col">
-            <div class="p-4 border-b border-stone-100 dark:border-stone-800">
+        <section id="tab-messages" class="flex-1 min-h-0 flex overflow-hidden hidden pb-14 md:pb-0">
+          <div id="chat-sidebar" class="w-full md:w-80 border-r border-stone-200/80 dark:border-stone-800 bg-white dark:bg-faso-darkCard flex flex-col min-h-0">
+            <div class="p-4 border-b border-stone-100 dark:border-stone-800 shrink-0">
               <h2 class="font-extrabold text-base flex items-center justify-between">
                 <span>Messages Privés</span>
                 <span id="total-conversations-count" class="text-xs px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500">0</span>
               </h2>
             </div>
-            <div id="conversations-container" class="flex-1 overflow-y-auto no-scrollbar p-2.5 space-y-1.5"></div>
+            <div id="conversations-container" class="flex-1 min-h-0 scroll-smooth-area no-scrollbar p-2.5 space-y-1.5"></div>
           </div>
 
-          <div id="chat-window" class="hidden md:flex flex-1 flex-col bg-faso-sand/60 dark:bg-stone-950">
+          <div id="chat-window" class="hidden md:flex flex-1 min-h-0 flex-col bg-faso-sand/60 dark:bg-stone-950">
             <div id="chat-empty-placeholder" class="flex-1 flex flex-col items-center justify-center text-center p-6">
               <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-faso-gold mb-3">
                 <i data-lucide="messages-square" class="w-8 h-8"></i>
@@ -463,7 +445,7 @@ v
               </p>
             </div>
 
-            <div id="chat-active-panel" class="hidden flex-1 flex flex-col h-full">
+            <div id="chat-active-panel" class="hidden flex-1 min-h-0 flex flex-col h-full">
               <div class="px-4 py-3 bg-white dark:bg-faso-darkCard border-b border-stone-200 dark:border-stone-800 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                   <button onclick="closeMobileChat()" class="md:hidden p-1.5 -ml-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800">
@@ -480,16 +462,7 @@ v
                 </button>
               </div>
 
-              <div id="chat-bubbles-area" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-
-              <div class="px-3 py-2 bg-white dark:bg-faso-darkCard border-t border-stone-100 dark:border-stone-800 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
-                <button onclick="sendQuickPhrase('Salut ! Ravi(e) de faire ta connaissance sur FasoRencontre 😊')" class="shrink-0 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-[11px] font-semibold text-amber-900 dark:text-amber-200 border border-amber-200/70">
-                  👋 Saluer chaleureusement
-                </button>
-                <button onclick="sendQuickPhrase('Tu es dans quel quartier en ce moment ? On se capte autour d\'un verre ou des brochettes ? 🍢')" class="shrink-0 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-[11px] font-semibold text-emerald-900 dark:text-emerald-200 border border-emerald-200/70">
-                  🍢 Proposer une sortie
-                </button>
-              </div>
+              <div id="chat-bubbles-area" class="flex-1 min-h-0 scroll-smooth-area p-4 space-y-3"></div>
 
               <form onsubmit="sendPrivateMessage(event)" class="p-3 bg-white dark:bg-faso-darkCard border-t border-stone-200 dark:border-stone-800 flex items-center gap-2 shrink-0">
                 <input type="text" id="private-msg-input" placeholder="Écrivez votre message privé..." autocomplete="off" class="flex-1 px-4 py-2.5 rounded-2xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-red/40" />
@@ -501,9 +474,8 @@ v
           </div>
         </section>
 
-        <!-- ONGLET 4 : MON PROFIL -->
-        <section id="tab-profile" class="flex-1 overflow-y-auto no-scrollbar p-4 md:p-6 space-y-5 hidden">
-          <div class="max-w-2xl mx-auto space-y-5 pb-6">
+        <section id="tab-profile" class="flex-1 min-h-0 scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
+          <div class="max-w-2xl mx-auto space-y-5 pb-8">
             <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div class="flex items-center gap-4">
                 <div id="my-profile-avatar-box" class="w-20 h-20 rounded-3xl overflow-hidden shadow-md shrink-0 border-2 border-faso-gold"></div>
@@ -600,10 +572,8 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 3. ESPACE CRÉATEUR & GESTION DES RECETTES (ADMIN DASHBOARD)  -->
-    <!-- ============================================================ -->
-    <div id="view-admin-dashboard" class="flex-1 flex flex-col h-full hidden overflow-hidden bg-stone-100 dark:bg-faso-darkBg">
+    <!-- 3. ESPACE CRÉATEUR, CRÉATION DE PROFILS & GESTION DES RECETTES -->
+    <div id="view-admin-dashboard" class="flex-1 min-h-0 flex flex-col h-full hidden overflow-hidden bg-stone-100 dark:bg-faso-darkBg">
       <header class="px-5 py-4 bg-stone-900 text-white flex items-center justify-between shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-faso-gold to-faso-red flex items-center justify-center text-white shadow">
@@ -614,7 +584,7 @@ v
               <h1 class="font-black text-base">Espace Créateur & Propriétaire</h1>
               <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">100% Contrôle</span>
             </div>
-            <p class="text-[11px] text-stone-400">Gestion des inscriptions, vérifications Orange Money & recettes</p>
+            <p class="text-[11px] text-stone-400">Création de profils, vidéos, réponses rapides, validation 250 F CFA & recettes</p>
           </div>
         </div>
 
@@ -624,12 +594,12 @@ v
         </button>
       </header>
 
-      <div class="flex-1 overflow-y-auto no-scrollbar p-4 md:p-6 space-y-6 max-w-5xl w-full mx-auto">
+      <div class="flex-1 min-h-0 scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-6 max-w-5xl w-full mx-auto pb-12">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
             <span class="text-[11px] font-bold text-stone-400 uppercase">Recettes Validées</span>
             <p id="admin-kpi-revenue" class="text-2xl font-black text-faso-green mt-1">0 F CFA</p>
-            <span class="text-[10px] text-stone-500">Tarif : 250 F / inscrit</span>
+            <span class="text-[10px] text-stone-500">Uniquement paiements validés</span>
           </div>
 
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
@@ -639,7 +609,7 @@ v
           </div>
 
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
-            <span class="text-[11px] font-bold text-stone-400 uppercase">Membres Inscrits</span>
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Profils Actifs</span>
             <p id="admin-kpi-users" class="text-2xl font-black text-faso-red mt-1">0</p>
             <span class="text-[10px] text-stone-500">Synchronisé Firestore</span>
           </div>
@@ -647,10 +617,78 @@ v
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
             <span class="text-[11px] font-bold text-stone-400 uppercase">Vidéos Publiées</span>
             <p id="admin-kpi-videos" class="text-2xl font-black text-amber-500 mt-1">0</p>
-            <span class="text-[10px] text-stone-500">Modération active</span>
+            <span class="text-[10px] text-stone-500">Visibles dans Vidéos</span>
           </div>
         </div>
 
+        <!-- CRÉATION DE PROFILS PAR LE CRÉATEUR (FEMMES / HOMMES + PHOTO) -->
+        <form onsubmit="createCreatorProfile(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-4">
+          <div class="border-b border-stone-100 dark:border-stone-800 pb-3 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="font-extrabold text-base flex items-center gap-2">
+                <i data-lucide="user-plus" class="w-5 h-5 text-faso-green"></i>
+                <span>Créer un Profil de Départ (Femme ou Homme avec Photo)</span>
+              </h2>
+              <p class="text-xs text-stone-500">Créez par exemple 3 profils femmes et 2 profils hommes avec leurs photos : les visiteurs pourront cliquer dessus et vous écrire en message privé.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-faso-green text-[11px] font-extrabold">Activé direct • 0 F recette fictive</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Prénom *</label>
+              <input type="text" id="creator-prof-firstname" required placeholder="Ex: Mariam" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Nom / Initiale *</label>
+              <input type="text" id="creator-prof-lastname" required placeholder="Ex: Z." class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Genre *</label>
+              <select id="creator-prof-gender" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm font-bold outline-none">
+                <option value="F">Femme</option>
+                <option value="M">Homme</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Âge *</label>
+              <input type="number" id="creator-prof-age" min="18" max="85" value="23" required class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Ville *</label>
+              <select id="creator-prof-city" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none">
+                <option value="Ouagadougou">Ouagadougou</option>
+                <option value="Bobo-Dioulasso">Bobo-Dioulasso</option>
+                <option value="Koudougou">Koudougou</option>
+                <option value="Banfora">Banfora</option>
+                <option value="Ouahigouya">Ouahigouya</option>
+                <option value="Dédougou">Dédougou</option>
+                <option value="Kaya">Kaya</option>
+                <option value="Tenkodogo">Tenkodogo</option>
+                <option value="Fada N'Gourma">Fada N'Gourma</option>
+                <option value="Gaoua">Gaoua</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Photo du profil (image)</label>
+              <input type="file" id="creator-prof-photo" accept="image/*" class="w-full text-xs file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-green/15 file:text-faso-green" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Message d'accroche / Bio *</label>
+            <input type="text" id="creator-prof-bio" required placeholder="Ex: Salut ! Disponible pour discuter et faire de belles rencontres à Ouaga." class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-2xl bg-faso-green hover:bg-faso-greenDark text-white font-extrabold text-xs shadow transition">
+            Publier ce profil dans Découverte
+          </button>
+        </form>
+
+        <!-- TRANSACTIONS ORANGE MONEY (250 F CFA) -->
         <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-4">
           <div class="border-b border-stone-100 dark:border-stone-800 pb-3">
             <h2 class="font-extrabold text-base flex items-center gap-2">
@@ -662,10 +700,27 @@ v
           <div id="admin-transactions-list" class="space-y-2.5"></div>
         </div>
 
+        <!-- RÉPONSES RAPIDES AUX MESSAGES REÇUS (CRÉATEUR) -->
+        <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-4">
+          <div class="border-b border-stone-100 dark:border-stone-800 pb-3 flex items-center justify-between gap-2">
+            <div>
+              <h2 class="font-extrabold text-base flex items-center gap-2">
+                <i data-lucide="message-circle-reply" class="w-5 h-5 text-faso-red"></i>
+                <span>Messages Reçus & Réponse Rapide</span>
+              </h2>
+              <p class="text-xs text-stone-500">Répondez directement aux membres qui écrivent à vos profils.</p>
+            </div>
+            <button type="button" onclick="switchMemberTab('messages'); exitAdminDashboard();" class="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold hover:text-faso-red transition">
+              Ouvrir Messagerie
+            </button>
+          </div>
+          <div id="admin-inbox-list" class="space-y-2.5"></div>
+        </div>
+
         <div class="grid md:grid-cols-2 gap-5 pb-8">
           <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
             <h3 class="font-extrabold text-sm flex items-center gap-2">
-              <i data-lucide="users" class="w-4 h-4 text-faso-red"></i> Gestion des Membres
+              <i data-lucide="users" class="w-4 h-4 text-faso-red"></i> Gestion des Profils & Membres
             </h3>
             <div id="admin-users-list" class="space-y-2 max-h-72 overflow-y-auto no-scrollbar"></div>
           </div>
@@ -703,9 +758,7 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- MODAL CONNEXION MEMBRE (TÉLÉPHONE / EMAIL)                   -->
-    <!-- ============================================================ -->
+    <!-- MODAL CONNEXION MEMBRE -->
     <div id="modal-member-login" class="hidden absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
       <div class="bg-white dark:bg-faso-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
         <div class="w-12 h-12 rounded-2xl bg-faso-green text-white flex items-center justify-center mx-auto shadow">
@@ -734,9 +787,7 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- MODAL A : CONNEXION CRÉATEUR PRIVÉE (NUMÉRO + CODE SECRET)   -->
-    <!-- ============================================================ -->
+    <!-- MODAL A : CONNEXION CRÉATEUR -->
     <div id="modal-admin-pin" class="hidden absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
       <div class="bg-white dark:bg-faso-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
         <div class="w-12 h-12 rounded-2xl bg-stone-900 text-faso-gold flex items-center justify-center mx-auto shadow">
@@ -765,9 +816,7 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- MODAL B : PUBLIER UNE VIDÉO SUR SON PROFIL                   -->
-    <!-- ============================================================ -->
+    <!-- MODAL B : PUBLIER UNE VIDÉO -->
     <div id="modal-upload-video" class="hidden absolute inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
       <div class="bg-white dark:bg-faso-darkCard w-full max-w-md rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
         <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
@@ -783,7 +832,6 @@ v
           <div>
             <label class="block text-xs font-bold text-stone-500 mb-1.5">Choisir une vidéo depuis votre téléphone / PC</label>
             <input type="file" id="video-file-input" accept="video/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-red/10 file:text-faso-red hover:file:bg-faso-red/20" />
-            <p class="text-[10px] text-stone-400 mt-1">Optionnel en démo : si aucun fichier n'est choisi, une vidéo de présentation animée sera générée.</p>
           </div>
 
           <div>
@@ -798,9 +846,7 @@ v
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- MODAL C : CONSULTER LE PROFIL COMPLET D'UN MEMBRE            -->
-    <!-- ============================================================ -->
+    <!-- MODAL C : PROFIL D'UN MEMBRE -->
     <div id="modal-member-profile" class="hidden absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
       <div class="bg-white dark:bg-faso-darkCard w-full max-w-md max-h-[88vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-pop">
         <div class="relative h-56 shrink-0">
@@ -818,7 +864,6 @@ v
 
         <div class="flex-1 overflow-y-auto p-5 space-y-4">
           <p id="view-prof-bio" class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed"></p>
-
           <div>
             <h4 class="text-xs font-extrabold uppercase text-stone-400 mb-2">Vidéos du profil</h4>
             <div id="view-prof-videos" class="space-y-2.5"></div>
@@ -836,11 +881,8 @@ v
 
   </div>
 
-  <!-- ============================================================ -->
-  <!-- LOGIQUE JAVASCRIPT COMPLÈTE                                  -->
-  <!-- ============================================================ -->
   <script>
-    const STORAGE_KEY = 'fasorencontre_full_v3';
+    const STORAGE_KEY = 'fasorencontre_creator_profiles_v2';
 
     const BURKINA_CITIES_GPS = {
       'Bobo-Dioulasso': { lat: 11.1771, lng: -4.2979 },
@@ -855,7 +897,17 @@ v
       'Gaoua': { lat: 10.3241, lng: -3.1763 }
     };
 
-    function renderAvatarSVG({ bgStart = '#F59E0B', bgEnd = '#D93829', skin = '#5C3317', outfit = '#0F7A4A', gender = 'F', accessory = 'none' }) {
+    function renderAvatarMedia(member) {
+      if (member && member.photoUrl) {
+        return `<img src="${member.photoUrl}" alt="${member.firstName || 'Profil'}" class="w-full h-full object-cover select-none" />`;
+      }
+      const cfg = (member && member.avatar) || {};
+      const bgStart = cfg.bgStart || '#F59E0B';
+      const bgEnd = cfg.bgEnd || '#D93829';
+      const skin = cfg.skin || '#5C3317';
+      const outfit = cfg.outfit || '#0F7A4A';
+      const gender = cfg.gender || 'F';
+      const accessory = cfg.accessory || 'none';
       const uid = Math.random().toString(36).substring(2, 8);
       const hair = gender === 'F'
         ? `<path d="M55,88 C55,42 145,42 145,88 C148,118 142,145 134,152 C132,115 128,85 100,85 C72,85 68,115 66,152 C58,145 52,118 55,88 Z" fill="#1C1917"/><circle cx="100" cy="46" r="18" fill="#1C1917"/>`
@@ -890,115 +942,6 @@ v
       `;
     }
 
-    const INITIAL_MEMBERS = [
-      {
-        id: 'm1',
-        firstName: 'Aïcha',
-        lastName: 'Ouédraogo',
-        age: 25,
-        city: 'Bobo-Dioulasso',
-        lat: 11.1820,
-        lng: -4.2910,
-        phone: '76451289',
-        email: '',
-        bio: "Passionnée de culture, de musique et de belles rencontres à Bobo.",
-        verified: true,
-        paymentStatus: 'validated',
-        avatar: { bgStart: '#F59E0B', bgEnd: '#D93829', skin: '#5C3317', outfit: '#0F7A4A', gender: 'F', accessory: 'headwrap' }
-      },
-      {
-        id: 'm2',
-        firstName: 'Moussa',
-        lastName: 'Traoré',
-        age: 28,
-        city: 'Bobo-Dioulasso',
-        lat: 11.1710,
-        lng: -4.3050,
-        phone: '74882011',
-        email: '',
-        bio: "Entrepreneur local, aime les sorties simples et les discussions sincères.",
-        verified: true,
-        paymentStatus: 'validated',
-        avatar: { bgStart: '#0F7A4A', bgEnd: '#1E293B', skin: '#4A2511', outfit: '#F59E0B', gender: 'M', accessory: 'glasses' }
-      },
-      {
-        id: 'm3',
-        firstName: 'Fatimata',
-        lastName: 'Sawadogo',
-        age: 24,
-        city: 'Ouagadougou',
-        lat: 12.3750,
-        lng: -1.5220,
-        phone: '65198402',
-        email: '',
-        bio: "À Ouaga pour le travail et les bons moments entre amis.",
-        verified: true,
-        paymentStatus: 'validated',
-        avatar: { bgStart: '#D93829', bgEnd: '#7C2D12', skin: '#5C3317', outfit: '#F59E0B', gender: 'F', accessory: 'none' }
-      },
-      {
-        id: 'm4',
-        firstName: 'Bintou',
-        lastName: 'Coulibaly',
-        age: 23,
-        city: 'Banfora',
-        lat: 10.6350,
-        lng: -4.7640,
-        phone: '77310944',
-        email: '',
-        bio: "Soucieuse de rencontres sérieuses et respectueuses.",
-        verified: false,
-        paymentStatus: 'pending',
-        avatar: { bgStart: '#059669', bgEnd: '#064E3B', skin: '#4A2511', outfit: '#D93829', gender: 'F', accessory: 'headwrap' }
-      }
-    ];
-
-    const INITIAL_VIDEOS = [
-      {
-        id: 'v1',
-        authorId: 'm1',
-        authorName: 'Aïcha Ouédraogo',
-        city: 'Bobo-Dioulasso',
-        caption: 'Ambiance du soir à Bobo-Dioulasso ✨ Qui est dans le coin ?',
-        duration: '0:18',
-        likes: 42,
-        gradient: 'from-amber-500 via-faso-red to-rose-900',
-        videoUrl: null,
-        avatar: INITIAL_MEMBERS[0].avatar
-      },
-      {
-        id: 'v2',
-        authorId: 'm3',
-        authorName: 'Fatimata Sawadogo',
-        city: 'Ouagadougou',
-        caption: 'Prête pour le week-end à Ouaga ! Envoyez un message 😊🇧🇫',
-        duration: '0:24',
-        likes: 67,
-        gradient: 'from-faso-green via-emerald-700 to-stone-900',
-        videoUrl: null,
-        avatar: INITIAL_MEMBERS[2].avatar
-      },
-      {
-        id: 'v3',
-        authorId: 'm4',
-        authorName: 'Bintou Coulibaly',
-        city: 'Banfora',
-        caption: 'Petit coucou depuis les cascades de Karfiguéla 💦🌴',
-        duration: '0:15',
-        likes: 53,
-        gradient: 'from-orange-500 via-amber-600 to-emerald-900',
-        videoUrl: null,
-        avatar: INITIAL_MEMBERS[3].avatar
-      }
-    ];
-
-    const INITIAL_TRANSACTIONS = [
-      { id: 'tx1', userId: 'm1', userName: 'Aïcha Ouédraogo', phone: '76 45 12 89', txRef: 'PP261118.0915.A1042', amount: 250, status: 'validated', date: 'Hier, 09:15' },
-      { id: 'tx2', userId: 'm2', userName: 'Moussa Traoré', phone: '74 88 20 11', txRef: 'PP261118.1430.B5519', amount: 250, status: 'validated', date: 'Hier, 14:30' },
-      { id: 'tx3', userId: 'm3', userName: 'Fatimata Sawadogo', phone: '65 19 84 02', txRef: 'PP261119.1005.C3390', amount: 250, status: 'validated', date: "Aujourd'hui, 10:05" },
-      { id: 'tx4', userId: 'm4', userName: 'Bintou Coulibaly', phone: '77 31 09 44', txRef: 'PP261119.1640.D7812', amount: 250, status: 'pending', date: "Aujourd'hui, 16:40" }
-    ];
-
     let state = {
       settings: {
         appName: 'FasoRencontre',
@@ -1009,16 +952,12 @@ v
       },
       currentUser: null,
       pendingPayment: null,
-      members: [...INITIAL_MEMBERS],
-      videos: [...INITIAL_VIDEOS],
-      transactions: [...INITIAL_TRANSACTIONS],
+      members: [],
+      videos: [],
+      transactions: [],
       isOwnerAuthenticated: false,
-      conversations: {
-        'm1': [
-          { sender: 'them', text: "Bonjour ! Bienvenue sur FasoRencontre 😊 Tu es de quelle ville au Burkina ?", time: '18:20' }
-        ]
-      },
-      unreadMembers: ['m1']
+      conversations: {},
+      unreadMembers: []
     };
 
     let tempGPS = { lat: 11.1771, lng: -4.2979, label: 'Bobo-Dioulasso (Position par défaut)' };
@@ -1026,6 +965,16 @@ v
 
     function normalizePhoneNumber(phone) {
       return (phone || '').replace(/\D+/g, '');
+    }
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
 
     function bindDiscreetCreatorTriggers() {
@@ -1191,9 +1140,6 @@ v
       document.documentElement.classList.toggle('dark');
     }
 
-    // ---------------------------------------------------------
-    // CONNEXION MEMBRE EXISTANT (TÉLÉPHONE + EMAIL)
-    // ---------------------------------------------------------
     function openMemberLoginModal() {
       document.getElementById('login-phone-input').value = '';
       document.getElementById('login-email-input').value = '';
@@ -1249,9 +1195,6 @@ v
       }
     }
 
-    // ---------------------------------------------------------
-    // INSCRIPTION & PAIEMENT ORANGE MONEY (250 F CFA)
-    // ---------------------------------------------------------
     function startRegistrationFlow() {
       document.getElementById('registration-wizard-card').scrollIntoView({ behavior: 'smooth' });
       document.getElementById('pay-sender-phone').focus();
@@ -1350,6 +1293,7 @@ v
         phone: state.pendingPayment.phone,
         email: state.pendingPayment.email || '',
         bio,
+        photoUrl: null,
         verified: false,
         paymentStatus: 'pending',
         avatar: { bgStart: '#D93829', bgEnd: '#F59E0B', skin: '#5C3317', outfit: '#0F7A4A', gender: 'M', accessory: 'none' }
@@ -1375,6 +1319,65 @@ v
       showToast('Dossier envoyé ! Accès ouvert après validation des 250 F CFA.', 'orange');
     }
 
+    async function createCreatorProfile(e) {
+      e.preventDefault();
+      if (!state.isOwnerAuthenticated) return;
+
+      const firstName = document.getElementById('creator-prof-firstname').value.trim();
+      const lastName = document.getElementById('creator-prof-lastname').value.trim();
+      const gender = document.getElementById('creator-prof-gender').value;
+      const age = parseInt(document.getElementById('creator-prof-age').value, 10) || 23;
+      const city = document.getElementById('creator-prof-city').value;
+      const bio = document.getElementById('creator-prof-bio').value.trim();
+      const photoFile = document.getElementById('creator-prof-photo').files[0];
+
+      if (!firstName || !lastName || !bio) return;
+
+      let photoUrl = null;
+      if (photoFile) {
+        try {
+          photoUrl = await readFileAsDataURL(photoFile);
+        } catch (err) {
+          photoUrl = null;
+        }
+      }
+
+      const cityCoords = BURKINA_CITIES_GPS[city] || BURKINA_CITIES_GPS['Ouagadougou'];
+      const jitterLat = (Math.random() - 0.5) * 0.04;
+      const jitterLng = (Math.random() - 0.5) * 0.04;
+
+      const newProfile = {
+        id: 'prof_creator_' + Date.now() + '_' + Math.random().toString(36).substring(2, 5),
+        firstName,
+        lastName,
+        age,
+        city,
+        lat: cityCoords.lat + jitterLat,
+        lng: cityCoords.lng + jitterLng,
+        phone: '',
+        email: '',
+        bio,
+        photoUrl,
+        verified: true,
+        paymentStatus: 'validated',
+        createdByOwner: true,
+        avatar: gender === 'F'
+          ? { bgStart: '#D93829', bgEnd: '#F59E0B', skin: '#5C3317', outfit: '#0F7A4A', gender: 'F', accessory: 'headwrap' }
+          : { bgStart: '#0F7A4A', bgEnd: '#1C1917', skin: '#4A2511', outfit: '#D93829', gender: 'M', accessory: 'glasses' }
+      };
+
+      state.members.unshift(newProfile);
+      saveAppState();
+
+      document.getElementById('creator-prof-firstname').value = '';
+      document.getElementById('creator-prof-lastname').value = '';
+      document.getElementById('creator-prof-bio').value = '';
+      document.getElementById('creator-prof-photo').value = '';
+
+      renderAdminDashboard();
+      showToast(`Profil de ${firstName} ajouté et visible dans Découverte !`, 'success');
+    }
+
     function loginCreatorDirectAfterAuth() {
       const creatorUser = {
         id: 'u_creator_owner',
@@ -1387,6 +1390,7 @@ v
         phone: state.settings.creatorPhone || state.settings.omNumber || '66 93 11 74',
         email: '',
         bio: "Propriétaire unique de la plateforme.",
+        photoUrl: null,
         verified: true,
         paymentStatus: 'owner_free',
         avatar: { bgStart: '#0F7A4A', bgEnd: '#1C1917', skin: '#5C3317', outfit: '#F59E0B', gender: 'M', accessory: 'glasses' }
@@ -1451,9 +1455,6 @@ v
         `<i data-lucide="map-pin" class="w-2.5 h-2.5"></i> ${state.currentUser.city}`;
     }
 
-    // ---------------------------------------------------------
-    // NAVIGATION ONGLETS MEMBRE
-    // ---------------------------------------------------------
     function switchMemberTab(tab) {
       const tabs = ['discover', 'videos', 'messages', 'profile'];
       tabs.forEach(t => {
@@ -1477,9 +1478,6 @@ v
       lucide.createIcons();
     }
 
-    // ---------------------------------------------------------
-    // CALCUL DE DISTANCE GPS (HAVERSINE)
-    // ---------------------------------------------------------
     function calculateDistanceKm(lat1, lon1, lat2, lon2) {
       if (!lat1 || !lon1 || !lat2 || !lon2) return 5;
       const R = 6371;
@@ -1519,9 +1517,6 @@ v
       );
     }
 
-    // ---------------------------------------------------------
-    // DÉCOUVERTE & PROXIMITÉ
-    // ---------------------------------------------------------
     function renderMembersGrid() {
       const grid = document.getElementById('members-grid');
       const cityFilter = document.getElementById('discover-city-filter').value;
@@ -1529,7 +1524,7 @@ v
       const me = state.currentUser;
 
       const list = state.members
-        .filter(m => m.id !== me.id)
+        .filter(m => m.id !== me.id && m.paymentStatus === 'validated')
         .map(m => ({
           ...m,
           distanceKm: calculateDistanceKm(me.lat, me.lng, m.lat, m.lng)
@@ -1546,8 +1541,8 @@ v
       if (list.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 bg-white dark:bg-faso-darkCard rounded-3xl border border-stone-200/70 dark:border-stone-800">
-            <p class="text-sm font-bold text-stone-600 dark:text-stone-300">Aucun membre trouvé dans ce rayon.</p>
-            <p class="text-xs text-stone-400 mt-1">Élargissez la distance ou choisissez « Toutes les villes ».</p>
+            <p class="text-sm font-bold text-stone-600 dark:text-stone-300">Aucun profil visible dans ce filtre pour le moment.</p>
+            <p class="text-xs text-stone-400 mt-1">Créez vos profils depuis l'Espace Créateur ou attendez les nouveaux membres validés.</p>
           </div>
         `;
         return;
@@ -1557,13 +1552,13 @@ v
         const card = document.createElement('div');
         card.className = 'bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-sm border border-stone-200/80 dark:border-stone-800 flex flex-col hover:shadow-md transition';
         card.innerHTML = `
-          <div class="relative h-52 cursor-pointer" onclick="openMemberProfileModal('${member.id}')">
-            ${renderAvatarSVG(member.avatar)}
+          <div class="relative h-56 cursor-pointer" onclick="openMemberProfileModal('${member.id}')">
+            ${renderAvatarMedia(member)}
             <div class="absolute top-3 inset-x-3 flex items-center justify-between">
               <span class="px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1">
                 <i data-lucide="navigation" class="w-3 h-3 text-faso-gold"></i> à ${member.distanceKm} km
               </span>
-              <span class="px-2 py-0.5 rounded-full bg-faso-green text-white text-[10px] font-bold">Vérifié</span>
+              <span class="px-2 py-0.5 rounded-full bg-faso-green text-white text-[10px] font-bold">Actif</span>
             </div>
             <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 text-white">
               <h3 class="font-extrabold text-base leading-tight">${member.firstName} ${member.lastName}, ${member.age}</h3>
@@ -1578,11 +1573,11 @@ v
 
             <div class="flex items-center gap-2 pt-1">
               <button onclick="openMemberProfileModal('${member.id}')" class="flex-1 py-2.5 px-3 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-xs font-bold transition">
-                Profil & Vidéos
+                Voir photo & profil
               </button>
               <button onclick="startDirectChat('${member.id}')" class="flex-1 py-2.5 px-3 rounded-xl bg-faso-red hover:bg-faso-redDark text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
                 <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                <span>Message</span>
+                <span>Écrire</span>
               </button>
             </div>
           </div>
@@ -1593,12 +1588,19 @@ v
       lucide.createIcons();
     }
 
-    // ---------------------------------------------------------
-    // VIDÉOS DE PROFIL
-    // ---------------------------------------------------------
     function renderVideosFeed() {
       const grid = document.getElementById('videos-feed-grid');
       grid.innerHTML = '';
+
+      if (state.videos.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 bg-white dark:bg-faso-darkCard rounded-3xl border border-stone-200/70 dark:border-stone-800">
+            <p class="text-sm font-bold text-stone-600 dark:text-stone-300">Aucune vidéo publiée pour le moment.</p>
+            <p class="text-xs text-stone-400 mt-1">Cliquez sur « Publier une vidéo » pour ajouter votre première vidéo.</p>
+          </div>
+        `;
+        return;
+      }
 
       state.videos.forEach(video => {
         const card = document.createElement('div');
@@ -1609,7 +1611,7 @@ v
           : `
             <div onclick="playSimulatedVideo('${video.id}')" class="relative h-64 bg-gradient-to-br ${video.gradient} flex flex-col items-center justify-center text-white p-5 text-center cursor-pointer group">
               <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-lg mb-3 group-hover:scale-105 transition">
-                ${renderAvatarSVG(video.avatar)}
+                ${renderAvatarMedia({ photoUrl: video.photoUrl, avatar: video.avatar, firstName: video.authorName })}
               </div>
               <div class="w-12 h-12 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center mb-2 group-hover:bg-faso-red transition">
                 <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
@@ -1646,7 +1648,7 @@ v
     function playSimulatedVideo(videoId) {
       const v = state.videos.find(x => x.id === videoId);
       if (v) {
-        showToast(`Lecture de la vidéo de ${v.authorName} 🎬`, 'info');
+        showToast(`Vidéo de ${v.authorName} 🎬`, 'info');
       }
     }
 
@@ -1683,9 +1685,10 @@ v
         city: state.currentUser.city,
         caption,
         duration: '0:15',
-        likes: 1,
+        likes: 0,
         gradient: 'from-faso-red via-amber-600 to-faso-green',
         videoUrl: localVideoUrl,
+        photoUrl: state.currentUser.photoUrl || null,
         avatar: state.currentUser.avatar
       };
 
@@ -1697,12 +1700,9 @@ v
       toggleVideoUploadModal(false);
       renderVideosFeed();
       populateMyProfile();
-      showToast('Votre vidéo a été publiée sur votre profil ! 🎥', 'success');
+      showToast('Votre vidéo a été publiée ! 🎥', 'success');
     }
 
-    // ---------------------------------------------------------
-    // MESSAGERIE PRIVÉE
-    // ---------------------------------------------------------
     function getTimeNow() {
       const d = new Date();
       return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
@@ -1759,7 +1759,7 @@ v
         }`;
 
         row.innerHTML = `
-          <div class="w-11 h-11 rounded-full overflow-hidden shrink-0">${renderAvatarSVG(member.avatar)}</div>
+          <div class="w-11 h-11 rounded-full overflow-hidden shrink-0">${renderAvatarMedia(member)}</div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
               <h4 class="font-bold text-xs truncate">${member.firstName} ${member.lastName}</h4>
@@ -1796,9 +1796,9 @@ v
       document.getElementById('chat-empty-placeholder').classList.add('hidden');
       document.getElementById('chat-active-panel').classList.remove('hidden');
 
-      document.getElementById('active-chat-avatar').innerHTML = renderAvatarSVG(member.avatar);
+      document.getElementById('active-chat-avatar').innerHTML = renderAvatarMedia(member);
       document.getElementById('active-chat-name').textContent = `${member.firstName} ${member.lastName}`;
-      document.getElementById('active-chat-meta').textContent = `En ligne • ${member.city}`;
+      document.getElementById('active-chat-meta').textContent = `Membre • ${member.city}`;
 
       renderChatBubbles();
     }
@@ -1816,7 +1816,7 @@ v
       area.innerHTML = '';
 
       if (msgs.length === 0) {
-        area.innerHTML = `<p class="text-center text-xs text-stone-400 my-6">Envoyez le premier message privé à ce membre !</p>`;
+        area.innerHTML = `<p class="text-center text-xs text-stone-400 my-6">Envoyez le premier message privé à ce profil !</p>`;
         return;
       }
 
@@ -1839,11 +1839,6 @@ v
       area.scrollTop = area.scrollHeight;
     }
 
-    function sendQuickPhrase(txt) {
-      document.getElementById('private-msg-input').value = txt;
-      sendPrivateMessage(new Event('submit'));
-    }
-
     function sendPrivateMessage(e) {
       e.preventDefault();
       if (!activeChatMemberId) return;
@@ -1860,43 +1855,18 @@ v
       saveAppState();
       renderChatBubbles();
       renderConversationsList();
-
-      const targetId = activeChatMemberId;
-      setTimeout(() => {
-        const partner = state.members.find(m => m.id === targetId);
-        if (!partner || !state.currentUser) return;
-        const replies = [
-          `Salut ! Merci pour ton message 😊 Comment ça va à ${state.currentUser.city} ?`,
-          `C'est avec plaisir ! J'aime beaucoup échanger ici sur FasoRencontre.`,
-          `On pourrait s'organiser une rencontre sympa bientôt dans le coin !`
-        ];
-        const idx = state.conversations[targetId].filter(x => x.sender === 'them').length % replies.length;
-        state.conversations[targetId].push({
-          sender: 'them',
-          text: replies[idx],
-          time: getTimeNow()
-        });
-        saveAppState();
-        if (activeChatMemberId === targetId) {
-          renderChatBubbles();
-        }
-        renderConversationsList();
-      }, 1200);
     }
 
     function viewActiveChatProfile() {
       if (activeChatMemberId) openMemberProfileModal(activeChatMemberId);
     }
 
-    // ---------------------------------------------------------
-    // PROFIL MEMBRE & MON PROFIL
-    // ---------------------------------------------------------
     function openMemberProfileModal(memberId) {
       const m = state.members.find(x => x.id === memberId);
       if (!m) return;
       const dist = calculateDistanceKm(state.currentUser.lat, state.currentUser.lng, m.lat, m.lng);
 
-      document.getElementById('view-prof-avatar').innerHTML = renderAvatarSVG(m.avatar);
+      document.getElementById('view-prof-avatar').innerHTML = renderAvatarMedia(m);
       document.getElementById('view-prof-name').textContent = `${m.firstName} ${m.lastName}, ${m.age}`;
       document.getElementById('view-prof-loc').innerHTML = `<i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-gold"></i> ${m.city} • à ${dist} km de vous`;
       document.getElementById('view-prof-bio').textContent = m.bio;
@@ -1928,7 +1898,7 @@ v
       const u = state.currentUser;
       if (!u) return;
 
-      document.getElementById('my-profile-avatar-box').innerHTML = renderAvatarSVG(u.avatar);
+      document.getElementById('my-profile-avatar-box').innerHTML = renderAvatarMedia(u);
       document.getElementById('my-profile-fullname').textContent = `${u.firstName} ${u.lastName}`;
       document.getElementById('my-profile-city-age').textContent = `${u.age} ans • ${u.city}`;
       document.getElementById('my-profile-gps-coords').innerHTML =
@@ -1991,9 +1961,6 @@ v
       showToast('Vidéo supprimée.', 'info');
     }
 
-    // ---------------------------------------------------------
-    // ESPACE CRÉATEUR / PROPRIÉTAIRE
-    // ---------------------------------------------------------
     function openCreatorAuthModal() {
       document.getElementById('creator-auth-phone').value = '';
       document.getElementById('admin-pin-input').value = '';
@@ -2037,6 +2004,68 @@ v
       routeByAccessStatus();
     }
 
+    function renderAdminInbox() {
+      const box = document.getElementById('admin-inbox-list');
+      if (!box) return;
+
+      const convKeys = Object.keys(state.conversations || {});
+      if (convKeys.length === 0) {
+        box.innerHTML = `<p class="text-xs text-stone-400 text-center py-4">Aucun message reçu pour le moment.</p>`;
+        return;
+      }
+
+      box.innerHTML = convKeys.map(memberId => {
+        const member = state.members.find(m => m.id === memberId);
+        const msgs = state.conversations[memberId] || [];
+        const lastMsg = msgs[msgs.length - 1];
+        if (!member || !lastMsg) return '';
+
+        return `
+          <div class="p-3.5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/70 dark:border-stone-800 space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-full overflow-hidden shrink-0">${renderAvatarMedia(member)}</div>
+                <div class="min-w-0">
+                  <p class="text-xs font-extrabold truncate">${member.firstName} ${member.lastName} • ${member.city}</p>
+                  <p class="text-xs text-stone-600 dark:text-stone-300 truncate">${lastMsg.sender === 'me' ? 'Vous : ' : ''}${lastMsg.text}</p>
+                </div>
+              </div>
+              <span class="text-[10px] text-stone-400 shrink-0">${lastMsg.time || ''}</span>
+            </div>
+
+            <form onsubmit="sendQuickCreatorReply(event, '${member.id}')" class="flex items-center gap-2">
+              <input type="text" id="quick-reply-${member.id}" required placeholder="Écrire une réponse rapide..." class="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-xs outline-none focus:ring-2 focus:ring-faso-green" />
+              <button type="submit" class="px-3.5 py-2 rounded-xl bg-faso-green hover:bg-faso-greenDark text-white text-xs font-bold shrink-0 transition">
+                Répondre
+              </button>
+            </form>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function sendQuickCreatorReply(e, memberId) {
+      e.preventDefault();
+      const input = document.getElementById(`quick-reply-${memberId}`);
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (!Array.isArray(state.conversations[memberId])) {
+        state.conversations[memberId] = [];
+      }
+      state.conversations[memberId].push({
+        sender: 'me',
+        text,
+        time: getTimeNow()
+      });
+
+      input.value = '';
+      saveAppState();
+      renderAdminInbox();
+      showToast('Réponse envoyée !', 'success');
+    }
+
     function renderAdminDashboard() {
       const validatedTx = state.transactions.filter(t => t.status === 'validated');
       const pendingTx = state.transactions.filter(t => t.status === 'pending');
@@ -2052,65 +2081,77 @@ v
       const txContainer = document.getElementById('admin-transactions-list');
       txContainer.innerHTML = '';
 
-      state.transactions.forEach(tx => {
-        const isPending = tx.status === 'pending';
-        const isRejected = tx.status === 'rejected';
-        const card = document.createElement('div');
-        card.className = `p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-          isPending
-            ? 'bg-orange-50/70 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800/50'
-            : 'bg-stone-50 dark:bg-stone-800/50 border-stone-200/70 dark:border-stone-800'
-        }`;
+      if (state.transactions.length === 0) {
+        txContainer.innerHTML = `<p class="text-xs text-stone-400 text-center py-6">Aucune transaction enregistrée pour le moment.</p>`;
+      } else {
+        state.transactions.forEach(tx => {
+          const isPending = tx.status === 'pending';
+          const isRejected = tx.status === 'rejected';
+          const card = document.createElement('div');
+          card.className = `p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+            isPending
+              ? 'bg-orange-50/70 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800/50'
+              : 'bg-stone-50 dark:bg-stone-800/50 border-stone-200/70 dark:border-stone-800'
+          }`;
 
-        card.innerHTML = `
-          <div class="space-y-0.5">
-            <div class="flex items-center gap-2">
-              <span class="font-extrabold text-sm">${tx.userName}</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${
-                isPending ? 'bg-faso-orange text-white' : isRejected ? 'bg-rose-500 text-white' : 'bg-faso-green text-white'
-              }">
-                ${isPending ? 'EN ATTENTE' : isRejected ? 'REJETÉ' : 'VALIDÉ (+250 F)'}
-              </span>
+          card.innerHTML = `
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="font-extrabold text-sm">${tx.userName}</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${
+                  isPending ? 'bg-faso-orange text-white' : isRejected ? 'bg-rose-500 text-white' : 'bg-faso-green text-white'
+                }">
+                  ${isPending ? 'EN ATTENTE' : isRejected ? 'REJETÉ' : 'VALIDÉ (+250 F)'}
+                </span>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-300">
+                Tél : <strong>${tx.phone}</strong> • ID SMS : <code class="font-mono font-bold text-faso-orange">${tx.txRef}</code>
+              </p>
+              <span class="block text-[10px] text-stone-400">${tx.date}</span>
             </div>
-            <p class="text-xs text-stone-600 dark:text-stone-300">
-              Tél : <strong>${tx.phone}</strong> • ID SMS : <code class="font-mono font-bold text-faso-orange">${tx.txRef}</code>
-            </p>
-            <span class="block text-[10px] text-stone-400">${tx.date}</span>
-          </div>
 
-          <div class="flex items-center gap-2 shrink-0">
-            ${isPending ? `
-              <button onclick="validateTransaction('${tx.id}')" class="px-3.5 py-2 rounded-xl bg-faso-green hover:bg-faso-greenDark text-white text-xs font-bold shadow-xs transition">
-                Valider (+250 F)
-              </button>
-              <button onclick="rejectTransaction('${tx.id}')" class="px-3 py-2 rounded-xl bg-rose-100 text-rose-600 text-xs font-bold hover:bg-rose-200 transition">
-                Rejeter
-              </button>
-            ` : `
-              <span class="text-xs font-black text-stone-500">${tx.amount} F CFA</span>
-            `}
-          </div>
-        `;
-        txContainer.appendChild(card);
-      });
+            <div class="flex items-center gap-2 shrink-0">
+              ${isPending ? `
+                <button onclick="validateTransaction('${tx.id}')" class="px-3.5 py-2 rounded-xl bg-faso-green hover:bg-faso-greenDark text-white text-xs font-bold shadow-xs transition">
+                  Valider (+250 F)
+                </button>
+                <button onclick="rejectTransaction('${tx.id}')" class="px-3 py-2 rounded-xl bg-rose-100 text-rose-600 text-xs font-bold hover:bg-rose-200 transition">
+                  Rejeter
+                </button>
+              ` : `
+                <span class="text-xs font-black text-stone-500">${tx.amount} F CFA</span>
+              `}
+            </div>
+          `;
+          txContainer.appendChild(card);
+        });
+      }
+
+      renderAdminInbox();
 
       const usersContainer = document.getElementById('admin-users-list');
-      usersContainer.innerHTML = state.members.map(m => `
-        <div class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between">
-          <div>
-            <span class="font-bold text-xs block">${m.firstName} ${m.lastName} (${m.age} ans) • <span class="${m.paymentStatus === 'validated' ? 'text-faso-green' : 'text-faso-orange'}">${m.paymentStatus === 'validated' ? 'Actif' : 'En attente'}</span></span>
-            <span class="text-[10px] text-stone-500">${m.city} • ${m.phone || '—'}</span>
+      usersContainer.innerHTML = state.members.length === 0
+        ? `<p class="text-xs text-stone-400 text-center py-6">Aucun profil enregistré pour le moment.</p>`
+        : state.members.map(m => `
+          <div class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-9 h-9 rounded-full overflow-hidden shrink-0">${renderAvatarMedia(m)}</div>
+              <div class="min-w-0">
+                <span class="font-bold text-xs block truncate">${m.firstName} ${m.lastName} (${m.age} ans) • <span class="${m.paymentStatus === 'validated' ? 'text-faso-green' : 'text-faso-orange'}">${m.paymentStatus === 'validated' ? 'Actif' : 'En attente'}</span></span>
+                <span class="text-[10px] text-stone-500 truncate block">${m.city} ${m.phone ? '• ' + m.phone : ''}</span>
+              </div>
+            </div>
+            <button onclick="removeMemberByAdmin('${m.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-600 text-[10px] font-bold hover:bg-rose-500 hover:text-white transition shrink-0">
+              Retirer
+            </button>
           </div>
-          <button onclick="removeMemberByAdmin('${m.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-600 text-[10px] font-bold hover:bg-rose-500 hover:text-white transition">
-            Retirer
-          </button>
-        </div>
-      `).join('');
+        `).join('');
 
       document.getElementById('admin-cfg-appname').value = state.settings.appName;
       document.getElementById('admin-cfg-om').value = state.settings.omNumber;
       document.getElementById('admin-cfg-creator-phone').value = state.settings.creatorPhone || state.settings.omNumber;
       document.getElementById('admin-cfg-pin').value = state.settings.adminPin;
+      lucide.createIcons();
     }
 
     function validateTransaction(txId) {
@@ -2155,7 +2196,7 @@ v
       state.transactions = state.transactions.filter(t => t.userId !== memberId);
       saveAppState();
       renderAdminDashboard();
-      showToast('Membre retiré de la plateforme.', 'info');
+      showToast('Profil retiré de la plateforme.', 'info');
     }
 
     function saveCreatorSettings(e) {
@@ -2172,9 +2213,6 @@ v
     }
   </script>
 
-  <!-- ============================================================ -->
-  <!-- SYNCHRONISATION FIREBASE FIRESTORE (fasorencontre-9b5a9)     -->
-  <!-- ============================================================ -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import {
@@ -2203,15 +2241,9 @@ v
     function applyCloudPayload(data) {
       if (!data || typeof state === "undefined" || !state) return;
 
-      if (Array.isArray(data.members) && data.members.length > 0) {
-        state.members = data.members;
-      }
-      if (Array.isArray(data.videos) && data.videos.length > 0) {
-        state.videos = data.videos;
-      }
-      if (Array.isArray(data.transactions) && data.transactions.length > 0) {
-        state.transactions = data.transactions;
-      }
+      if (Array.isArray(data.members)) state.members = data.members;
+      if (Array.isArray(data.videos)) state.videos = data.videos;
+      if (Array.isArray(data.transactions)) state.transactions = data.transactions;
       if (data.settings && typeof data.settings === "object") {
         state.settings = { ...state.settings, ...data.settings };
       }
@@ -2247,10 +2279,15 @@ v
           videoUrl: (v.videoUrl && v.videoUrl.startsWith("blob:")) ? null : (v.videoUrl || null)
         }));
 
+        const cleanMembers = (Array.isArray(state.members) ? state.members : []).map(m => ({
+          ...m,
+          photoUrl: (m.photoUrl && m.photoUrl.length > 250000) ? null : (m.photoUrl || null)
+        }));
+
         await setDoc(
           stateDocRef,
           {
-            members: Array.isArray(state.members) ? state.members : [],
+            members: cleanMembers,
             videos: cleanVideos,
             transactions: Array.isArray(state.transactions) ? state.transactions : [],
             settings: state.settings || {
@@ -2305,4 +2342,4 @@ v
     });
   </script>
 </body>
-</html>
+</html>s
