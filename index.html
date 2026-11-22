@@ -2,8 +2,11 @@
 <html lang="fr" class="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FasoRencontre — Rencontres, Vidéos, WhatsApp & Communauté au Burkina Faso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0F7A4A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>FasoRencontre — Réseau Social, Vidéos, Statuts 24h & Appels Vidéo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,11 +33,11 @@
             }
           },
           animation: {
-            'pop': 'pop 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+            'pop': 'pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
           },
           keyframes: {
             pop: {
-              '0%': { transform: 'scale(0.94)', opacity: '0' },
+              '0%': { transform: 'scale(0.95)', opacity: '0' },
               '100%': { transform: 'scale(1)', opacity: '1' }
             }
           }
@@ -47,6 +50,8 @@
     .scroll-smooth-area { overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .no-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
     .no-scrollbar::-webkit-scrollbar-thumb { background: rgba(120, 113, 108, 0.35); border-radius: 9999px; }
+    .tiktok-feed { scroll-snap-type: y mandatory; overflow-y: auto; }
+    .tiktok-slide { scroll-snap-align: start; scroll-snap-stop: always; }
     .faso-pattern {
       background-image: repeating-linear-gradient(
         90deg,
@@ -66,6 +71,22 @@
 
     <div id="toast-container" class="fixed md:absolute top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2 w-11/12 max-w-md"></div>
 
+    <!-- BANNIÈRE D'INSTALLATION APPLICATION ANDROID / WEB (PWA) -->
+    <div id="pwa-install-banner" class="hidden bg-stone-900 text-white px-4 py-2.5 flex items-center justify-between gap-3 text-xs shrink-0 z-30">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="px-2 py-0.5 rounded-md bg-faso-green text-[10px] font-black uppercase shrink-0">Android</span>
+        <span class="truncate font-semibold">Installez <strong class="app-brand-name">FasoRencontre</strong> sur votre téléphone avec le même compte.</span>
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button type="button" onclick="triggerInstallPWA()" class="px-3 py-1.5 rounded-xl bg-faso-gold text-stone-950 font-black text-[11px]">
+          Installer
+        </button>
+        <button type="button" onclick="dismissInstallBanner()" class="p-1 text-stone-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
     <!-- 1. ÉCRAN D'ACCUEIL, CONNEXION & INSCRIPTION (250 F CFA) -->
     <div id="view-landing" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar faso-pattern">
       <header class="px-5 py-4 flex items-center justify-between bg-white/90 dark:bg-faso-darkCard/90 backdrop-blur-md border-b border-stone-200/70 dark:border-stone-800 shrink-0 sticky top-0 z-20">
@@ -80,6 +101,10 @@
         </div>
 
         <div class="flex items-center gap-2">
+          <button type="button" onclick="triggerInstallPWA()" id="landing-install-btn" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 text-xs font-extrabold items-center gap-1.5 shadow-xs transition">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Installer l'app</span>
+          </button>
           <button type="button" onclick="openMemberLoginModal()" class="px-3.5 py-2 rounded-xl bg-faso-green text-white hover:bg-faso-greenDark text-xs font-extrabold flex items-center gap-1.5 shadow-xs transition">
             <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
             <span>Se connecter</span>
@@ -96,15 +121,15 @@
           <div class="space-y-4 animate-pop">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 border border-amber-300/70 dark:border-amber-800/50 text-amber-900 dark:text-amber-300 text-xs font-bold">
               <span class="w-2 h-2 rounded-full bg-faso-green animate-ping"></span>
-              <span>Rencontres authentiques, Vidéos & WhatsApp</span>
+              <span>Fil TikTok • Statuts 24h • Appels Vidéo</span>
             </div>
 
             <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">
-              Rencontrez, publiez vos <span class="text-faso-red">vidéos</span> et discutez sur <span class="text-faso-green">WhatsApp</span>.
+              Vidéos <span class="text-faso-red">Pour toi</span>, statuts <span class="text-faso-green">24h</span> et appels vidéo en direct.
             </h2>
 
             <p class="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
-              De <strong>Ouagadougou</strong> à <strong>Bobo-Dioulasso</strong> et dans tout le Faso. Inscription unique à <strong>250 F CFA</strong>, accès permanent avec vos identifiants.
+              De <strong>Ouagadougou</strong> à <strong>Bobo-Dioulasso</strong> et dans tout le Faso. Même compte et mêmes données sur l'application Android installable et le lien web.
             </p>
 
             <div class="bg-white/95 dark:bg-faso-darkCard/95 rounded-2xl p-4 border border-stone-200/80 dark:border-stone-800 shadow-xs space-y-2.5">
@@ -113,8 +138,8 @@
               </p>
               <ul class="text-xs text-stone-600 dark:text-stone-300 space-y-1.5">
                 <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-orange-100 text-faso-orange font-black text-[10px] flex items-center justify-center shrink-0">1</span> Réglez les <strong>250 F CFA</strong> sur Orange Money (<strong class="admin-om-display">66 93 11 74</strong>).</li>
-                <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-emerald-100 text-faso-green font-black text-[10px] flex items-center justify-center shrink-0">2</span> Créez votre profil avec photo, ville et numéro <strong>WhatsApp</strong>.</li>
-                <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-rose-100 text-faso-red font-black text-[10px] flex items-center justify-center shrink-0">3</span> Revenez quand vous voulez via <strong>Se connecter</strong> sans repayer.</li>
+                <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-emerald-100 text-faso-green font-black text-[10px] flex items-center justify-center shrink-0">2</span> Créez votre profil permanent avec photo, ville et numéro <strong>WhatsApp</strong>.</li>
+                <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-rose-100 text-faso-red font-black text-[10px] flex items-center justify-center shrink-0">3</span> À la connexion, accédez directement au fil vidéo, aux statuts 24h et aux appels vidéo.</li>
               </ul>
             </div>
 
@@ -149,7 +174,6 @@
               </div>
             </div>
 
-            <!-- ÉTAPE 1 -->
             <form id="step-1-payment-form" onsubmit="submitPaymentProof(event)" class="space-y-3.5">
               <div class="p-3.5 rounded-2xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200/80 dark:border-orange-800/50 space-y-2">
                 <div class="flex items-center justify-between">
@@ -180,7 +204,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                   <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Référence SMS 250 F *</label>
-                  <input type="text" id="pay-tx-id" required placeholder="Ex: PP261121.1200" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-orange" />
+                  <input type="text" id="pay-tx-id" required placeholder="Ex: PP261122.1200" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-orange" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Code parrain (optionnel)</label>
@@ -194,7 +218,6 @@
               </button>
             </form>
 
-            <!-- ÉTAPE 2 -->
             <form id="step-2-profile-form" onsubmit="completeUserRegistration(event)" class="space-y-3 hidden">
               <div class="grid grid-cols-2 gap-2.5">
                 <div>
@@ -242,7 +265,7 @@
                   <input type="tel" id="reg-whatsapp" required placeholder="Ex: 70 12 34 56" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none focus:ring-2 focus:ring-faso-whatsapp" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Photo de profil</label>
+                  <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Photo de profil (permanente)</label>
                   <input type="file" id="reg-photo" accept="image/*" class="w-full text-xs file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-faso-red/10 file:text-faso-red" />
                 </div>
               </div>
@@ -258,8 +281,8 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Bio, infos personnelles & références *</label>
-                <input type="text" id="reg-bio" required placeholder="Ex: Étudiante à Bobo, aime la musique et les rencontres sérieuses." class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+                <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Bio, présentation personnelle & références *</label>
+                <input type="text" id="reg-bio" required placeholder="Ex: Étudiante à Bobo, aime la musique et les échanges sincères." class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
               </div>
 
               <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-faso-red to-amber-600 text-white font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 transition">
@@ -277,8 +300,9 @@
           <i data-lucide="lock" class="w-3.5 h-3.5"></i>
         </button>
       </footer>
-    </div> 
-<!-- 1B. ÉCRAN D'ATTENTE DE VALIDATION DES 250 F CFA -->
+    </div>
+
+    <!-- 1B. ÉCRAN D'ATTENTE DE VALIDATION DES 250 F CFA -->
     <div id="view-pending-lock" class="flex-1 min-h-0 flex flex-col items-center justify-center p-6 text-center hidden faso-pattern scroll-smooth-area">
       <div class="bg-white dark:bg-faso-darkCard max-w-md w-full rounded-3xl p-6 shadow-2xl border border-orange-200/80 dark:border-stone-800 space-y-4 animate-pop">
         <div class="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-950/50 text-faso-orange flex items-center justify-center mx-auto">
@@ -286,7 +310,7 @@
         </div>
         <h2 class="text-xl font-black">Vérification de vos 250 F CFA</h2>
         <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
-          Votre compte <strong id="lock-user-name"></strong> est enregistré dans la base de données. L'accès s'ouvre dès confirmation de votre transfert de <strong>250 F CFA</strong> sur le <strong class="lock-om-number">66 93 11 74</strong>.
+          Votre compte <strong id="lock-user-name"></strong> est enregistré. L'accès s'ouvre dès confirmation de votre transfert de <strong>250 F CFA</strong> sur le <strong class="lock-om-number">66 93 11 74</strong>.
         </p>
         <div class="p-3.5 rounded-2xl bg-stone-100 dark:bg-stone-800 text-xs space-y-1.5 text-left">
           <div><span class="text-stone-400">Téléphone :</span> <strong id="lock-user-phone"></strong></div>
@@ -306,10 +330,10 @@
       </div>
     </div>
 
-    <!-- 2. APPLICATION PRINCIPALE (MEMBRE VALIDÉ OU ADMINISTRATEUR) -->
+    <!-- 2. APPLICATION PRINCIPALE (ACCUEIL TIKTOK « POUR TOI » À LA CONNEXION) -->
     <div id="view-member-app" class="flex-1 min-h-0 flex flex-col md:flex-row h-full hidden overflow-hidden">
-      <aside class="bg-white dark:bg-faso-darkCard border-b md:border-b-0 md:border-r border-stone-200/80 dark:border-stone-800 px-4 py-3 md:py-6 md:w-64 flex md:flex-col items-center md:items-stretch justify-between shrink-0 z-20">
-        <div class="flex items-center gap-2.5 md:mb-6">
+      <aside class="bg-white dark:bg-faso-darkCard border-b md:border-b-0 md:border-r border-stone-200/80 dark:border-stone-800 px-4 py-3 md:py-5 md:w-64 flex md:flex-col items-center md:items-stretch justify-between shrink-0 z-20">
+        <div class="flex items-center gap-2.5 md:mb-5">
           <div id="member-brand-emblem" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-faso-red to-amber-500 flex items-center justify-center text-white shadow cursor-pointer select-none">
             <i data-lucide="heart" class="w-5 h-5 fill-white"></i>
           </div>
@@ -322,28 +346,39 @@
         </div>
 
         <nav class="hidden md:flex flex-col gap-1.5 flex-1">
-          <button onclick="switchMemberTab('discover')" id="desk-nav-discover" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition">
+          <button onclick="switchMemberTab('feed')" id="desk-nav-feed" class="desk-nav-btn flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition">
+            <i data-lucide="flame" class="w-5 h-5"></i>
+            <span>Pour toi (Publications)</span>
+          </button>
+          <button onclick="switchMemberTab('statuses')" id="desk-nav-statuses" class="desk-nav-btn flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <div class="flex items-center gap-3">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+              <span>Statuts (24h)</span>
+            </div>
+            <span id="desk-status-count" class="px-2 py-0.5 rounded-full bg-faso-green/15 text-faso-green text-[10px] font-black">0</span>
+          </button>
+          <button onclick="switchMemberTab('discover')" id="desk-nav-discover" class="desk-nav-btn flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
             <i data-lucide="compass" class="w-5 h-5"></i>
             <span>Découverte & WhatsApp</span>
           </button>
-          <button onclick="switchMemberTab('videos')" id="desk-nav-videos" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
-            <i data-lucide="play-square" class="w-5 h-5"></i>
-            <span>Fil TikTok & Statuts</span>
-          </button>
-          <button onclick="switchMemberTab('messages')" id="desk-nav-messages" class="desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+          <button onclick="switchMemberTab('messages')" id="desk-nav-messages" class="desk-nav-btn flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
             <div class="flex items-center gap-3">
               <i data-lucide="message-square" class="w-5 h-5"></i>
               <span>Messages Privés</span>
             </div>
             <span id="desk-unread-badge" class="hidden px-2 py-0.5 rounded-full bg-faso-red text-white text-[10px] font-black">1</span>
           </button>
-          <button onclick="switchMemberTab('profile')" id="desk-nav-profile" class="desk-nav-btn flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+          <button onclick="switchMemberTab('profile')" id="desk-nav-profile" class="desk-nav-btn flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
             <i data-lucide="user-circle" class="w-5 h-5"></i>
-            <span>Mon Espace & Parrainage</span>
+            <span>Mon Profil & Stats</span>
           </button>
         </nav>
 
         <div class="flex md:flex-col items-center md:items-stretch gap-2">
+          <button type="button" onclick="triggerInstallPWA()" id="app-install-btn" class="hidden px-3 py-2 rounded-xl bg-faso-green text-white text-xs font-extrabold flex items-center justify-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Installer App</span>
+          </button>
           <button id="owner-dashboard-btn" onclick="openCreatorDashboardFromApp()" class="hidden px-3 py-2 rounded-xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 text-xs font-extrabold flex items-center justify-center gap-1.5 hover:bg-stone-800 transition">
             <i data-lucide="crown" class="w-3.5 h-3.5 text-faso-gold dark:text-stone-950"></i>
             <span>Espace Admin</span>
@@ -361,8 +396,58 @@
       </aside>
 
       <div class="flex-1 min-h-0 flex flex-col overflow-hidden relative">
-        <!-- ONGLET 1 : DÉCOUVERTE + BOUTON WHATSAPP -->
-        <main id="tab-discover" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-4 pb-20 md:pb-6">
+
+        <!-- ESPACE 1 (ACCUEIL PAR DÉFAUT) : FIL STYLE TIKTOK « POUR TOI » (PUBLICATIONS PERMANENTES) -->
+        <section id="tab-feed" class="flex-1 min-h-0 flex flex-col overflow-hidden pb-14 md:pb-0">
+          <div class="px-4 py-3 bg-white/95 dark:bg-faso-darkCard/95 border-b border-stone-200/80 dark:border-stone-800 flex items-center justify-between gap-2 shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 rounded-full bg-faso-red text-white text-xs font-black">Pour toi</span>
+              <span class="text-xs font-bold text-stone-500">Vidéos & publications permanentes</span>
+            </div>
+            <button onclick="openPublicationModal('video')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-faso-red to-amber-600 text-white text-xs font-extrabold flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Publier</span>
+            </button>
+          </div>
+
+          <div id="tiktok-feed-container" class="flex-1 min-h-0 tiktok-feed no-scrollbar p-3 md:p-5 space-y-4"></div>
+        </section>
+
+        <!-- ESPACE 2 : STATUTS 24 HEURES (PHOTOS & VIDÉOS MULTIPLES, EXPIRATION AUTO 24H) -->
+        <section id="tab-statuses" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
+          <div class="bg-gradient-to-r from-faso-green via-emerald-700 to-stone-900 rounded-3xl p-5 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+            <div>
+              <h2 class="text-xl font-black flex items-center gap-2">
+                <i data-lucide="clock" class="w-6 h-6"></i> Statuts 24 Heures
+              </h2>
+              <p class="text-xs text-white/90 mt-1">
+                Publiez plusieurs photos ou vidéos en statut : chaque statut disparaît automatiquement après <strong>24 heures</strong> (votre photo de profil reste permanente).
+              </p>
+            </div>
+            <button onclick="openStatusModal()" class="px-4 py-3 rounded-2xl bg-white text-faso-green font-extrabold text-xs shadow-md hover:bg-emerald-50 flex items-center gap-2 shrink-0 transition">
+              <i data-lucide="camera" class="w-4 h-4"></i>
+              <span>Nouveau statut 24h</span>
+            </button>
+          </div>
+
+          <!-- MES STATUTS ACTIFS (< 24h) -->
+          <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-4 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="font-extrabold text-sm">Mes statuts actifs (moins de 24h)</h3>
+              <button type="button" onclick="renderStatusesTab()" class="text-xs font-bold text-faso-green">Actualiser</button>
+            </div>
+            <div id="my-active-statuses-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+          </div>
+
+          <!-- STATUTS DES AUTRES MEMBRES -->
+          <div class="space-y-3">
+            <h3 class="font-extrabold text-sm px-1">Statuts de la communauté</h3>
+            <div id="community-statuses-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8"></div>
+          </div>
+        </section>
+
+        <!-- ESPACE 3 : DÉCOUVERTE + WHATSAPP + APPELS VIDÉO -->
+        <main id="tab-discover" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-4 hidden pb-20 md:pb-6">
           <div class="bg-white dark:bg-faso-darkCard p-3.5 rounded-2xl shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-wrap items-center justify-between gap-2.5 shrink-0">
             <div class="flex items-center gap-2 flex-wrap">
               <select id="discover-city-filter" onchange="renderMembersGrid()" class="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
@@ -402,32 +487,7 @@
           <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8"></div>
         </main>
 
-        <!-- ONGLET 2 : FIL INSPIRÉ TIKTOK (VIDÉOS, PHOTOS & STATUTS) -->
-        <section id="tab-videos" class="flex-1 min-h-0 flex flex-col scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
-          <div class="bg-gradient-to-r from-stone-900 via-faso-red to-amber-600 rounded-3xl p-5 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
-            <div>
-              <h2 class="text-xl font-black flex items-center gap-2">
-                <i data-lucide="play-square" class="w-6 h-6"></i> Fil Social — Vidéos, Photos & Statuts
-              </h2>
-              <p class="text-xs text-white/90 mt-1">
-                Partagez vos vidéos, vos plus belles photos ou un statut en direct pour attirer l'attention.
-              </p>
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-              <button onclick="renderVideosFeed(); showToast('Fil actualisé !', 'info');" class="p-3 rounded-2xl bg-white/15 hover:bg-white/25 text-white transition" title="Actualiser le fil">
-                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-              </button>
-              <button onclick="toggleVideoUploadModal(true)" class="px-4 py-3 rounded-2xl bg-white text-faso-red font-extrabold text-xs shadow-md hover:bg-amber-50 flex items-center gap-2 transition">
-                <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                <span>Publier</span>
-              </button>
-            </div>
-          </div>
-
-          <div id="videos-feed-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8"></div>
-        </section>
-
-        <!-- ONGLET 3 : MESSAGERIE PRIVÉE -->
+        <!-- ESPACE 4 : MESSAGERIE PRIVÉE + APPEL VIDÉO -->
         <section id="tab-messages" class="flex-1 min-h-0 flex overflow-hidden hidden pb-14 md:pb-0">
           <div id="chat-sidebar" class="w-full md:w-80 border-r border-stone-200/80 dark:border-stone-800 bg-white dark:bg-faso-darkCard flex flex-col min-h-0">
             <div class="p-4 border-b border-stone-100 dark:border-stone-800 shrink-0">
@@ -446,28 +506,32 @@
               </div>
               <h3 class="font-bold text-base">Vos échanges privés</h3>
               <p class="text-xs text-stone-500 max-w-xs mt-1">
-                Choisissez un membre ou utilisez son bouton WhatsApp pour discuter directement.
+                Choisissez un membre pour discuter en privé, lancer un appel vidéo en direct ou ouvrir WhatsApp.
               </p>
             </div>
 
             <div id="chat-active-panel" class="hidden flex-1 min-h-0 flex flex-col h-full">
-              <div class="px-4 py-3 bg-white dark:bg-faso-darkCard border-b border-stone-200 dark:border-stone-800 flex items-center justify-between shrink-0">
-                <div class="flex items-center gap-3">
+              <div class="px-4 py-3 bg-white dark:bg-faso-darkCard border-b border-stone-200 dark:border-stone-800 flex items-center justify-between gap-2 shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
                   <button onclick="closeMobileChat()" class="md:hidden p-1.5 -ml-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800">
                     <i data-lucide="chevron-left" class="w-6 h-6"></i>
                   </button>
                   <div id="active-chat-avatar" class="w-10 h-10 rounded-full overflow-hidden shrink-0"></div>
-                  <div>
-                    <h4 id="active-chat-name" class="font-bold text-sm">Membre</h4>
-                    <p id="active-chat-meta" class="text-[11px] text-faso-green dark:text-emerald-400 font-medium">En ligne</p>
+                  <div class="min-w-0">
+                    <h4 id="active-chat-name" class="font-bold text-sm truncate">Membre</h4>
+                    <p id="active-chat-meta" class="text-[11px] text-faso-green dark:text-emerald-400 font-medium truncate">En ligne</p>
                   </div>
                 </div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button id="active-chat-vidcall-btn" type="button" class="px-2.5 py-1.5 rounded-xl bg-faso-red text-white text-xs font-extrabold flex items-center gap-1 shadow-xs">
+                    <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                    <span>Appel vidéo</span>
+                  </button>
                   <button id="active-chat-wa-btn" type="button" class="hidden px-2.5 py-1.5 rounded-xl bg-faso-whatsapp text-white text-xs font-extrabold flex items-center gap-1 shadow-xs">
                     <i data-lucide="phone" class="w-3.5 h-3.5"></i>
                     <span>WhatsApp</span>
                   </button>
-                  <button onclick="viewActiveChatProfile()" class="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold hover:text-faso-red transition">
+                  <button onclick="viewActiveChatProfile()" class="px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold hover:text-faso-red transition">
                     Profil
                   </button>
                 </div>
@@ -485,27 +549,49 @@
           </div>
         </section>
 
-        <!-- ONGLET 4 : MON ESPACE PERSONNEL, MODIFICATION PROFIL, PARRAINAGE & PAGE FACEBOOK -->
+        <!-- ESPACE 5 : PROFIL PERSONNEL COMPLET, STATISTIQUES & J'AIME -->
         <section id="tab-profile" class="flex-1 min-h-0 scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
-          <div class="max-w-2xl mx-auto space-y-5 pb-8">
+          <div class="max-w-3xl mx-auto space-y-5 pb-8">
             <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div class="flex items-center gap-4">
                 <div id="my-profile-avatar-box" class="w-20 h-20 rounded-3xl overflow-hidden shadow-md shrink-0 border-2 border-faso-gold"></div>
                 <div>
                   <div class="flex items-center gap-2 flex-wrap">
                     <h2 id="my-profile-fullname" class="text-xl font-black">Prénom Nom</h2>
-                    <span id="my-payment-status-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-faso-green text-[10px] font-black uppercase">Membre Vérifié</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-faso-green text-[10px] font-black uppercase">Photo Permanente</span>
                   </div>
                   <p id="my-profile-city-age" class="text-xs text-stone-500 mt-0.5">25 ans • Bobo-Dioulasso</p>
-                  <p id="my-profile-whatsapp-display" class="text-xs text-faso-green font-bold mt-0.5"></p>
+                  <p id="my-profile-bio-preview" class="text-xs text-stone-700 dark:text-stone-300 mt-1 line-clamp-2"></p>
+                  <p id="my-profile-whatsapp-display" class="text-xs text-faso-green font-bold mt-1"></p>
                   <p id="my-profile-gps-coords" class="text-[11px] text-stone-400 font-semibold mt-0.5 flex items-center gap-1">
                     <i data-lucide="navigation" class="w-3 h-3"></i> GPS Actif
                   </p>
                 </div>
               </div>
-              <button onclick="toggleVideoUploadModal(true)" class="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-faso-red text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow">
-                <i data-lucide="plus-circle" class="w-4 h-4"></i> Publier (Photo / Vidéo / Statut)
-              </button>
+              <div class="flex flex-col gap-2 w-full sm:w-auto shrink-0">
+                <button onclick="openPublicationModal('video')" class="px-4 py-2.5 rounded-2xl bg-faso-red text-white text-xs font-extrabold flex items-center justify-center gap-1.5 shadow">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i> Publier une vidéo
+                </button>
+                <button onclick="openStatusModal()" class="px-4 py-2 rounded-2xl bg-faso-green/15 text-faso-green text-xs font-extrabold flex items-center justify-center gap-1.5">
+                  <i data-lucide="clock" class="w-4 h-4"></i> Statut 24h
+                </button>
+              </div>
+            </div>
+
+            <!-- STATISTIQUES GLOBALES DU PROFIL & DES PUBLICATIONS -->
+            <div class="grid grid-cols-3 gap-3">
+              <div class="bg-white dark:bg-faso-darkCard rounded-2xl p-4 border border-stone-200/70 dark:border-stone-800 text-center">
+                <span class="text-[11px] font-bold text-stone-400 uppercase block">J'aime reçus</span>
+                <strong id="my-stat-total-likes" class="text-xl font-black text-faso-red mt-1 block">0</strong>
+              </div>
+              <div class="bg-white dark:bg-faso-darkCard rounded-2xl p-4 border border-stone-200/70 dark:border-stone-800 text-center">
+                <span class="text-[11px] font-bold text-stone-400 uppercase block">Publications</span>
+                <strong id="my-stat-posts-count" class="text-xl font-black text-faso-green mt-1 block">0</strong>
+              </div>
+              <div class="bg-white dark:bg-faso-darkCard rounded-2xl p-4 border border-stone-200/70 dark:border-stone-800 text-center">
+                <span class="text-[11px] font-bold text-stone-400 uppercase block">Statuts actifs (24h)</span>
+                <strong id="my-stat-active-statuses" class="text-xl font-black text-amber-500 mt-1 block">0</strong>
+              </div>
             </div>
 
             <!-- INVITER DES AMIS / PARRAINAGE -->
@@ -548,10 +634,10 @@
             <form onsubmit="updateMyProfile(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 space-y-4">
               <div class="flex items-center justify-between">
                 <h3 class="font-extrabold text-sm flex items-center gap-2">
-                  <i data-lucide="user-pen" class="w-4 h-4 text-faso-red"></i> Modifier mon profil & ma photo
+                  <i data-lucide="user-pen" class="w-4 h-4 text-faso-red"></i> Modifier mon profil & ma photo permanente
                 </h3>
                 <button type="button" onclick="deleteOrResetMyProfile()" class="text-[11px] font-bold text-rose-500 hover:underline">
-                  Supprimer / Réinitialiser mon profil
+                  Supprimer mon profil
                 </button>
               </div>
 
@@ -601,13 +687,13 @@
                   <input type="tel" id="prof-edit-whatsapp" placeholder="Ex: 70 12 34 56" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-stone-500 mb-1">Remplacer ma photo de profil</label>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Photo de profil permanente</label>
                   <input type="file" id="prof-edit-photo" accept="image/*" class="w-full text-xs file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-green/15 file:text-faso-green" />
                 </div>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-stone-500 mb-1">Bio, infos personnelles & références</label>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Présentation personnelle, bio & références</label>
                 <textarea id="prof-edit-bio" rows="2" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none resize-none"></textarea>
               </div>
 
@@ -616,29 +702,35 @@
               </button>
             </form>
 
+            <!-- MES PUBLICATIONS PERMANENTES & STATISTIQUES PAR VIDÉO -->
             <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 space-y-3">
               <div class="flex items-center justify-between">
-                <h3 class="font-extrabold text-sm">Mes Publications (Photos, Vidéos & Statuts)</h3>
-                <button type="button" onclick="populateMyProfile(); showToast('Publications actualisées.', 'info');" class="text-xs font-bold text-faso-green">Actualiser</button>
+                <h3 class="font-extrabold text-sm">Mes Publications & Statistiques (Permanentes)</h3>
+                <button type="button" onclick="populateMyProfile(); showToast('Statistiques actualisées.', 'info');" class="text-xs font-bold text-faso-green">Actualiser</button>
               </div>
-              <div id="my-published-videos-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+              <div id="my-published-videos-list" class="space-y-2.5"></div>
             </div>
           </div>
         </section>
 
         <!-- NAVIGATION MOBILE -->
-        <nav class="md:hidden bg-white dark:bg-faso-darkCard border-t border-stone-200/80 dark:border-stone-800 px-4 py-2 flex items-center justify-around shrink-0 z-20">
-          <button onclick="switchMemberTab('discover')" id="mob-nav-discover" class="mob-nav-btn flex flex-col items-center gap-0.5 text-faso-red">
+        <nav class="md:hidden bg-white dark:bg-faso-darkCard border-t border-stone-200/80 dark:border-stone-800 px-2 py-2 flex items-center justify-around shrink-0 z-20">
+          <button onclick="switchMemberTab('feed')" id="mob-nav-feed" class="mob-nav-btn flex flex-col items-center gap-0.5 text-faso-red">
+            <i data-lucide="flame" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Pour toi</span>
+          </button>
+          <button onclick="switchMemberTab('statuses')" id="mob-nav-statuses" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400 relative">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+            <span id="mob-status-badge" class="hidden absolute -top-1 right-0 px-1 rounded-full bg-faso-green text-white text-[9px] font-black">0</span>
+            <span class="text-[10px] font-bold">Statuts</span>
+          </button>
+          <button onclick="switchMemberTab('discover')" id="mob-nav-discover" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400">
             <i data-lucide="compass" class="w-5 h-5"></i>
             <span class="text-[10px] font-bold">Découvrir</span>
           </button>
-          <button onclick="switchMemberTab('videos')" id="mob-nav-videos" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400">
-            <i data-lucide="play-square" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">TikTok</span>
-          </button>
           <button onclick="switchMemberTab('messages')" id="mob-nav-messages" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400 relative">
             <i data-lucide="message-square" class="w-5 h-5"></i>
-            <span id="mob-unread-badge" class="hidden absolute -top-1 right-1 w-4 h-4 rounded-full bg-faso-red text-white text-[9px] font-black flex items-center justify-center">1</span>
+            <span id="mob-unread-badge" class="hidden absolute -top-1 right-0 w-4 h-4 rounded-full bg-faso-red text-white text-[9px] font-black flex items-center justify-center">1</span>
             <span class="text-[10px] font-bold">Messages</span>
           </button>
           <button onclick="switchMemberTab('profile')" id="mob-nav-profile" class="mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400">
@@ -648,8 +740,7 @@
         </nav>
       </div>
     </div>
-
-    <!-- 3. TABLEAU DE BORD ADMINISTRATEUR COMPLET -->
+  <!-- 3. TABLEAU DE BORD ADMINISTRATEUR COMPLET -->
     <div id="view-admin-dashboard" class="flex-1 min-h-0 flex flex-col h-full hidden overflow-hidden bg-stone-100 dark:bg-faso-darkBg">
       <header class="px-5 py-4 bg-stone-900 text-white flex items-center justify-between shrink-0">
         <div class="flex items-center gap-3">
@@ -658,7 +749,7 @@
           </div>
           <div>
             <h1 class="font-black text-base">Tableau de Bord Administrateur</h1>
-            <p class="text-[11px] text-stone-400">Gestion complète des 5 profils de référence, utilisateurs, publications & 250 F CFA</p>
+            <p class="text-[11px] text-stone-400">Gestion des profils de référence, membres, publications, statuts 24h & 250 F CFA</p>
           </div>
         </div>
 
@@ -673,7 +764,7 @@
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
             <span class="text-[11px] font-bold text-stone-400 uppercase">Recettes Validées</span>
             <p id="admin-kpi-revenue" class="text-2xl font-black text-faso-green mt-1">0 F CFA</p>
-            <span class="text-[10px] text-stone-500">Uniquement paiements confirmés</span>
+            <span class="text-[10px] text-stone-500">Paiements confirmés</span>
           </div>
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
             <span class="text-[11px] font-bold text-stone-400 uppercase">En attente 250 F</span>
@@ -686,9 +777,9 @@
             <span class="text-[10px] text-stone-500">Dont profils de référence</span>
           </div>
           <div class="bg-white dark:bg-faso-darkCard p-4 rounded-3xl shadow-xs border border-stone-200/80 dark:border-stone-800">
-            <span class="text-[11px] font-bold text-stone-400 uppercase">Publications</span>
+            <span class="text-[11px] font-bold text-stone-400 uppercase">Publications & Statuts</span>
             <p id="admin-kpi-videos" class="text-2xl font-black text-amber-500 mt-1">0</p>
-            <span class="text-[10px] text-stone-500">Vidéos, photos & statuts</span>
+            <span class="text-[10px] text-stone-500">Contenus actifs</span>
           </div>
         </div>
 
@@ -700,7 +791,7 @@
                 <i data-lucide="user-plus" class="w-5 h-5 text-faso-green"></i>
                 <span>Ajouter / Modifier un Profil de Référence</span>
               </h2>
-              <p class="text-xs text-stone-500">Créez vos 5 profils de référence ou cliquez sur « Modifier » sur n'importe quel profil ci-dessous pour changer sa photo, son nom ou ses infos.</p>
+              <p class="text-xs text-stone-500">Créez vos profils de référence ou cliquez sur « Modifier » pour mettre à jour photo, nom, ville, WhatsApp ou bio.</p>
             </div>
             <button type="button" id="creator-cancel-edit-btn" onclick="resetCreatorProfileForm()" class="hidden px-3 py-1.5 rounded-xl bg-stone-200 dark:bg-stone-800 text-xs font-bold">
               Annuler la modification
@@ -752,7 +843,7 @@
               <input type="tel" id="creator-prof-whatsapp" placeholder="Ex: 66 93 11 74" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Photo (nouvelle ou remplacement)</label>
+              <label class="block text-xs font-bold text-stone-600 dark:text-stone-300 mb-1">Photo permanente</label>
               <input type="file" id="creator-prof-photo" accept="image/*" class="w-full text-xs file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-green/15 file:text-faso-green" />
             </div>
           </div>
@@ -779,7 +870,7 @@
           <div id="admin-transactions-list" class="space-y-2.5"></div>
         </div>
 
-        <!-- DEMANDES & MESSAGES REÇUS SUR VOS PROFILS -->
+        <!-- DEMANDES & MESSAGES REÇUS -->
         <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-4">
           <div class="border-b border-stone-100 dark:border-stone-800 pb-3 flex items-center justify-between gap-2">
             <div>
@@ -787,7 +878,7 @@
                 <i data-lucide="message-circle-reply" class="w-5 h-5 text-faso-red"></i>
                 <span>Demandes & Messages Reçus (Réponse Directe)</span>
               </h2>
-              <p class="text-xs text-stone-500">Toutes les demandes envoyées vers vos profils de référence arrivent ici.</p>
+              <p class="text-xs text-stone-500">Répondez directement aux membres depuis votre tableau de bord.</p>
             </div>
             <button type="button" onclick="switchMemberTab('messages'); exitAdminDashboard();" class="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold hover:text-faso-red transition">
               Ouvrir Messagerie
@@ -808,7 +899,7 @@
           <div class="space-y-5">
             <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
               <h3 class="font-extrabold text-sm flex items-center gap-2">
-                <i data-lucide="film" class="w-4 h-4 text-amber-500"></i> Modération des Publications
+                <i data-lucide="film" class="w-4 h-4 text-amber-500"></i> Modération des Publications & Statuts
               </h3>
               <div id="admin-posts-list" class="space-y-2 max-h-44 overflow-y-auto no-scrollbar"></div>
             </div>
@@ -918,12 +1009,12 @@
       </div>
     </div>
 
-    <!-- MODAL PUBLIER (VIDÉO / PHOTO / STATUT) -->
+    <!-- MODAL PUBLIER UNE PUBLICATION PERMANENTE (VIDÉO / PHOTO / NOTE) -->
     <div id="modal-upload-video" class="hidden absolute inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
       <div class="bg-white dark:bg-faso-darkCard w-full max-w-md rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
         <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
           <h3 class="font-extrabold text-base flex items-center gap-2">
-            <i data-lucide="sparkles" class="w-5 h-5 text-faso-red"></i> Nouvelle publication
+            <i data-lucide="sparkles" class="w-5 h-5 text-faso-red"></i> Nouvelle publication (Permanente)
           </h3>
           <button onclick="toggleVideoUploadModal(false)" class="p-1.5 rounded-full bg-stone-100 dark:bg-stone-800">
             <i data-lucide="x" class="w-4 h-4"></i>
@@ -934,9 +1025,9 @@
           <div>
             <label class="block text-xs font-bold text-stone-500 mb-1">Type de publication</label>
             <select id="post-type-select" onchange="togglePostMediaInputs()" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
-              <option value="video">Vidéo courte (style TikTok)</option>
-              <option value="photo">Photo</option>
-              <option value="status">Statut texte</option>
+              <option value="video">Vidéo (fil Pour toi & profil)</option>
+              <option value="photo">Photo permanente</option>
+              <option value="note">Publication texte permanente</option>
             </select>
           </div>
 
@@ -951,12 +1042,55 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-stone-500 mb-1">Votre statut / légende *</label>
-            <textarea id="video-caption-input" rows="2" required placeholder="Ex: En direct de Bobo-Dioulasso 🇧🇫 Qui est connecté ce soir ?" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none resize-none"></textarea>
+            <label class="block text-xs font-bold text-stone-500 mb-1">Légende / description *</label>
+            <textarea id="video-caption-input" rows="2" required placeholder="Ex: Ma nouvelle vidéo depuis Bobo-Dioulasso 🇧🇫 !" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none resize-none"></textarea>
           </div>
 
           <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-faso-red to-amber-600 text-white font-extrabold text-xs shadow-lg">
-            Publier maintenant
+            Publier sur mon profil & le fil
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL PUBLIER UN STATUT 24 HEURES (PHOTO OU VIDÉO) -->
+    <div id="modal-upload-status" class="hidden absolute inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-faso-darkCard w-full max-w-md rounded-3xl p-6 shadow-2xl animate-pop space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
+          <h3 class="font-extrabold text-base flex items-center gap-2">
+            <i data-lucide="clock" class="w-5 h-5 text-faso-green"></i> Publier un Statut (Expire dans 24h)
+          </h3>
+          <button onclick="closeStatusModal()" class="p-1.5 rounded-full bg-stone-100 dark:bg-stone-800">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form onsubmit="handlePublishStatus24h(event)" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-bold text-stone-500 mb-1">Format du statut</label>
+            <select id="status-media-type" onchange="toggleStatusMediaInput()" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold outline-none">
+              <option value="photo">Photo (24h)</option>
+              <option value="video">Vidéo (24h)</option>
+            </select>
+          </div>
+
+          <div id="status-photo-box">
+            <label class="block text-xs font-bold text-stone-500 mb-1">Photo du statut *</label>
+            <input type="file" id="status-photo-input" accept="image/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-green/10 file:text-faso-green" />
+          </div>
+
+          <div id="status-video-box" class="hidden">
+            <label class="block text-xs font-bold text-stone-500 mb-1">Vidéo du statut *</label>
+            <input type="file" id="status-video-input" accept="video/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-faso-red/10 file:text-faso-red" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-stone-500 mb-1">Texte du statut</label>
+            <input type="text" id="status-caption-input" placeholder="Ex: Bonne journée à tous depuis Ouaga 🇧🇫" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-sm outline-none" />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl bg-faso-green hover:bg-faso-greenDark text-white font-extrabold text-xs shadow-lg">
+            Publier le statut (24h)
           </button>
         </form>
       </div>
@@ -979,17 +1113,25 @@
         </div>
 
         <div class="flex-1 overflow-y-auto p-5 space-y-4">
+          <div class="flex items-center justify-between bg-stone-100 dark:bg-stone-800 rounded-2xl px-4 py-2.5 text-xs">
+            <span class="font-bold text-stone-500">Total J'aime reçus</span>
+            <strong id="view-prof-likes-total" class="text-faso-red font-black text-sm">0 ❤️</strong>
+          </div>
           <p id="view-prof-bio" class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed"></p>
           <div>
-            <h4 class="text-xs font-extrabold uppercase text-stone-400 mb-2">Publications récentes</h4>
+            <h4 class="text-xs font-extrabold uppercase text-stone-400 mb-2">Publications permanentes</h4>
             <div id="view-prof-videos" class="space-y-2"></div>
           </div>
         </div>
 
         <div class="p-4 border-t border-stone-100 dark:border-stone-800 flex gap-2 shrink-0">
-          <button id="view-prof-wa-btn" type="button" class="hidden flex-1 py-3 rounded-2xl bg-faso-whatsapp hover:brightness-95 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
+          <button id="view-prof-vidcall-btn" type="button" class="py-3 px-3 rounded-2xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 font-extrabold text-xs flex items-center justify-center gap-1 shadow">
+            <i data-lucide="video" class="w-4 h-4"></i>
+            <span>Vidéo</span>
+          </button>
+          <button id="view-prof-wa-btn" type="button" class="hidden py-3 px-3 rounded-2xl bg-faso-whatsapp hover:brightness-95 text-white font-extrabold text-xs flex items-center justify-center gap-1 shadow">
             <i data-lucide="phone" class="w-4 h-4"></i>
-            <span>WhatsApp</span>
+            <span>WA</span>
           </button>
           <button id="view-prof-msg-btn" type="button" class="flex-1 py-3 rounded-2xl bg-faso-red text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
@@ -999,9 +1141,51 @@
       </div>
     </div>
 
-  </div> 
-<script>
-    const STORAGE_KEY = 'fasorencontre_v4_complete';
+    <!-- MODAL APPEL VIDÉO EN DIRECT (CAMÉRA + MICRO + WEBRTC) -->
+    <div id="modal-video-call" class="hidden absolute inset-0 z-50 bg-stone-950 text-white flex flex-col justify-between p-4 md:p-6">
+      <div class="flex items-center justify-between z-10">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-faso-red text-[10px] font-black uppercase">Appel Vidéo en Direct</span>
+          <h3 id="call-peer-name" class="text-base font-black mt-1">Contact</h3>
+          <p id="call-status-text" class="text-xs text-stone-300">Préparation de la caméra et du micro...</p>
+        </div>
+        <button type="button" onclick="endVideoCall(true)" class="px-3 py-1.5 rounded-xl bg-white/10 text-xs font-bold">
+          Fermer
+        </button>
+      </div>
+
+      <div class="relative flex-1 my-4 rounded-3xl overflow-hidden bg-stone-900 border border-stone-800 flex items-center justify-center">
+        <video id="remote-video-el" autoplay playsinline class="w-full h-full object-cover"></video>
+        <div id="call-waiting-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-stone-900/80 text-center p-4">
+          <div class="w-20 h-20 rounded-full bg-faso-green/20 border border-faso-green text-faso-green flex items-center justify-center mb-3 animate-pulse">
+            <i data-lucide="video" class="w-9 h-9"></i>
+          </div>
+          <p id="call-overlay-msg" class="text-sm font-bold">Connexion vidéo en cours...</p>
+          <p class="text-[11px] text-stone-400 mt-1">Autorisez l'accès à votre caméra et votre microphone si demandé.</p>
+        </div>
+        <video id="local-video-el" autoplay playsinline muted class="w-28 h-36 md:w-36 md:h-48 object-cover rounded-2xl border-2 border-white/80 shadow-xl absolute bottom-3 right-3 bg-black"></video>
+      </div>
+
+      <div class="flex items-center justify-center gap-3 z-10">
+        <button type="button" id="btn-toggle-mic" onclick="toggleCallMic()" class="p-3.5 rounded-2xl bg-stone-800 hover:bg-stone-700 text-white flex items-center gap-1.5 text-xs font-bold">
+          <i data-lucide="mic" class="w-5 h-5"></i>
+          <span id="label-toggle-mic">Micro ON</span>
+        </button>
+        <button type="button" id="btn-toggle-cam" onclick="toggleCallCam()" class="p-3.5 rounded-2xl bg-stone-800 hover:bg-stone-700 text-white flex items-center gap-1.5 text-xs font-bold">
+          <i data-lucide="camera" class="w-5 h-5"></i>
+          <span id="label-toggle-cam">Caméra ON</span>
+        </button>
+        <button type="button" onclick="endVideoCall(true)" class="px-5 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs flex items-center gap-1.5 shadow-lg">
+          <i data-lucide="phone-off" class="w-5 h-5"></i>
+          <span>Raccrocher</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    const STORAGE_KEY = 'fasorencontre_v5_social_app';
+    const STATUS_TTL_MS = 24 * 60 * 60 * 1000; // 24 heures exactes
 
     const BURKINA_CITIES_GPS = {
       'Bobo-Dioulasso': { lat: 11.1771, lng: -4.2979 },
@@ -1033,14 +1217,14 @@
       if (event) event.stopPropagation();
       const member = state.members.find(m => m.id === memberId);
       if (!member || !member.whatsapp) {
-        showToast('Ce membre n\'a pas encore renseigné son numéro WhatsApp.', 'info');
+        showToast("Ce membre n'a pas encore renseigné son numéro WhatsApp.", 'info');
         return;
       }
       const url = buildWhatsAppUrl(member.whatsapp, member.firstName);
       if (url) window.open(url, '_blank', 'noopener');
     }
 
-    function compressImageToDataURL(file, maxWidth = 480, quality = 0.72) {
+    function compressImageToDataURL(file, maxWidth = 520, quality = 0.72) {
       return new Promise((resolve, reject) => {
         if (!file) return resolve(null);
         const reader = new FileReader();
@@ -1114,6 +1298,7 @@
       pendingPayment: null,
       members: [],
       videos: [],
+      statuses: [],
       transactions: [],
       isOwnerAuthenticated: false,
       conversations: {},
@@ -1122,6 +1307,84 @@
 
     let tempGPS = { lat: 11.1771, lng: -4.2979 };
     let activeChatMemberId = null;
+    let deferredInstallPrompt = null;
+
+    // Installation PWA (Android & Web) avec manifeste dynamique
+    function setupPWAManifest() {
+      try {
+        const manifest = {
+          name: state.settings.appName || 'FasoRencontre',
+          short_name: state.settings.appName || 'FasoRencontre',
+          start_url: window.location.pathname || './',
+          display: 'standalone',
+          background_color: '#FAF7F2',
+          theme_color: '#0F7A4A',
+          icons: [
+            {
+              src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#0F7A4A"/><circle cx="96" cy="96" r="54" fill="#F59E0B"/><path d="M96 128 C64 106 54 84 68 68 C78 58 92 64 96 74 C100 64 114 58 124 68 C138 84 128 106 96 128 Z" fill="#D93829"/></svg>'),
+              sizes: '192x192',
+              type: 'image/svg+xml'
+            }
+          ]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = URL.createObjectURL(blob);
+        document.head.appendChild(link);
+      } catch (e) {}
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      document.getElementById('pwa-install-banner').classList.remove('hidden');
+      const lBtn = document.getElementById('landing-install-btn');
+      const aBtn = document.getElementById('app-install-btn');
+      if (lBtn) lBtn.classList.remove('hidden');
+      if (aBtn) aBtn.classList.remove('hidden');
+    });
+
+    async function triggerInstallPWA() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        document.getElementById('pwa-install-banner').classList.add('hidden');
+      } else {
+        showToast('Sur Android (Chrome) : appuyez sur ⋮ puis "Installer l\'application" ou "Ajouter à l\'écran d\'accueil".', 'info');
+      }
+    }
+
+    function dismissInstallBanner() {
+      document.getElementById('pwa-install-banner').classList.add('hidden');
+    }
+
+    function pruneExpiredStatuses() {
+      const now = Date.now();
+      const before = Array.isArray(state.statuses) ? state.statuses.length : 0;
+      state.statuses = (Array.isArray(state.statuses) ? state.statuses : []).filter(st => {
+        if (!st || !st.expiresAt) return true;
+        return st.expiresAt > now;
+      });
+      if (state.statuses.length !== before) {
+        saveAppState();
+      }
+      return state.statuses;
+    }
+
+    function getActiveStatuses() {
+      return pruneExpiredStatuses();
+    }
+
+    function formatRemainingHours(expiresAt) {
+      if (!expiresAt) return '24h';
+      const diffMs = Math.max(0, expiresAt - Date.now());
+      const hours = Math.floor(diffMs / (60 * 60 * 1000));
+      const mins = Math.floor((diffMs % (60 * 60 * 1000)) / (60 * 1000));
+      if (hours > 0) return `${hours}h ${mins}m restantes`;
+      return `${mins}m restantes`;
+    }
 
     function loadAppState() {
       try {
@@ -1133,6 +1396,18 @@
             ...saved,
             settings: { ...state.settings, ...(saved.settings || {}) }
           };
+          // Migration douce si d'anciens statuts étaient dans state.videos
+          if (Array.isArray(state.videos)) {
+            const legacyStatuses = state.videos.filter(v => v && v.postType === 'status');
+            if (legacyStatuses.length > 0) {
+              state.statuses = [...state.statuses, ...legacyStatuses.map(s => ({
+                ...s,
+                createdAt: s.createdAt || Date.now(),
+                expiresAt: s.expiresAt || ((s.createdAt || Date.now()) + STATUS_TTL_MS)
+              }))];
+              state.videos = state.videos.filter(v => v.postType !== 'status');
+            }
+          }
           if (state.currentUser && state.currentUser.id !== 'u_creator_owner') {
             const fresh = state.members.find(m => m.id === state.currentUser.id);
             if (fresh) state.currentUser = { ...fresh };
@@ -1181,10 +1456,16 @@
 
     window.onload = function () {
       loadAppState();
+      pruneExpiredStatuses();
+      setupPWAManifest();
       applyBrandSettings();
       checkReferralParamOnLoad();
       bindDiscreetCreatorTriggers();
       routeByAccessStatus();
+      setInterval(() => {
+        pruneExpiredStatuses();
+        updateStatusBadges();
+      }, 60000);
       lucide.createIcons();
     };
 
@@ -1201,8 +1482,8 @@
       const promoArea = document.getElementById('admin-fb-promo-text');
       if (promoArea) {
         promoArea.value =
-          `🇧🇫 Rejoignez ${state.settings.appName} ! Rencontres, vidéos, statuts et discussion directe.\n` +
-          `👉 Accès au site : ${appUrl}\n` +
+          `🇧🇫 Rejoignez ${state.settings.appName} ! Vidéos Pour toi, statuts 24h, appels vidéo et rencontres.\n` +
+          `👉 Accès au site / App : ${appUrl}\n` +
           `📘 Page Facebook : ${fbUrl}\n` +
           `Inscription : ${state.settings.registrationFee || 250} F CFA.`;
       }
@@ -1433,7 +1714,7 @@
 
       let photoUrl = null;
       if (photoFile) {
-        try { photoUrl = await compressImageToDataURL(photoFile, 480, 0.72); } catch (err) {}
+        try { photoUrl = await compressImageToDataURL(photoFile, 520, 0.72); } catch (err) {}
       }
 
       const cityCoords = BURKINA_CITIES_GPS[city] || BURKINA_CITIES_GPS['Bobo-Dioulasso'];
@@ -1505,12 +1786,15 @@
         else ownerBtn.classList.add('hidden');
       }
 
+      pruneExpiredStatuses();
       updateMemberHeader();
-      renderMembersGrid();
-      renderVideosFeed();
+      // Page d'accueil inspirée de TikTok (« Pour toi ») dès la connexion
+      switchMemberTab('feed');
       renderConversationsList();
       populateMyProfile();
       updateUnreadBadges();
+      updateStatusBadges();
+      listenForIncomingVideoCalls();
       lucide.createIcons();
     }
 
@@ -1520,23 +1804,39 @@
         `<i data-lucide="map-pin" class="w-2.5 h-2.5"></i> ${state.currentUser.city}`;
     }
 
+    function updateStatusBadges() {
+      const active = getActiveStatuses();
+      const dCount = document.getElementById('desk-status-count');
+      const mBadge = document.getElementById('mob-status-badge');
+      if (dCount) dCount.textContent = active.length;
+      if (mBadge) {
+        if (active.length > 0) {
+          mBadge.textContent = active.length;
+          mBadge.classList.remove('hidden');
+        } else {
+          mBadge.classList.add('hidden');
+        }
+      }
+    }
+
     function switchMemberTab(tab) {
-      ['discover', 'videos', 'messages', 'profile'].forEach(t => {
+      ['feed', 'statuses', 'discover', 'messages', 'profile'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
         const deskBtn = document.getElementById(`desk-nav-${t}`);
         const mobBtn = document.getElementById(`mob-nav-${t}`);
-        if (deskBtn) deskBtn.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition';
+        if (deskBtn) deskBtn.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-sm font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition';
         if (mobBtn) mobBtn.className = 'mob-nav-btn flex flex-col items-center gap-0.5 text-stone-400 relative';
       });
 
       document.getElementById(`tab-${tab}`).classList.remove('hidden');
       const activeDesk = document.getElementById(`desk-nav-${tab}`);
       const activeMob = document.getElementById(`mob-nav-${tab}`);
-      if (activeDesk) activeDesk.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition';
+      if (activeDesk) activeDesk.className = 'desk-nav-btn flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-sm font-bold bg-faso-red/10 text-faso-red transition';
       if (activeMob) activeMob.className = 'mob-nav-btn flex flex-col items-center gap-0.5 text-faso-red relative';
 
+      if (tab === 'feed') renderTikTokFeed();
+      if (tab === 'statuses') renderStatusesTab();
       if (tab === 'discover') renderMembersGrid();
-      if (tab === 'videos') renderVideosFeed();
       if (tab === 'messages') renderConversationsList();
       if (tab === 'profile') populateMyProfile();
       lucide.createIcons();
@@ -1572,6 +1872,354 @@
       );
     }
 
+    // FIL D'ACTUALITÉ STYLE TIKTOK (« POUR TOI ») — PUBLICATIONS PERMANENTES
+    function renderTikTokFeed() {
+      const container = document.getElementById('tiktok-feed-container');
+      const posts = Array.isArray(state.videos) ? state.videos : [];
+      container.innerHTML = '';
+
+      if (posts.length === 0) {
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center bg-white dark:bg-faso-darkCard rounded-3xl p-8 border border-stone-200/80 dark:border-stone-800 space-y-3">
+            <i data-lucide="film" class="w-10 h-10 text-faso-red"></i>
+            <h3 class="font-black text-base">Aucune publication pour l'instant</h3>
+            <p class="text-xs text-stone-500 max-w-sm">Soyez le premier à publier une vidéo ou une photo dans le fil « Pour toi ».</p>
+            <button onclick="openPublicationModal('video')" class="px-4 py-2.5 rounded-2xl bg-faso-red text-white text-xs font-extrabold">Publier maintenant</button>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      posts.forEach(post => {
+        const author = state.members.find(m => m.id === post.authorId);
+        const displayAuthor = author || {
+          id: post.authorId,
+          firstName: post.authorName || 'Membre',
+          lastName: '',
+          photoUrl: post.photoUrl || null,
+          avatar: post.avatar,
+          whatsapp: ''
+        };
+        const hasWa = Boolean(displayAuthor.whatsapp && normalizePhoneNumber(displayAuthor.whatsapp).length >= 8);
+        const isLiked = Array.isArray(post.likedBy) && state.currentUser && post.likedBy.includes(state.currentUser.id);
+
+        let visualMedia = '';
+        if (post.postType === 'photo' && post.postPhotoUrl) {
+          visualMedia = `<img src="${post.postPhotoUrl}" alt="${post.caption}" class="w-full h-80 md:h-96 object-cover bg-black" />`;
+        } else if (post.videoUrl) {
+          visualMedia = `<video src="${post.videoUrl}" controls playsinline class="w-full h-80 md:h-96 object-cover bg-black"></video>`;
+        } else if (post.postType === 'note') {
+          visualMedia = `
+            <div class="h-72 md:h-80 bg-gradient-to-br from-stone-900 via-faso-red to-amber-600 p-6 flex flex-col justify-between text-white">
+              <span class="self-start px-3 py-1 rounded-full bg-white/15 text-[10px] font-black uppercase">Publication</span>
+              <p class="text-lg md:text-xl font-black leading-snug">« ${post.caption} »</p>
+              <span class="text-xs text-white/80">${post.city || 'Burkina Faso'}</span>
+            </div>
+          `;
+        } else {
+          visualMedia = `
+            <div class="h-80 md:h-96 bg-gradient-to-br ${post.gradient || 'from-stone-900 via-faso-red to-amber-700'} flex flex-col items-center justify-center text-white p-6 text-center">
+              <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-white shadow-xl mb-3">
+                ${renderAvatarMedia(displayAuthor)}
+              </div>
+              <span class="px-3 py-1 rounded-full bg-black/40 text-xs font-bold">${post.authorName} • ${post.city || 'Burkina Faso'}</span>
+              <p class="text-sm font-bold max-w-md mt-3">${post.caption}</p>
+            </div>
+          `;
+        }
+
+        const slide = document.createElement('article');
+        slide.className = 'tiktok-slide bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-md border border-stone-200/80 dark:border-stone-800 max-w-2xl mx-auto w-full';
+        slide.innerHTML = `
+          <div class="relative">
+            ${visualMedia}
+            <div class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[10px] font-black uppercase">
+              Pour toi • ${post.postType === 'photo' ? 'Photo' : post.postType === 'note' ? 'Texte' : 'Vidéo'}
+            </div>
+          </div>
+
+          <div class="p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 cursor-pointer" onclick="openMemberProfileModal('${post.authorId}')">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-faso-gold shrink-0">
+                  ${renderAvatarMedia(displayAuthor)}
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-sm leading-tight hover:text-faso-red">${post.authorName}</h3>
+                  <span class="text-[11px] text-stone-400">${post.city || 'Burkina Faso'} • Permanent</span>
+                </div>
+              </div>
+
+              <button type="button" onclick="toggleLikePost('${post.id}')" class="px-3.5 py-2 rounded-2xl ${isLiked ? 'bg-faso-red text-white' : 'bg-rose-50 dark:bg-rose-950/40 text-faso-red'} text-xs font-black flex items-center gap-1.5 transition">
+                <i data-lucide="heart" class="w-4 h-4 ${isLiked ? 'fill-white' : 'fill-faso-red'}"></i>
+                <span>${post.likes || 0}</span>
+              </button>
+            </div>
+
+            <p class="text-xs sm:text-sm text-stone-700 dark:text-stone-200 leading-relaxed">${post.caption}</p>
+
+            <div class="flex items-center justify-between pt-2 border-t border-stone-100 dark:border-stone-800 gap-2 flex-wrap">
+              <div class="flex items-center gap-3 text-[11px] font-bold text-stone-500">
+                <span>❤️ ${post.likes || 0} J'aime</span>
+                <span>👁️ ${post.views || 1} vues</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="startVideoCall('${post.authorId}')" class="px-3 py-1.5 rounded-xl bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="video" class="w-3.5 h-3.5"></i> Appel
+                </button>
+                ${hasWa ? `
+                  <button type="button" onclick="openWhatsAppForMember('${post.authorId}', event)" class="px-3 py-1.5 rounded-xl bg-faso-whatsapp text-white text-xs font-bold flex items-center gap-1">
+                    <i data-lucide="phone" class="w-3.5 h-3.5"></i> WhatsApp
+                  </button>
+                ` : ''}
+                <button type="button" onclick="startDirectChat('${post.authorId}')" class="px-3 py-1.5 rounded-xl bg-faso-red text-white text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Message
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(slide);
+      });
+
+      lucide.createIcons();
+    }
+
+    function toggleLikePost(postId) {
+      const p = state.videos.find(x => x.id === postId);
+      if (!p || !state.currentUser) return;
+      if (!Array.isArray(p.likedBy)) p.likedBy = [];
+      const idx = p.likedBy.indexOf(state.currentUser.id);
+      if (idx === -1) {
+        p.likedBy.push(state.currentUser.id);
+        p.likes = (p.likes || 0) + 1;
+      } else {
+        p.likedBy.splice(idx, 1);
+        p.likes = Math.max(0, (p.likes || 0) - 1);
+      }
+      saveAppState();
+      renderTikTokFeed();
+      populateMyProfile();
+    }
+
+    function togglePostMediaInputs() {
+      const type = document.getElementById('post-type-select').value;
+      document.getElementById('post-video-field').classList.toggle('hidden', type !== 'video');
+      document.getElementById('post-photo-field').classList.toggle('hidden', type !== 'photo');
+    }
+
+    function openPublicationModal(defaultType = 'video') {
+      document.getElementById('post-type-select').value = defaultType;
+      togglePostMediaInputs();
+      document.getElementById('modal-upload-video').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function toggleVideoUploadModal(show) {
+      const modal = document.getElementById('modal-upload-video');
+      if (show) {
+        togglePostMediaInputs();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    async function handlePublishVideo(e) {
+      e.preventDefault();
+      const postType = document.getElementById('post-type-select').value;
+      const videoInput = document.getElementById('video-file-input');
+      const photoInput = document.getElementById('post-photo-input');
+      const caption = document.getElementById('video-caption-input').value.trim();
+      if (!caption) return;
+
+      let localVideoUrl = null;
+      let postPhotoUrl = null;
+
+      if (postType === 'video' && videoInput.files && videoInput.files[0]) {
+        localVideoUrl = URL.createObjectURL(videoInput.files[0]);
+      }
+      if (postType === 'photo' && photoInput.files && photoInput.files[0]) {
+        try { postPhotoUrl = await compressImageToDataURL(photoInput.files[0], 640, 0.75); } catch (err) {}
+      }
+
+      const newPost = {
+        id: 'v_' + Date.now(),
+        createdAt: Date.now(),
+        postType,
+        authorId: state.currentUser.id,
+        authorName: `${state.currentUser.firstName} ${state.currentUser.lastName}`,
+        city: state.currentUser.city,
+        caption,
+        likes: 0,
+        views: 1,
+        likedBy: [],
+        gradient: 'from-faso-red via-amber-600 to-faso-green',
+        videoUrl: localVideoUrl,
+        postPhotoUrl,
+        photoUrl: state.currentUser.photoUrl || null,
+        avatar: state.currentUser.avatar
+      };
+
+      state.videos.unshift(newPost);
+      saveAppState();
+
+      document.getElementById('video-caption-input').value = '';
+      videoInput.value = '';
+      photoInput.value = '';
+      toggleVideoUploadModal(false);
+      renderTikTokFeed();
+      populateMyProfile();
+      showToast('Publication permanente ajoutée ! 🎉', 'success');
+    }
+
+    // SYSTÈME DE STATUTS 24 HEURES (PHOTOS & VIDÉOS MULTIPLES, EXPIRATION AUTO 24H)
+    function openStatusModal() {
+      document.getElementById('status-media-type').value = 'photo';
+      toggleStatusMediaInput();
+      document.getElementById('modal-upload-status').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeStatusModal() {
+      document.getElementById('modal-upload-status').classList.add('hidden');
+    }
+
+    function toggleStatusMediaInput() {
+      const mType = document.getElementById('status-media-type').value;
+      document.getElementById('status-photo-box').classList.toggle('hidden', mType !== 'photo');
+      document.getElementById('status-video-box').classList.toggle('hidden', mType !== 'video');
+    }
+
+    async function handlePublishStatus24h(e) {
+      e.preventDefault();
+      if (!state.currentUser) return;
+
+      const mediaType = document.getElementById('status-media-type').value;
+      const photoFile = document.getElementById('status-photo-input').files[0];
+      const videoFile = document.getElementById('status-video-input').files[0];
+      const caption = document.getElementById('status-caption-input').value.trim();
+
+      let photoData = null;
+      let videoData = null;
+
+      if (mediaType === 'photo') {
+        if (!photoFile) {
+          showToast('Veuillez choisir une photo pour votre statut 24h.', 'orange');
+          return;
+        }
+        try { photoData = await compressImageToDataURL(photoFile, 640, 0.75); } catch (err) {}
+      } else {
+        if (!videoFile) {
+          showToast('Veuillez choisir une vidéo pour votre statut 24h.', 'orange');
+          return;
+        }
+        videoData = URL.createObjectURL(videoFile);
+      }
+
+      const now = Date.now();
+      const newStatus = {
+        id: 'st_' + now + '_' + Math.random().toString(36).slice(2, 6),
+        authorId: state.currentUser.id,
+        authorName: `${state.currentUser.firstName} ${state.currentUser.lastName}`,
+        city: state.currentUser.city,
+        mediaType,
+        photoUrl: photoData,
+        videoUrl: videoData,
+        caption: caption || (mediaType === 'photo' ? 'Statut photo (24h)' : 'Statut vidéo (24h)'),
+        createdAt: now,
+        expiresAt: now + STATUS_TTL_MS
+      };
+
+      state.statuses.unshift(newStatus);
+      saveAppState();
+
+      document.getElementById('status-photo-input').value = '';
+      document.getElementById('status-video-input').value = '';
+      document.getElementById('status-caption-input').value = '';
+      closeStatusModal();
+      updateStatusBadges();
+      renderStatusesTab();
+      populateMyProfile();
+      showToast('Statut publié pour 24 heures !', 'success');
+    }
+
+    function deleteMyStatus(statusId) {
+      state.statuses = state.statuses.filter(s => s.id !== statusId);
+      saveAppState();
+      updateStatusBadges();
+      renderStatusesTab();
+      populateMyProfile();
+      showToast('Statut supprimé.', 'info');
+    }
+
+    function renderStatusesTab() {
+      const active = getActiveStatuses();
+      updateStatusBadges();
+
+      const myBox = document.getElementById('my-active-statuses-list');
+      const mine = active.filter(s => state.currentUser && s.authorId === state.currentUser.id);
+      myBox.innerHTML = mine.length === 0
+        ? `<p class="text-xs text-stone-400 col-span-full py-2">Vous n'avez aucun statut actif en ce moment (durée : 24h).</p>`
+        : mine.map(st => `
+          <div class="p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/70 border border-stone-200/70 dark:border-stone-700 space-y-2">
+            ${st.mediaType === 'photo' && st.photoUrl
+              ? `<img src="${st.photoUrl}" alt="Statut" class="w-full h-36 object-cover rounded-xl" />`
+              : st.videoUrl
+                ? `<video src="${st.videoUrl}" controls class="w-full h-36 object-cover rounded-xl bg-black"></video>`
+                : `<div class="h-28 rounded-xl bg-faso-green/10 flex items-center justify-center text-xs font-bold">Statut</div>`
+            }
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[10px] font-black text-faso-green">${formatRemainingHours(st.expiresAt)}</span>
+              <button type="button" onclick="deleteMyStatus('${st.id}')" class="text-rose-500 text-xs font-bold">Supprimer</button>
+            </div>
+            <p class="text-xs text-stone-700 dark:text-stone-200 truncate">${st.caption}</p>
+          </div>
+        `).join('');
+
+      const commBox = document.getElementById('community-statuses-grid');
+      const others = active.filter(s => !state.currentUser || s.authorId !== state.currentUser.id);
+      commBox.innerHTML = others.length === 0
+        ? `<div class="col-span-full text-center py-10 bg-white dark:bg-faso-darkCard rounded-3xl border border-stone-200/70 dark:border-stone-800"><p class="text-xs font-bold text-stone-500">Aucun statut récent d'autres membres (les statuts durent 24h).</p></div>`
+        : others.map(st => {
+          const author = state.members.find(m => m.id === st.authorId);
+          return `
+            <div class="bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-sm border border-stone-200/80 dark:border-stone-800 flex flex-col">
+              ${st.mediaType === 'photo' && st.photoUrl
+                ? `<img src="${st.photoUrl}" alt="${st.authorName}" class="w-full h-52 object-cover" />`
+                : st.videoUrl
+                  ? `<video src="${st.videoUrl}" controls playsinline class="w-full h-52 object-cover bg-black"></video>`
+                  : `<div class="h-52 bg-gradient-to-br from-faso-green to-stone-900 p-4 flex items-center justify-center text-white text-sm font-bold">${st.caption}</div>`
+              }
+              <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 cursor-pointer" onclick="openMemberProfileModal('${st.authorId}')">
+                      <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-faso-green shrink-0">
+                        ${renderAvatarMedia(author || { firstName: st.authorName })}
+                      </div>
+                      <div>
+                        <h4 class="text-xs font-extrabold">${st.authorName}</h4>
+                        <span class="text-[10px] text-stone-400">${st.city || 'Burkina Faso'}</span>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-faso-green text-[10px] font-bold">${formatRemainingHours(st.expiresAt)}</span>
+                  </div>
+                  <p class="text-xs text-stone-600 dark:text-stone-300 mt-2">${st.caption}</p>
+                </div>
+                <button type="button" onclick="startDirectChat('${st.authorId}')" class="w-full py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-faso-green hover:text-white text-xs font-bold transition mt-2">
+                  Répondre en message privé
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      lucide.createIcons();
+    }
+
+    // DÉCOUVERTE + WHATSAPP + APPEL VIDÉO
     function renderMembersGrid() {
       const grid = document.getElementById('members-grid');
       const cityFilter = document.getElementById('discover-city-filter').value;
@@ -1607,11 +2255,9 @@
               <span class="px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1">
                 <i data-lucide="navigation" class="w-3 h-3 text-faso-gold"></i> ${member.distanceKm} km
               </span>
-              ${hasWa ? `
-                <button type="button" onclick="openWhatsAppForMember('${member.id}', event)" class="px-2.5 py-1 rounded-full bg-faso-whatsapp text-white text-[10px] font-black flex items-center gap-1 shadow">
-                  <i data-lucide="phone" class="w-3 h-3"></i> WhatsApp
-                </button>
-              ` : `<span class="px-2 py-0.5 rounded-full bg-faso-green text-white text-[10px] font-bold">Vérifié</span>`}
+              <button type="button" onclick="event.stopPropagation(); startVideoCall('${member.id}');" class="px-2.5 py-1 rounded-full bg-stone-900/80 text-white text-[10px] font-black flex items-center gap-1 shadow">
+                <i data-lucide="video" class="w-3 h-3"></i> Vidéo
+              </button>
             </div>
             <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 text-white">
               <h3 class="font-extrabold text-base leading-tight">${member.firstName} ${member.lastName}, ${member.age}</h3>
@@ -1624,18 +2270,14 @@
           <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
             <p class="text-xs text-stone-600 dark:text-stone-300 line-clamp-2 leading-relaxed">${member.bio}</p>
 
-            <div class="flex items-center gap-2 pt-1">
+            <div class="flex items-center gap-1.5 pt-1">
               ${hasWa ? `
-                <button type="button" onclick="openWhatsAppForMember('${member.id}', event)" class="flex-1 py-2.5 px-2.5 rounded-xl bg-faso-whatsapp hover:brightness-95 text-white text-xs font-extrabold flex items-center justify-center gap-1 shadow-xs transition">
+                <button type="button" onclick="openWhatsAppForMember('${member.id}', event)" class="flex-1 py-2 px-2 rounded-xl bg-faso-whatsapp hover:brightness-95 text-white text-xs font-extrabold flex items-center justify-center gap-1 shadow-xs transition">
                   <i data-lucide="phone" class="w-3.5 h-3.5"></i>
                   <span>WhatsApp</span>
                 </button>
-              ` : `
-                <button type="button" onclick="openMemberProfileModal('${member.id}')" class="flex-1 py-2.5 px-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-bold transition">
-                  Voir profil
-                </button>
-              `}
-              <button type="button" onclick="startDirectChat('${member.id}')" class="flex-1 py-2.5 px-2.5 rounded-xl bg-faso-red hover:bg-faso-redDark text-white text-xs font-bold flex items-center justify-center gap-1 shadow-xs transition">
+              ` : ''}
+              <button type="button" onclick="startDirectChat('${member.id}')" class="flex-1 py-2 px-2 rounded-xl bg-faso-red hover:bg-faso-redDark text-white text-xs font-bold flex items-center justify-center gap-1 shadow-xs transition">
                 <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
                 <span>Écrire</span>
               </button>
@@ -1646,150 +2288,6 @@
       });
 
       lucide.createIcons();
-    }
-
-    function togglePostMediaInputs() {
-      const type = document.getElementById('post-type-select').value;
-      document.getElementById('post-video-field').classList.toggle('hidden', type !== 'video');
-      document.getElementById('post-photo-field').classList.toggle('hidden', type !== 'photo');
-    }
-
-    function renderVideosFeed() {
-      const grid = document.getElementById('videos-feed-grid');
-      grid.innerHTML = '';
-
-      if (state.videos.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 bg-white dark:bg-faso-darkCard rounded-3xl border border-stone-200/70 dark:border-stone-800"><p class="text-sm font-bold text-stone-600 dark:text-stone-300">Aucune publication pour le moment. Publiez votre première vidéo, photo ou statut !</p></div>`;
-        return;
-      }
-
-      state.videos.forEach(post => {
-        const author = state.members.find(m => m.id === post.authorId);
-        const hasWa = Boolean(author && author.whatsapp && normalizePhoneNumber(author.whatsapp).length >= 8);
-        const card = document.createElement('div');
-        card.className = 'bg-white dark:bg-faso-darkCard rounded-3xl overflow-hidden shadow-sm border border-stone-200/80 dark:border-stone-800 flex flex-col';
-
-        let mediaBlock = '';
-        if (post.postType === 'photo' && post.postPhotoUrl) {
-          mediaBlock = `<img src="${post.postPhotoUrl}" alt="${post.authorName}" class="w-full h-64 object-cover" />`;
-        } else if (post.postType === 'status') {
-          mediaBlock = `
-            <div class="h-56 bg-gradient-to-br from-faso-red via-amber-600 to-faso-green p-5 flex flex-col justify-between text-white">
-              <span class="self-start px-2.5 py-0.5 rounded-full bg-black/30 text-[10px] font-black uppercase">Statut en direct</span>
-              <p class="text-base font-extrabold leading-snug">« ${post.caption} »</p>
-              <span class="text-[11px] text-white/80">${post.authorName} • ${post.city}</span>
-            </div>
-          `;
-        } else if (post.videoUrl) {
-          mediaBlock = `<video src="${post.videoUrl}" controls class="w-full h-64 object-cover bg-black"></video>`;
-        } else {
-          mediaBlock = `
-            <div class="relative h-64 bg-gradient-to-br ${post.gradient || 'from-stone-900 to-faso-red'} flex flex-col items-center justify-center text-white p-5 text-center">
-              <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-lg mb-3">
-                ${renderAvatarMedia({ photoUrl: post.photoUrl, avatar: post.avatar, firstName: post.authorName })}
-              </div>
-              <span class="text-[11px] font-bold bg-black/40 px-3 py-1 rounded-full">Capsule Profil • ${post.city}</span>
-            </div>
-          `;
-        }
-
-        card.innerHTML = `
-          ${mediaBlock}
-          <div class="p-4 space-y-2.5 flex-1 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between">
-                <div>
-                  <h4 class="font-extrabold text-sm cursor-pointer hover:text-faso-red" onclick="openMemberProfileModal('${post.authorId}')">${post.authorName}</h4>
-                  <span class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${post.city}</span>
-                </div>
-                <button onclick="likeVideo('${post.id}')" class="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-faso-red text-xs font-bold flex items-center gap-1">
-                  <i data-lucide="heart" class="w-3.5 h-3.5 fill-faso-red"></i>
-                  <span>${post.likes || 0}</span>
-                </button>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed mt-2">${post.caption}</p>
-            </div>
-            <div class="flex items-center gap-2 pt-1">
-              ${hasWa ? `
-                <button type="button" onclick="openWhatsAppForMember('${post.authorId}', event)" class="flex-1 py-2 rounded-xl bg-faso-whatsapp text-white text-xs font-extrabold flex items-center justify-center gap-1">
-                  <i data-lucide="phone" class="w-3.5 h-3.5"></i> WhatsApp
-                </button>
-              ` : ''}
-              <button type="button" onclick="startDirectChat('${post.authorId}')" class="flex-1 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-faso-green hover:text-white text-xs font-bold transition">
-                Message privé
-              </button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      lucide.createIcons();
-    }
-
-    function likeVideo(videoId) {
-      const v = state.videos.find(x => x.id === videoId);
-      if (v) {
-        v.likes = (v.likes || 0) + 1;
-        saveAppState();
-        renderVideosFeed();
-      }
-    }
-
-    function toggleVideoUploadModal(show) {
-      const modal = document.getElementById('modal-upload-video');
-      if (show) {
-        togglePostMediaInputs();
-        modal.classList.remove('hidden');
-      } else {
-        modal.classList.add('hidden');
-      }
-    }
-
-    async function handlePublishVideo(e) {
-      e.preventDefault();
-      const postType = document.getElementById('post-type-select').value;
-      const videoInput = document.getElementById('video-file-input');
-      const photoInput = document.getElementById('post-photo-input');
-      const caption = document.getElementById('video-caption-input').value.trim();
-      if (!caption) return;
-
-      let localVideoUrl = null;
-      let postPhotoUrl = null;
-
-      if (postType === 'video' && videoInput.files && videoInput.files[0]) {
-        localVideoUrl = URL.createObjectURL(videoInput.files[0]);
-      }
-      if (postType === 'photo' && photoInput.files && photoInput.files[0]) {
-        try { postPhotoUrl = await compressImageToDataURL(photoInput.files[0], 600, 0.75); } catch (err) {}
-      }
-
-      const newPost = {
-        id: 'v_' + Date.now(),
-        postType,
-        authorId: state.currentUser.id,
-        authorName: `${state.currentUser.firstName} ${state.currentUser.lastName}`,
-        city: state.currentUser.city,
-        caption,
-        duration: '0:15',
-        likes: 0,
-        gradient: 'from-faso-red via-amber-600 to-faso-green',
-        videoUrl: localVideoUrl,
-        postPhotoUrl,
-        photoUrl: state.currentUser.photoUrl || null,
-        avatar: state.currentUser.avatar
-      };
-
-      state.videos.unshift(newPost);
-      saveAppState();
-
-      document.getElementById('video-caption-input').value = '';
-      videoInput.value = '';
-      photoInput.value = '';
-      toggleVideoUploadModal(false);
-      renderVideosFeed();
-      populateMyProfile();
-      showToast('Publication mise en ligne ! 🎉', 'success');
     }
 
     function getTimeNow() {
@@ -1882,6 +2380,9 @@
       document.getElementById('active-chat-name').textContent = `${member.firstName} ${member.lastName}`;
       document.getElementById('active-chat-meta').textContent = `${member.city}`;
 
+      const vidBtn = document.getElementById('active-chat-vidcall-btn');
+      vidBtn.onclick = () => startVideoCall(member.id);
+
       const waBtn = document.getElementById('active-chat-wa-btn');
       if (member.whatsapp && normalizePhoneNumber(member.whatsapp).length >= 8) {
         waBtn.classList.remove('hidden');
@@ -1941,21 +2442,29 @@
       const m = state.members.find(x => x.id === memberId);
       if (!m) return;
       const dist = calculateDistanceKm(state.currentUser.lat, state.currentUser.lng, m.lat, m.lng);
+      const memberPosts = state.videos.filter(v => v.authorId === m.id);
+      const totalLikes = memberPosts.reduce((acc, p) => acc + (p.likes || 0), 0);
 
       document.getElementById('view-prof-avatar').innerHTML = renderAvatarMedia(m);
       document.getElementById('view-prof-name').textContent = `${m.firstName} ${m.lastName}, ${m.age}`;
       document.getElementById('view-prof-loc').innerHTML = `<i data-lucide="map-pin" class="w-3.5 h-3.5 text-faso-gold"></i> ${m.city} • à ${dist} km`;
+      document.getElementById('view-prof-likes-total').textContent = `${totalLikes} ❤️`;
       document.getElementById('view-prof-bio').textContent = m.bio;
 
-      const memberVideos = state.videos.filter(v => v.authorId === m.id);
       const vidContainer = document.getElementById('view-prof-videos');
-      vidContainer.innerHTML = memberVideos.length === 0
-        ? `<p class="text-xs text-stone-400 italic">Aucune publication récente.</p>`
-        : memberVideos.map(v => `
-          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 text-xs font-semibold">
-            ${v.caption}
+      vidContainer.innerHTML = memberPosts.length === 0
+        ? `<p class="text-xs text-stone-400 italic">Aucune publication permanente.</p>`
+        : memberPosts.map(v => `
+          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 text-xs font-semibold flex items-center justify-between gap-2">
+            <span class="truncate">${v.caption}</span>
+            <span class="text-faso-red font-black shrink-0">❤️ ${v.likes || 0}</span>
           </div>
         `).join('');
+
+      document.getElementById('view-prof-vidcall-btn').onclick = () => {
+        closeMemberProfileModal();
+        startVideoCall(m.id);
+      };
 
       const waBtn = document.getElementById('view-prof-wa-btn');
       if (m.whatsapp && normalizePhoneNumber(m.whatsapp).length >= 8) {
@@ -1974,15 +2483,26 @@
       document.getElementById('modal-member-profile').classList.add('hidden');
     }
 
+    // PROFIL PERSONNEL COMPLET + STATISTIQUES + J'AIME + GESTION PUBLICATIONS
     function populateMyProfile() {
       const u = state.currentUser;
       if (!u) return;
 
+      const activeStatuses = getActiveStatuses();
+      const myPosts = state.videos.filter(v => v.authorId === u.id);
+      const myActiveStatuses = activeStatuses.filter(s => s.authorId === u.id);
+      const totalLikesReceived = myPosts.reduce((sum, p) => sum + (p.likes || 0), 0);
+
       document.getElementById('my-profile-avatar-box').innerHTML = renderAvatarMedia(u);
       document.getElementById('my-profile-fullname').textContent = `${u.firstName} ${u.lastName}`;
       document.getElementById('my-profile-city-age').textContent = `${u.age} ans • ${u.city}`;
+      document.getElementById('my-profile-bio-preview').textContent = u.bio || '';
       document.getElementById('my-profile-whatsapp-display').textContent = u.whatsapp ? `WhatsApp : ${u.whatsapp}` : 'WhatsApp non renseigné';
       document.getElementById('my-profile-gps-coords').innerHTML = `<i data-lucide="navigation" class="w-3 h-3"></i> GPS : ${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}`;
+
+      document.getElementById('my-stat-total-likes').textContent = totalLikesReceived;
+      document.getElementById('my-stat-posts-count').textContent = myPosts.length;
+      document.getElementById('my-stat-active-statuses').textContent = myActiveStatuses.length;
 
       const refCode = u.referralCode || 'FASO-226';
       const baseUrl = window.location.origin + window.location.pathname;
@@ -2000,15 +2520,17 @@
 
       refreshFacebookPromoBox();
 
-      const myVids = state.videos.filter(v => v.authorId === u.id);
       const vidList = document.getElementById('my-published-videos-list');
-      vidList.innerHTML = myVids.length === 0
-        ? `<p class="text-xs text-stone-400 italic col-span-full">Vous n'avez pas encore publié de contenu.</p>`
-        : myVids.map(v => `
-          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between gap-2">
-            <span class="text-xs font-semibold truncate">${v.caption}</span>
-            <button onclick="deleteMyVideo('${v.id}')" class="text-rose-500 p-1 hover:bg-rose-100 rounded-lg" title="Supprimer">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+      vidList.innerHTML = myPosts.length === 0
+        ? `<p class="text-xs text-stone-400 italic py-2">Vous n'avez pas encore publié de contenu permanent.</p>`
+        : myPosts.map(v => `
+          <div class="p-3 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <p class="text-xs font-bold truncate">${v.caption}</p>
+              <p class="text-[11px] text-stone-500 mt-0.5">❤️ ${v.likes || 0} J'aime • 👁️ ${v.views || 1} vues • Permanent</p>
+            </div>
+            <button onclick="deleteMyVideo('${v.id}')" class="text-rose-500 p-1.5 hover:bg-rose-100 rounded-lg shrink-0" title="Supprimer">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
         `).join('');
@@ -2019,7 +2541,7 @@
       const input = document.getElementById('my-referral-link-input');
       input.select();
       document.execCommand('copy');
-      showToast('Lien d\'invitation copié ! Partagez-le à vos amis.', 'success');
+      showToast("Lien d'invitation copié ! Partagez-le à vos amis.", 'success');
     }
 
     async function updateMyProfile(e) {
@@ -2032,10 +2554,11 @@
       state.currentUser.whatsapp = document.getElementById('prof-edit-whatsapp').value.trim();
       state.currentUser.bio = document.getElementById('prof-edit-bio').value.trim();
 
+      // Photo de profil permanente (indépendante des statuts 24h)
       const photoFile = document.getElementById('prof-edit-photo').files[0];
       if (photoFile) {
         try {
-          state.currentUser.photoUrl = await compressImageToDataURL(photoFile, 480, 0.72);
+          state.currentUser.photoUrl = await compressImageToDataURL(photoFile, 520, 0.72);
         } catch (err) {}
       }
 
@@ -2048,18 +2571,19 @@
       saveAppState();
       updateMemberHeader();
       populateMyProfile();
-      showToast('Profil et photo mis à jour ! ✅', 'success');
+      showToast('Profil et photo permanente mis à jour ! ✅', 'success');
     }
 
     function deleteOrResetMyProfile() {
       if (state.currentUser.id === 'u_creator_owner') {
-        showToast('Utilisez l\'Espace Admin pour gérer vos profils.', 'info');
+        showToast("Utilisez l'Espace Admin pour gérer vos profils.", 'info');
         return;
       }
       if (!confirm('Voulez-vous vraiment supprimer votre profil de la plateforme ?')) return;
       const myId = state.currentUser.id;
       state.members = state.members.filter(m => m.id !== myId);
       state.videos = state.videos.filter(v => v.authorId !== myId);
+      state.statuses = state.statuses.filter(s => s.authorId !== myId);
       state.currentUser = null;
       saveAppState();
       routeByAccessStatus();
@@ -2070,17 +2594,19 @@
       state.videos = state.videos.filter(v => v.id !== vidId);
       saveAppState();
       populateMyProfile();
-      renderVideosFeed();
+      renderTikTokFeed();
       showToast('Publication supprimée.', 'info');
     }
 
     function logoutMember() {
+      endVideoCall(false);
       state.currentUser = null;
       state.isOwnerAuthenticated = false;
       saveAppState();
       routeByAccessStatus();
     }
 
+    // ADMINISTRATION
     function openCreatorAuthModal() {
       document.getElementById('creator-auth-phone').value = '';
       document.getElementById('admin-pin-input').value = '';
@@ -2118,7 +2644,7 @@
         };
         saveAppState();
         openAdminDashboard();
-        showToast('Bienvenue dans l\'Espace Administrateur.', 'success');
+        showToast("Bienvenue dans l'Espace Administrateur.", 'success');
       } else {
         showToast('Numéro ou code secret incorrect.', 'orange');
       }
@@ -2193,7 +2719,7 @@
 
       let newPhotoUrl = null;
       if (photoFile) {
-        try { newPhotoUrl = await compressImageToDataURL(photoFile, 480, 0.72); } catch (err) {}
+        try { newPhotoUrl = await compressImageToDataURL(photoFile, 520, 0.72); } catch (err) {}
       }
 
       const cityCoords = BURKINA_CITIES_GPS[city] || BURKINA_CITIES_GPS['Ouagadougou'];
@@ -2295,11 +2821,12 @@
       const validatedTx = state.transactions.filter(t => t.status === 'validated');
       const pendingTx = state.transactions.filter(t => t.status === 'pending');
       const totalRevenue = validatedTx.length * (state.settings.registrationFee || 250);
+      const activeSt = getActiveStatuses();
 
       document.getElementById('admin-kpi-revenue').textContent = `${totalRevenue.toLocaleString('fr-FR')} F CFA`;
       document.getElementById('admin-kpi-pending').textContent = pendingTx.length;
       document.getElementById('admin-kpi-users').textContent = state.members.length;
-      document.getElementById('admin-kpi-videos').textContent = state.videos.length;
+      document.getElementById('admin-kpi-videos').textContent = state.videos.length + activeSt.length;
       applyBrandSettings();
 
       const txContainer = document.getElementById('admin-transactions-list');
@@ -2356,7 +2883,7 @@
 
       const postsContainer = document.getElementById('admin-posts-list');
       postsContainer.innerHTML = state.videos.length === 0
-        ? `<p class="text-xs text-stone-400 text-center py-4">Aucune publication.</p>`
+        ? `<p class="text-xs text-stone-400 text-center py-4">Aucune publication permanente.</p>`
         : state.videos.map(v => `
           <div class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-between gap-2">
             <span class="text-xs font-semibold truncate">${v.authorName} : ${v.caption}</span>
@@ -2405,6 +2932,7 @@
     function removeMemberByAdmin(memberId) {
       state.members = state.members.filter(m => m.id !== memberId);
       state.videos = state.videos.filter(v => v.authorId !== memberId);
+      state.statuses = state.statuses.filter(s => s.authorId !== memberId);
       state.transactions = state.transactions.filter(t => t.userId !== memberId);
       saveAppState();
       renderAdminDashboard();
@@ -2423,6 +2951,108 @@
       applyBrandSettings();
       renderAdminDashboard();
       showToast('Paramètres & lien Facebook enregistrés ! ✅', 'success');
+    }
+
+    // APPELS VIDÉO EN DIRECT (WEBRTC + CAMÉRA / MICRO)
+    let callPeerConnection = null;
+    let callLocalStream = null;
+    let activeCallPeerId = null;
+    let micMuted = false;
+    let camOff = false;
+
+    async function startVideoCall(peerId) {
+      if (!state.currentUser) return;
+      if (peerId === state.currentUser.id) {
+        showToast("Vous ne pouvez pas vous appeler vous-même.", 'info');
+        return;
+      }
+      const peer = state.members.find(m => m.id === peerId);
+      if (!peer) return;
+
+      activeCallPeerId = peerId;
+      micMuted = false;
+      camOff = false;
+      document.getElementById('label-toggle-mic').textContent = 'Micro ON';
+      document.getElementById('label-toggle-cam').textContent = 'Caméra ON';
+      document.getElementById('call-peer-name').textContent = `${peer.firstName} ${peer.lastName} (${peer.city})`;
+      document.getElementById('call-status-text').textContent = 'Demande d\'accès caméra & micro...';
+      document.getElementById('call-overlay-msg').textContent = `Appel vidéo vers ${peer.firstName}...`;
+      document.getElementById('call-waiting-overlay').classList.remove('hidden');
+      document.getElementById('modal-video-call').classList.remove('hidden');
+      lucide.createIcons();
+
+      try {
+        callLocalStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('local-video-el').srcObject = callLocalStream;
+        document.getElementById('call-status-text').textContent = 'Caméra & micro actifs • En attente de réponse...';
+
+        callPeerConnection = new RTCPeerConnection({
+          iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        });
+        callLocalStream.getTracks().forEach(track => callPeerConnection.addTrack(track, callLocalStream));
+
+        callPeerConnection.ontrack = (ev) => {
+          if (ev.streams && ev.streams[0]) {
+            document.getElementById('remote-video-el').srcObject = ev.streams[0];
+            document.getElementById('call-waiting-overlay').classList.add('hidden');
+            document.getElementById('call-status-text').textContent = 'En appel vidéo';
+          }
+        };
+
+        const offer = await callPeerConnection.createOffer();
+        await callPeerConnection.setLocalDescription(offer);
+
+        if (window.FasoDB && typeof window.FasoDB.envoyerSignalAppel === 'function') {
+          await window.FasoDB.envoyerSignalAppel({
+            callId: 'call_' + state.currentUser.id + '_' + peerId + '_' + Date.now(),
+            fromId: state.currentUser.id,
+            fromName: `${state.currentUser.firstName} ${state.currentUser.lastName}`,
+            toId: peerId,
+            type: 'offer',
+            sdp: offer.sdp,
+            createdAt: Date.now()
+          });
+        }
+      } catch (err) {
+        document.getElementById('call-status-text').textContent = 'Caméra ou micro refusé / indisponible.';
+        showToast('Autorisez la caméra et le microphone pour passer un appel vidéo.', 'orange');
+      }
+    }
+
+    function toggleCallMic() {
+      if (!callLocalStream) return;
+      micMuted = !micMuted;
+      callLocalStream.getAudioTracks().forEach(t => { t.enabled = !micMuted; });
+      document.getElementById('label-toggle-mic').textContent = micMuted ? 'Micro OFF' : 'Micro ON';
+    }
+
+    function toggleCallCam() {
+      if (!callLocalStream) return;
+      camOff = !camOff;
+      callLocalStream.getVideoTracks().forEach(t => { t.enabled = !camOff; });
+      document.getElementById('label-toggle-cam').textContent = camOff ? 'Caméra OFF' : 'Caméra ON';
+    }
+
+    function endVideoCall(notify = true) {
+      if (callPeerConnection) {
+        try { callPeerConnection.close(); } catch (e) {}
+        callPeerConnection = null;
+      }
+      if (callLocalStream) {
+        callLocalStream.getTracks().forEach(track => track.stop());
+        callLocalStream = null;
+      }
+      const localEl = document.getElementById('local-video-el');
+      const remoteEl = document.getElementById('remote-video-el');
+      if (localEl) localEl.srcObject = null;
+      if (remoteEl) remoteEl.srcObject = null;
+      activeCallPeerId = null;
+      document.getElementById('modal-video-call').classList.add('hidden');
+      if (notify) showToast('Appel vidéo terminé.', 'info');
+    }
+
+    function listenForIncomingVideoCalls() {
+      // Branché sur Firestore via window.FasoDB si disponible
     }
   </script>
 
@@ -2443,21 +3073,25 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const stateDocRef = doc(db, "plateforme", "etatGlobal");
+    const callSignalRef = doc(db, "plateforme", "appelVideoSignal");
 
     function applyCloudPayload(data) {
       if (!data || typeof state === "undefined" || !state) return;
       if (Array.isArray(data.members)) state.members = data.members;
       if (Array.isArray(data.videos)) state.videos = data.videos;
+      if (Array.isArray(data.statuses)) state.statuses = data.statuses;
       if (Array.isArray(data.transactions)) state.transactions = data.transactions;
       if (data.settings && typeof data.settings === "object") {
         state.settings = { ...state.settings, ...data.settings };
       }
+      if (typeof pruneExpiredStatuses === "function") pruneExpiredStatuses();
       if (state.currentUser && state.currentUser.id !== "u_creator_owner") {
         const updatedMe = state.members.find(m => m.id === state.currentUser.id);
         if (updatedMe) state.currentUser = { ...updatedMe };
       }
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
       if (typeof applyBrandSettings === "function") applyBrandSettings();
+      if (typeof updateStatusBadges === "function") updateStatusBadges();
       if (document.getElementById("view-admin-dashboard") && !document.getElementById("view-admin-dashboard").classList.contains("hidden")) {
         renderAdminDashboard();
       }
@@ -2466,17 +3100,24 @@
     async function sauvegarderEtatDansCloud() {
       if (typeof state === "undefined" || !state) return;
       try {
+        const activeStatuses = typeof getActiveStatuses === "function" ? getActiveStatuses() : (state.statuses || []);
         const cleanVideos = (Array.isArray(state.videos) ? state.videos : []).map(v => ({
           ...v,
           videoUrl: (v.videoUrl && v.videoUrl.startsWith("blob:")) ? null : (v.videoUrl || null)
         }));
+        const cleanStatuses = activeStatuses.map(s => ({
+          ...s,
+          videoUrl: (s.videoUrl && s.videoUrl.startsWith("blob:")) ? null : (s.videoUrl || null),
+          photoUrl: (s.photoUrl && s.photoUrl.length > 260000) ? null : (s.photoUrl || null)
+        }));
         const cleanMembers = (Array.isArray(state.members) ? state.members : []).map(m => ({
           ...m,
-          photoUrl: (m.photoUrl && m.photoUrl.length > 250000) ? null : (m.photoUrl || null)
+          photoUrl: (m.photoUrl && m.photoUrl.length > 260000) ? null : (m.photoUrl || null)
         }));
         await setDoc(stateDocRef, {
           members: cleanMembers,
           videos: cleanVideos,
+          statuses: cleanStatuses,
           transactions: Array.isArray(state.transactions) ? state.transactions : [],
           settings: state.settings,
           updatedAt: serverTimestamp()
@@ -2492,7 +3133,21 @@
           if (snap.exists()) applyCloudPayload(snap.data());
         } catch (err) {}
       },
+      async envoyerSignalAppel(payload) {
+        try {
+          await setDoc(callSignalRef, { ...payload, updatedAt: serverTimestamp() });
+        } catch (err) {}
+      },
       ecouterEtatGlobal() {
+        onSnapshot(callSignalRef, (snap) => {
+          if (!snap.exists() || !state || !state.currentUser) return;
+          const sig = snap.data();
+          if (sig.toId === state.currentUser.id && sig.type === "offer" && (Date.now() - (sig.createdAt || 0)) < 45000) {
+            if (typeof showToast === "function") {
+              showToast(`Appel vidéo entrant de ${sig.fromName} !`, "success");
+            }
+          }
+        });
         return onSnapshot(stateDocRef, (snap) => { if (snap.exists()) applyCloudPayload(snap.data()); });
       }
     };
@@ -2507,4 +3162,4 @@
     window.FasoDB.chargerEtatInitial().then(() => window.FasoDB.ecouterEtatGlobal());
   </script>
 </body>
-</html>  
+</html>
