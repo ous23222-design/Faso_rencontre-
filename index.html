@@ -277,7 +277,7 @@
           <i data-lucide="lock" class="w-3.5 h-3.5"></i>
         </button>
       </footer>
-    </div>  
+    </div> 
 <!-- 1B. ÉCRAN D'ATTENTE DE VALIDATION DES 250 F CFA -->
     <div id="view-pending-lock" class="flex-1 min-h-0 flex flex-col items-center justify-center p-6 text-center hidden faso-pattern scroll-smooth-area">
       <div class="bg-white dark:bg-faso-darkCard max-w-md w-full rounded-3xl p-6 shadow-2xl border border-orange-200/80 dark:border-stone-800 space-y-4 animate-pop">
@@ -485,7 +485,7 @@
           </div>
         </section>
 
-        <!-- ONGLET 4 : MON ESPACE PERSONNEL, MODIFICATION PROFIL & PARRAINAGE -->
+        <!-- ONGLET 4 : MON ESPACE PERSONNEL, MODIFICATION PROFIL, PARRAINAGE & PAGE FACEBOOK -->
         <section id="tab-profile" class="flex-1 min-h-0 scroll-smooth-area no-scrollbar p-4 md:p-6 space-y-5 hidden pb-20 md:pb-6">
           <div class="max-w-2xl mx-auto space-y-5 pb-8">
             <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/70 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -525,6 +525,23 @@
                   Copier le lien
                 </button>
               </div>
+            </div>
+
+            <!-- LIEN OFFICIEL PAGE FACEBOOK -->
+            <div id="facebook-community-card" class="bg-blue-50 dark:bg-blue-950/30 rounded-3xl p-5 border border-blue-200/80 dark:border-blue-800/40 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-sm text-blue-700 dark:text-blue-300 flex items-center gap-2">
+                  <i data-lucide="facebook" class="w-4 h-4"></i> Page Facebook Officielle
+                </h3>
+                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-600 text-white">Communauté</span>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-300">
+                Suivez nos annonces, partagez nos publications et invitez vos amis depuis notre page Facebook.
+              </p>
+              <a id="member-facebook-link" href="https://facebook.com" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-xs transition">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+                <span id="member-facebook-label">Rejoindre FasoRencontre sur Facebook</span>
+              </a>
             </div>
 
             <!-- MODIFIER MON PROFIL -->
@@ -779,7 +796,7 @@
           <div id="admin-inbox-list" class="space-y-2.5"></div>
         </div>
 
-        <!-- GESTION DES PROFILS + PUBLICATIONS + PARAMÈTRES -->
+        <!-- GESTION DES PROFILS + PUBLICATIONS + PARAMÈTRES & FACEBOOK -->
         <div class="grid md:grid-cols-2 gap-5 pb-8">
           <div class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
             <h3 class="font-extrabold text-sm flex items-center gap-2">
@@ -796,9 +813,9 @@
               <div id="admin-posts-list" class="space-y-2 max-h-44 overflow-y-auto no-scrollbar"></div>
             </div>
 
-            <form onsubmit="saveCreatorSettings(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3">
+            <form onsubmit="saveCreatorSettings(event)" class="bg-white dark:bg-faso-darkCard rounded-3xl p-5 shadow-xs border border-stone-200/80 dark:border-stone-800 space-y-3.5">
               <h3 class="font-extrabold text-sm flex items-center gap-2">
-                <i data-lucide="settings" class="w-4 h-4 text-faso-green"></i> Paramètres Administrateur
+                <i data-lucide="settings" class="w-4 h-4 text-faso-green"></i> Paramètres & Connexion Page Facebook
               </h3>
               <div>
                 <label class="block text-xs font-bold text-stone-500 mb-1">Nom de la plateforme</label>
@@ -818,9 +835,28 @@
                   <input type="password" id="admin-cfg-pin" required maxlength="12" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-mono outline-none" />
                 </div>
               </div>
-              <button type="submit" class="w-full py-3 rounded-2xl bg-stone-900 dark:bg-faso-green text-white font-bold text-xs shadow transition">
-                Sauvegarder les paramètres
-              </button>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-stone-100 dark:border-stone-800">
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Nom Page Facebook</label>
+                  <input type="text" id="admin-cfg-fb-name" placeholder="Ex: FasoRencontre" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-stone-500 mb-1">Lien Page Facebook</label>
+                  <input type="url" id="admin-cfg-fb-url" placeholder="https://facebook.com/..." class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs outline-none" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-500 mb-1">Texte prêt pour Pub Facebook / Invitation</label>
+                <textarea id="admin-fb-promo-text" rows="3" class="w-full px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs outline-none resize-none"></textarea>
+              </div>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <button type="button" onclick="copyFacebookPromoText()" class="flex-1 py-2.5 px-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition">
+                  Copier texte Pub Facebook
+                </button>
+                <button type="submit" class="flex-1 py-2.5 px-3 rounded-2xl bg-stone-900 dark:bg-faso-green text-white font-bold text-xs shadow transition">
+                  Sauvegarder réglages
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -961,10 +997,11 @@
           </button>
         </div>
       </div>
-     </div>
- </div>
- <script>
-    const STORAGE_KEY = 'fasorencontre_v3_complete';
+    </div>
+
+  </div> 
+<script>
+    const STORAGE_KEY = 'fasorencontre_v4_complete';
 
     const BURKINA_CITIES_GPS = {
       'Bobo-Dioulasso': { lat: 11.1771, lng: -4.2979 },
@@ -1069,7 +1106,9 @@
         omNumber: '66 93 11 74',
         creatorPhone: '66 93 11 74',
         adminPin: '2260',
-        registrationFee: 250
+        registrationFee: 250,
+        facebookName: 'FasoRencontre',
+        facebookUrl: 'https://facebook.com'
       },
       currentUser: null,
       pendingPayment: null,
@@ -1149,6 +1188,34 @@
       lucide.createIcons();
     };
 
+    function refreshFacebookPromoBox() {
+      const fbUrl = (state.settings && state.settings.facebookUrl) || 'https://facebook.com';
+      const fbName = (state.settings && state.settings.facebookName) || state.settings.appName || 'FasoRencontre';
+      const appUrl = window.location.origin + window.location.pathname;
+
+      const linkEl = document.getElementById('member-facebook-link');
+      const labelEl = document.getElementById('member-facebook-label');
+      if (linkEl) linkEl.href = fbUrl;
+      if (labelEl) labelEl.textContent = `Rejoindre ${fbName} sur Facebook`;
+
+      const promoArea = document.getElementById('admin-fb-promo-text');
+      if (promoArea) {
+        promoArea.value =
+          `🇧🇫 Rejoignez ${state.settings.appName} ! Rencontres, vidéos, statuts et discussion directe.\n` +
+          `👉 Accès au site : ${appUrl}\n` +
+          `📘 Page Facebook : ${fbUrl}\n` +
+          `Inscription : ${state.settings.registrationFee || 250} F CFA.`;
+      }
+    }
+
+    function copyFacebookPromoText() {
+      const area = document.getElementById('admin-fb-promo-text');
+      if (!area) return;
+      area.select();
+      document.execCommand('copy');
+      showToast('Texte publicitaire Facebook copié !', 'success');
+    }
+
     function applyBrandSettings() {
       document.querySelectorAll('.app-brand-name').forEach(el => el.textContent = state.settings.appName);
       document.querySelectorAll('.admin-om-display, .lock-om-number').forEach(el => el.textContent = state.settings.omNumber);
@@ -1157,6 +1224,7 @@
       const cleanOm = state.settings.omNumber.replace(/\s+/g, '');
       const ussdEl = document.getElementById('ussd-code-display');
       if (ussdEl) ussdEl.textContent = `*144*2*1*${cleanOm}*250#`;
+      refreshFacebookPromoBox();
     }
 
     function showToast(msg, type = 'info') {
@@ -1232,7 +1300,6 @@
       }
     }
 
-    /* CONNEXION MEMBRE (TÉLÉPHONE + E-MAIL) */
     function openMemberLoginModal() {
       document.getElementById('login-phone-input').value = '';
       document.getElementById('login-email-input').value = '';
@@ -1284,7 +1351,6 @@
       }
     }
 
-    /* INSCRIPTION EN 2 ÉTAPES */
     function startRegistrationFlow() {
       document.getElementById('registration-wizard-card').scrollIntoView({ behavior: 'smooth' });
       document.getElementById('pay-sender-phone').focus();
@@ -1506,7 +1572,6 @@
       );
     }
 
-    /* DÉCOUVERTE AVEC BOUTON WHATSAPP DIRECT */
     function renderMembersGrid() {
       const grid = document.getElementById('members-grid');
       const cityFilter = document.getElementById('discover-city-filter').value;
@@ -1583,7 +1648,6 @@
       lucide.createIcons();
     }
 
-    /* FIL TIKTOK : VIDÉOS, PHOTOS & STATUTS */
     function togglePostMediaInputs() {
       const type = document.getElementById('post-type-select').value;
       document.getElementById('post-video-field').classList.toggle('hidden', type !== 'video');
@@ -1728,7 +1792,6 @@
       showToast('Publication mise en ligne ! 🎉', 'success');
     }
 
-    /* MESSAGERIE PRIVÉE */
     function getTimeNow() {
       const d = new Date();
       return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
@@ -1911,7 +1974,6 @@
       document.getElementById('modal-member-profile').classList.add('hidden');
     }
 
-    /* MON ESPACE PERSONNEL & PARRAINAGE */
     function populateMyProfile() {
       const u = state.currentUser;
       if (!u) return;
@@ -1935,6 +1997,8 @@
       document.getElementById('prof-edit-city').value = u.city;
       document.getElementById('prof-edit-whatsapp').value = u.whatsapp || '';
       document.getElementById('prof-edit-bio').value = u.bio || '';
+
+      refreshFacebookPromoBox();
 
       const myVids = state.videos.filter(v => v.authorId === u.id);
       const vidList = document.getElementById('my-published-videos-list');
@@ -2017,7 +2081,6 @@
       routeByAccessStatus();
     }
 
-    /* ESPACE ADMINISTRATEUR & GESTION COMPLÈTE DES 5 PROFILS */
     function openCreatorAuthModal() {
       document.getElementById('creator-auth-phone').value = '';
       document.getElementById('admin-pin-input').value = '';
@@ -2259,7 +2322,7 @@
               <div class="flex items-center gap-2 shrink-0">
                 ${isPending ? `
                   <button onclick="validateTransaction('${tx.id}')" class="px-3.5 py-2 rounded-xl bg-faso-green text-white text-xs font-bold">Valider (+250 F)</button>
-                  <button onclick="rejectTransaction('${tx.id}')" class="px-3 py-2 rounded-xl bg-rose-100 text-rose-600 text-xs font-bold">Rejeter</button>
+                  <button onclick="rejectTransaction('${tx.id}')" class="px-3.5 py-2 rounded-xl bg-rose-100 text-rose-600 text-xs font-bold">Rejeter</button>
                 ` : `<span class="text-xs font-black text-stone-500">${tx.amount} F CFA</span>`}
               </div>
             </div>
@@ -2305,6 +2368,9 @@
       document.getElementById('admin-cfg-om').value = state.settings.omNumber;
       document.getElementById('admin-cfg-creator-phone').value = state.settings.creatorPhone || state.settings.omNumber;
       document.getElementById('admin-cfg-pin').value = state.settings.adminPin;
+      document.getElementById('admin-cfg-fb-name').value = state.settings.facebookName || '';
+      document.getElementById('admin-cfg-fb-url').value = state.settings.facebookUrl || '';
+      refreshFacebookPromoBox();
       lucide.createIcons();
     }
 
@@ -2351,10 +2417,12 @@
       state.settings.omNumber = document.getElementById('admin-cfg-om').value.trim() || '66 93 11 74';
       state.settings.creatorPhone = document.getElementById('admin-cfg-creator-phone').value.trim() || state.settings.omNumber;
       state.settings.adminPin = document.getElementById('admin-cfg-pin').value.trim() || '2260';
+      state.settings.facebookName = document.getElementById('admin-cfg-fb-name').value.trim() || state.settings.appName;
+      state.settings.facebookUrl = document.getElementById('admin-cfg-fb-url').value.trim() || 'https://facebook.com';
       saveAppState();
       applyBrandSettings();
       renderAdminDashboard();
-      showToast('Paramètres administrateur enregistrés ! ✅', 'success');
+      showToast('Paramètres & lien Facebook enregistrés ! ✅', 'success');
     }
   </script>
 
@@ -2439,4 +2507,4 @@
     window.FasoDB.chargerEtatInitial().then(() => window.FasoDB.ecouterEtatGlobal());
   </script>
 </body>
-</html>
+</html>  
